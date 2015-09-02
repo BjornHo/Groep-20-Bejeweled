@@ -24,10 +24,10 @@ public class GUI extends JFrame{
 	
 	public GUI(){
 		setSize(1080,720);
-		JButton[] allButtons = new JButton[64];
-		for(int i = 0; i < 64; i++){
-			allButtons[i] = new JButton();
-		}
+		JButton[][] allButtons = new JButton[8][8];
+		for(int i = 0; i < 8; i++)
+			for(int j = 0; j < 8; j++)
+				allButtons[i][j] = new JButton();
 		
     	pane.setLayout(k);
     	GridBagConstraints c = new GridBagConstraints();
@@ -35,12 +35,12 @@ public class GUI extends JFrame{
     	
     	Insets def = new Insets(5,5,5,5);
 		
-		for(int j = 0; j < 8; j++){
-			c.gridx = j;
-			for(int k = 0; k < 8; k++){
-				c.gridy = k;
-				allButtons[8*j + k].setPreferredSize(new Dimension(70,70));
-				pane.add(allButtons[8*j + k], c);
+		for(int t = 0; t < 8; t++){
+			c.gridx = t;
+			for(int y = 0; y < 8; y++){
+				c.gridy = y;
+				allButtons[t][y].setPreferredSize(new Dimension(70,70));
+				pane.add(allButtons[t][y], c);
 				
 			}
 		}
