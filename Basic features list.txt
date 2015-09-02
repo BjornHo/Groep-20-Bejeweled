@@ -1,0 +1,9 @@
+1. Colour buttons differently.
+2. Ability to swap 2 Buttons.
+3. Create map parser with while loop and switch cases.
+4. If a button is clicked, while another button is selected, and this button is not vertically or horizontally next to the first button, deselect the first      
+   button and select the second button.
+5. If 2 gems are switched and no matches are made, return the gems to their original positions.
+
+
+6. Make 3 buttons disappear if they align vertically or horizontally
