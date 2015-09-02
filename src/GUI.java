@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -40,10 +41,24 @@ public class GUI extends JFrame{
 			for(int y = 0; y < 8; y++){
 				c.gridy = y;
 				allButtons[t][y].setPreferredSize(new Dimension(70,70));
+				setButtonColor(allButtons[t][y]);
 				pane.add(allButtons[t][y], c);
 				
 			}
 		}
 		add(pane);
+	}
+	
+	public void setButtonColor(JButton button){
+		int rand = 1 + (int)(Math.random()*7); 
+		switch(rand){
+		case 1 : button.setBackground(Color.blue);
+		case 2 : button.setBackground(Color.green);
+		case 3 : button.setBackground(Color.ORANGE);
+		case 4 : button.setBackground(Color.yellow);
+		case 5 : button.setBackground(Color.pink);
+		case 6 : button.setBackground(Color.magenta);
+		case 7 : button.setBackground(Color.yellow);
+		}
 	}
 }
