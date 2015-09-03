@@ -24,6 +24,8 @@ public class GUI extends JFrame implements ActionListener{
 	private BackgroundPanel bgPanel;
 	private Image bgImage;
 	
+	private Board board = new Board();
+	
 	/**
 	 * Main method so we can checkout what the GUI looks like.
 	 * @param args
@@ -134,6 +136,7 @@ public class GUI extends JFrame implements ActionListener{
 				if(e.getSource().equals(allButtons[x][y])){
 					//The coordinates of the button are (x,y)
 					System.out.println("(" + Integer.toString(x) + "," + Integer.toString(y) + ")");
+					board.selectJewel(new Coordinate(x,y));
 					return;
 				}
 			}

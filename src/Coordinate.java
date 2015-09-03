@@ -25,4 +25,8 @@ public class Coordinate {
 	public static boolean areAdjacent(Coordinate c1, Coordinate c2) {
 		return ( (Math.abs(c1.x - c2.x) == 1 && Math.abs(c1.y - c2.y) == 0) || (Math.abs(c1.x - c2.x) == 0 && Math.abs(c1.y - c2.y) == 1) );
 	}
+	
+	public String toString() {
+		return "Coordinate(" + x + "," + y + ")";
+	}
 }
