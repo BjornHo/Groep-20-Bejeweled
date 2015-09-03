@@ -62,7 +62,7 @@ public class GUI extends JFrame{
 				c.gridy = y;
 				allButtons[x][y].setPreferredSize(new Dimension(70,70));
 				setButtonColor(allButtons[x][y]);
-				pane.add(allButtons[t][y], c);
+				pane.add(allButtons[x][y], c);
 				
 			}
 		}
