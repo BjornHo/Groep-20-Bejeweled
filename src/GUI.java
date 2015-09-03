@@ -50,7 +50,7 @@ public class GUI extends JFrame{
 	
 	private Image getBackgroundImage(){
 		try {
-			bgImage = ImageIO.read(new File("C:\\Users\\pickl_000\\Downloads\\bejeweled background.jpg"));
+			bgImage = ImageIO.read(new File("src/bejeweled background.jpg"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
