@@ -1,7 +1,7 @@
 
 public class Board {
 	
-	private Jewel[][] jewelGrid;
+	private Jewel[][] jewelGrid = createGrid();
 	private Coordinate selectedPos = null;
 	
 	public void setGrid(Jewel[][] grid) {
@@ -36,6 +36,10 @@ public class Board {
 				{ new Jewel(Colour.White), new Jewel(Colour.Purple), new Jewel(Colour.Green), new Jewel(Colour.Blue), new Jewel(Colour.Yellow), new Jewel(Colour.Orange), new Jewel(Colour.Red), new Jewel(Colour.Green) }
 		};
 		return grid;
+	}
+	
+	public Jewel getJewel(int x, int y) {
+		return jewelGrid[y][x];
 	}
 	
 	public boolean hasSelectedJewel() {

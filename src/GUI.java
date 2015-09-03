@@ -7,12 +7,15 @@ import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 
@@ -25,14 +28,14 @@ public class GUI extends JFrame implements ActionListener{
 	private Image bgImage;
 	
 	private Board board = new Board();
+	private static IMGLoader imgloader;
 	
 	/**
 	 * Main method so we can checkout what the GUI looks like.
 	 * @param args
 	 */
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
+	public static void main(String[] args) throws IOException {
+		imgloader = new IMGLoader();
 		GUI g = new GUI();
 		g.setVisible(true);
 		
@@ -78,13 +81,16 @@ public class GUI extends JFrame implements ActionListener{
     	c.fill = GridBagConstraints.BOTH;
     	c.insets = new Insets(5,5,5,5);
 		
-		for(int x = 0; x < 8; x++){
-			c.gridx = x;
-			for(int y = 0; y < 8; y++){
-				c.gridy = y;
-				allButtons[x][y].setPreferredSize(new Dimension(70,70));
-				setButtonColor(allButtons[x][y]);
-				pane.add(allButtons[x][y], c);
+		for(int y = 0; y < 8; y++){
+			c.gridy = y;
+			for(int x = 0; x < 8; x++){
+				c.gridx = x;
+				allButtons[y][x].setPreferredSize(new Dimension(70,70));
+				allButtons[y][x].setBackground(Color.black);
+				BufferedImage img = imgloader.getImage(board.getJewel(x,y).colour);
+				ImageIcon icon = new ImageIcon(img);
+				allButtons[y][x].setIcon(icon);
+				pane.add(allButtons[y][x], c);
 				
 			}
 		}
@@ -104,38 +110,18 @@ public class GUI extends JFrame implements ActionListener{
 	}
 	
 	/**
-	 * Makes the buttons super pretty and beautiful.
-	 * @param button
-	 */
-	private void setButtonColor(JButton button){
-		int rand = 1 + (int)(Math.random()*7); 
-		switch(rand){
-		case 1 : button.setBackground(Color.blue);
-				 break;
-		case 2 : button.setBackground(Color.green);
-		 		 break;
-		case 3 : button.setBackground(Color.ORANGE);
-		 		 break;
-		case 4 : button.setBackground(Color.yellow);
-		 		 break;
-		case 5 : button.setBackground(Color.pink);
-		 		 break;
-		case 6 : button.setBackground(Color.magenta);
-		 		 break;
-		case 7 : button.setBackground(Color.yellow);
-		 		 break;
-		}
-	}
-	/**
 	 * Determining which button is pressed
 	 */
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		for(int x = 0; x < 8; x++){
-			for(int y = 0; y < 8; y++){
-				if(e.getSource().equals(allButtons[x][y])){
+		for(int y = 0; y < 8; y++){
+			for(int x = 0; x < 8; x++){
+				if(e.getSource().equals(allButtons[y][x])){
 					//The coordinates of the button are (x,y)
 					System.out.println("(" + Integer.toString(x) + "," + Integer.toString(y) + ")");
+//					BufferedImage img = imgloader.getImage(Colour.Selected);
+//					ImageIcon icon = new ImageIcon(img);
+//					allButtons[y][x].setIcon(icon);
 					board.selectJewel(new Coordinate(x,y));
 					return;
 				}
