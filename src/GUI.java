@@ -1,20 +1,28 @@
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Image;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 
 
-public class GUI extends JFrame{
+public class GUI extends JFrame implements ActionListener{
 	private GridBagLayout k = new GridBagLayout();
 	private JPanel pane = new JPanel(k);
-	private JPanel jp = new JPanel();
 	private JButton[][] allButtons = new JButton[8][8];
+	private BackgroundPanel bgPanel;
+	private Image bgImage;
 	
 	/**
 	 * Main method so we can checkout what the GUI looks like.
@@ -32,18 +40,31 @@ public class GUI extends JFrame{
 	 * Constructor for the GUI.
 	 */
 	public GUI(){
-		setSize(720,720);
+		setSize(800,800);
 		setResizable(false);
+		bgPanel = new BackgroundPanel(getBackgroundImage());
+		add(bgPanel, BorderLayout.CENTER);
 		createButtons();
 		createGridPane();
+		bgPanel.add(createScoreBoard(), BorderLayout.NORTH);
     	
+	}
+	
+	private Image getBackgroundImage(){
+		try {
+			bgImage = ImageIO.read(new File("src/bejeweled background.jpg"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return bgImage;
 	}
 	
 	/**
 	 * Creates the score board for the GUI.
+	 * Has it's own method in case we make the ScoreBoard more complex.
 	 */
-	private void createScoreBoard(){
-		
+	private ScoreBoard createScoreBoard(){
+		return new ScoreBoard();
 	}
 	
 	/**
@@ -53,8 +74,7 @@ public class GUI extends JFrame{
 		pane.setLayout(k);
     	GridBagConstraints c = new GridBagConstraints();
     	c.fill = GridBagConstraints.BOTH;
-    	
-    	Insets def = new Insets(5,5,5,5);
+    	c.insets = new Insets(5,5,5,5);
 		
 		for(int x = 0; x < 8; x++){
 			c.gridx = x;
@@ -66,16 +86,19 @@ public class GUI extends JFrame{
 				
 			}
 		}
-		add(pane);
+		bgPanel.add(pane);
 	}
 	
 	/**
 	 * Creates all the buttons and puts them into the button array for the GUI.
 	 */
 	private void createButtons(){
-		for(int x = 0; x < 8; x++)
-			for(int y = 0; y < 8; y++)
+		for(int x = 0; x < 8; x++){
+			for(int y = 0; y < 8; y++){
 				allButtons[x][y] = new JButton();
+				allButtons[x][y].addActionListener(this);
+			}
+		}
 	}
 	
 	/**
@@ -99,6 +122,21 @@ public class GUI extends JFrame{
 		 		 break;
 		case 7 : button.setBackground(Color.yellow);
 		 		 break;
+		}
+	}
+	/**
+	 * Determining which button is pressed
+	 */
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		for(int x = 0; x < 8; x++){
+			for(int y = 0; y < 8; y++){
+				if(e.getSource().equals(allButtons[x][y])){
+					//The coordinates of the button are (x,y)
+					System.out.println("(" + Integer.toString(x) + "," + Integer.toString(y) + ")");
+					return;
+				}
+			}
 		}
 	}
 }
