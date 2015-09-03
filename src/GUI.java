@@ -1,6 +1,7 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
@@ -15,7 +16,6 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 
@@ -119,13 +119,32 @@ public class GUI extends JFrame implements ActionListener{
 				if(e.getSource().equals(allButtons[y][x])){
 					//The coordinates of the button are (x,y)
 					System.out.println("(" + Integer.toString(x) + "," + Integer.toString(y) + ")");
-//					BufferedImage img = imgloader.getImage(Colour.Selected);
-//					ImageIcon icon = new ImageIcon(img);
-//					allButtons[y][x].setIcon(icon);
 					board.selectJewel(new Coordinate(x,y));
+					highLightJewel(x, y);
 					return;
 				}
 			}
 		}
+	}
+	
+	/**
+	 * highLightJewel draws 2 images on top of each other. The colour of the jewel and the selectedImage border.
+	 * @param x the X coordinate of the jewel on the board.
+	 * @param y the Y coordinate of the jewel on the board.
+	 */
+	public void highLightJewel(int x, int y) {
+		Colour colour = board.getJewel(x, y).colour;
+		BufferedImage jewelImage = imgloader.getImage(colour);
+		BufferedImage selectedImage= imgloader.getImage(Colour.Selected);
+		
+		int width = Math.max(jewelImage.getWidth(), selectedImage.getWidth());
+		int height = Math.max(jewelImage.getHeight(), selectedImage.getHeight());
+		
+		BufferedImage combinedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+		Graphics graphics = combinedImage.getGraphics();
+		graphics.drawImage(jewelImage, 0, 0, null);
+		graphics.drawImage(selectedImage, 0, 0, null);
+		ImageIcon combinedIcon = new ImageIcon(combinedImage);
+		allButtons[y][x].setIcon(combinedIcon);
 	}
 }
