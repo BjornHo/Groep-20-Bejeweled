@@ -1,3 +1,4 @@
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
@@ -36,14 +37,16 @@ public class GUI extends JFrame{
 		setResizable(false);
 		createButtons();
 		createGridPane();
+		add(createScoreBoard(), BorderLayout.NORTH);
     	
 	}
 	
 	/**
 	 * Creates the score board for the GUI.
+	 * Has it's own method in case we make the ScoreBoard more complex.
 	 */
-	private void createScoreBoard(){
-		
+	private ScoreBoard createScoreBoard(){
+		return new ScoreBoard();
 	}
 	
 	/**
