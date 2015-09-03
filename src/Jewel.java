@@ -1,7 +1,7 @@
 
 public class Jewel {
 	
-	protected enum Colour { Blue, Green, Orange, Purple, Red, White, Yellow}; 
+	protected enum Colour { Blue, Green, Orange, Purple, Red, White, Yellow, Selected}; 
 	protected Colour colour;
 	protected int xCoord;
 	protected int yCoord;
