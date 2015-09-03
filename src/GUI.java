@@ -3,8 +3,12 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Image;
 import java.awt.Insets;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -14,8 +18,9 @@ import javax.swing.JPanel;
 public class GUI extends JFrame{
 	private GridBagLayout k = new GridBagLayout();
 	private JPanel pane = new JPanel(k);
-	private JPanel jp = new JPanel();
 	private JButton[][] allButtons = new JButton[8][8];
+	private BackgroundPanel bgPanel;
+	private Image bgImage;
 	
 	/**
 	 * Main method so we can checkout what the GUI looks like.
@@ -35,10 +40,21 @@ public class GUI extends JFrame{
 	public GUI(){
 		setSize(720,720);
 		setResizable(false);
+		bgPanel = new BackgroundPanel(getBackgroundImage());
+		add(bgPanel, BorderLayout.CENTER);
 		createButtons();
 		createGridPane();
-		add(createScoreBoard(), BorderLayout.NORTH);
+		bgPanel.add(createScoreBoard(), BorderLayout.NORTH);
     	
+	}
+	
+	private Image getBackgroundImage(){
+		try {
+			bgImage = ImageIO.read(new File("C:\\Users\\pickl_000\\Downloads\\bejeweled background.jpg"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return bgImage;
 	}
 	
 	/**
@@ -69,7 +85,7 @@ public class GUI extends JFrame{
 				
 			}
 		}
-		add(pane);
+		bgPanel.add(pane);
 	}
 	
 	/**

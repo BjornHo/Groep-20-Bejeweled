@@ -19,8 +19,8 @@ public class ScoreBoard extends JPanel {
 		score = 0;
 		level = 1;
 		setLayout(new GridLayout(2,1));
-		add(new JLabel("Score " + score, JLabel.CENTER));
-		add(new JLabel("Level " + level, JLabel.CENTER));
+		add(new JLabel("<html><font size=\"15\">Score " + score + "</font></html>", JLabel.CENTER));
+		add(new JLabel("<html><font size=\"15\">Level " + level  + "</font></html>", JLabel.CENTER));
 	}
 	
 	/**
