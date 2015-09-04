@@ -6,7 +6,8 @@ public class Jewel {
 	/**
 	 * Jewel Constructor
 	 * 
-	 * @param colour Colour of the jewel.
+	 * @param colour 
+	 * 				Colour of the jewel.
 	 */
 	public Jewel(Colour colour) {
 		this.colour = colour;
@@ -14,16 +15,30 @@ public class Jewel {
 	
 	/**
 	 * isSameColour method to check whether or not 2 jewels are of the same colour.
-	 * @param that is the jewel to compare with.
-	 * @return returns a boolean.
+	 * 
+	 * @param that
+	 * 			The jewel to compare with.
+	 * @return boolean
+	 * 			True if colour is the same, false if not.
 	 */
 	public boolean isSameColour(Jewel that) {
 		if(this.colour == that.colour) {
 			return true;
 		}
 		
-		else
+		else {
 			return false;
+		}
+	}
+	
+	/**
+	 * Getter method for acquiring a colour of designated Jewel.
+	 * 
+	 * @return Colour
+	 * 				Colour of the designated Jewel.
+	 */
+	public Colour getColour() {
+		return this.colour;
 	}
 	
 }
