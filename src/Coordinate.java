@@ -55,12 +55,8 @@ public class Coordinate {
 	 * @param c Coordinate of a Jewel of which the northern jewel is requested.
 	 * @return A Coordinate located north of Coordinate c.
 	 */
-	public Coordinate getNorth(Coordinate c) {
-		if((c.y == 7)) {
-			System.out.println("This jewel is in the top row, there are none north of this one");
-			return null;
-		}
-		Coordinate NorthJewel = new Coordinate(c.x, (c.y + 1));
+	public Coordinate getNorth() {
+		Coordinate NorthJewel = new Coordinate(this.x, (this.y + 1));
 		return NorthJewel;
 	}
 	
@@ -70,12 +66,8 @@ public class Coordinate {
 	 * @param c Coordinate of a Jewel of which the western jewel is requested.
 	 * @return A Coordinate located west of Coordinate c.
 	 */
-	public Coordinate getWest(Coordinate c) {
-		if((c.x == 0)) {
-			System.out.println("This jewel is in the westernmost column, there are none west of this one");
-			return null;
-		}
-		Coordinate WestJewel = new Coordinate((c.x - 1), c.y);
+	public Coordinate getWest() {
+		Coordinate WestJewel = new Coordinate((this.x - 1), this.y);
 		return WestJewel;
 	}
 	
@@ -85,12 +77,8 @@ public class Coordinate {
 	 * @param c Coordinate of a Jewel of which the southern jewel is requested.
 	 * @return A Coordinate located south of Coordinate c.
 	 */
-	public Coordinate getSouth(Coordinate c) {
-		if((c.y == 0)) {
-			System.out.println("This jewel is in the bottom row, there are none south of this one");
-			return null;
-		}
-		Coordinate SouthJewel = new Coordinate(c.x, (c.y - 1));
+	public Coordinate getSouth() {
+		Coordinate SouthJewel = new Coordinate(this.x, (this.y - 1));
 		return SouthJewel;
 	}
 	
@@ -100,14 +88,47 @@ public class Coordinate {
 	 * @param c Coordinate of a Jewel of which the eastern jewel is requested.
 	 * @return A Coordinate located east of Coordinate c.
 	 */
-	public Coordinate getEast(Coordinate c) {
-		if((c.x == 7)) {
-			System.out.println("This jewel is in the easternmost column, there are none east of this one");
-			return null;
-		}
-		Coordinate EastJewel = new Coordinate((c.x + 1), c.y);
+	public Coordinate getEast() {
+		Coordinate EastJewel = new Coordinate((this.x + 1), this.y);
 		return EastJewel;
 	}
+	
+	/**
+	 * Method for checking if a Jewel object has a northern neighbour.
+	 * 
+	 * @return True if Jewel object has northern neighbour.
+	 */
+	public boolean hasNorth() {
+		return this.y <= 6;
+	}
+	
+	/**
+	 * Method for checking if a Jewel object has a western neighbour.
+	 * 
+	 * @return True if Jewel object has western neighbour.
+	 */
+	public boolean hasWest() {
+		return this.x >= 1;
+	}
+	
+	/**
+	 * Method for checking if a Jewel object has a southern neighbour.
+	 * 
+	 * @return True if Jewel object has southern neighbour.
+	 */
+	public boolean hasSouth() {
+		return this.y >= 1;
+	}
+	
+	/**
+	 * Method for checking if a Jewel object has a eastern neighbour.
+	 * 
+	 * @return True if Jewel object has eastern neighbour.
+	 */
+	public boolean hasEast() {
+		return this.x <= 6;
+	}
+	
 	
 	/**
 	 * Turns a Coordinate Object's information into a String.
