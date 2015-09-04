@@ -1,17 +1,38 @@
-
+/**
+ * @author Group 20
+ *
+ * Class for constructing Coordinate objects, required to identify each spot on the game board.
+ * 
+ */
 public class Coordinate {
 	private int x;
 	private int y;
 	
+	/**
+	 * Coordinate Constructor method.
+	 * 
+	 * @param x value on the board
+	 * @param y value on the board
+	 */
 	public Coordinate(int x, int y) {
 		this.x = x;
 		this.y = y;
 	}
 	
+	/**
+	 * Getter method for returning the x-value of a Coordinate.
+	 * 
+	 * @return x-value of a Coordinate.
+	 */
 	public int getX() {
 		return x;
 	}
 	
+	/**
+	 * Getter method for returning the y-value of a Coordinate.
+	 * 
+	 * @return y-value of a Coordinate.
+	 */
 	public int getY() {
 		return y;
 	}
