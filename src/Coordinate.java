@@ -129,6 +129,13 @@ public class Coordinate {
 		return this.x <= 6;
 	}
 	
+	public void setX(int x) {
+		this.x = x;
+	}
+	
+	public void setY(int y) {
+		this.y = y;
+	}
 	
 	/**
 	 * Turns a Coordinate Object's information into a String.
