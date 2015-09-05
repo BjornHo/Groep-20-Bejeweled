@@ -86,10 +86,7 @@ public class GUI extends JFrame implements ActionListener{
 			for(int x = 0; x < 8; x++){
 				c.gridx = x;
 				allButtons[y][x].setPreferredSize(new Dimension(70,70));
-				allButtons[y][x].setBackground(Color.black);
-				BufferedImage img = imgloader.getImage(board.getJewel(x,y).colour);
-				ImageIcon icon = new ImageIcon(img);
-				allButtons[y][x].setIcon(icon);
+				setJewelImage(x,y);
 				pane.add(allButtons[y][x], c);
 				
 			}
@@ -105,6 +102,9 @@ public class GUI extends JFrame implements ActionListener{
 			for(int y = 0; y < 8; y++){
 				allButtons[x][y] = new JButton();
 				allButtons[x][y].addActionListener(this);
+				allButtons[x][y].setOpaque(false);
+				allButtons[x][y].setContentAreaFilled(false);
+				allButtons[x][y].setBorderPainted(false);
 			}
 		}
 	}
@@ -117,10 +117,24 @@ public class GUI extends JFrame implements ActionListener{
 		for(int y = 0; y < 8; y++){
 			for(int x = 0; x < 8; x++){
 				if(e.getSource().equals(allButtons[y][x])){
-					//The coordinates of the button are (x,y)
-					System.out.println("(" + Integer.toString(x) + "," + Integer.toString(y) + ")");
-					board.selectJewel(new Coordinate(x,y));
-					highLightJewel(x, y);
+					Coordinate newJewel = new Coordinate(x,y);
+					if(!board.hasSelectedJewel()){
+						board.selectJewel(newJewel);
+						highLightJewel(x, y);
+					}
+					else{
+						Coordinate oldJewel = board.getSelectedJewel();
+						if(Coordinate.areAdjacent(newJewel, oldJewel)){
+							System.out.println("These are next to each other");
+						}
+						else{
+							setJewelImage(oldJewel.getX(), oldJewel.getY());
+							board.selectJewel(newJewel);
+							highLightJewel(x, y);
+							System.out.println("These are not next to each other");
+						}
+								
+					}
 					return;
 				}
 			}
@@ -147,4 +161,10 @@ public class GUI extends JFrame implements ActionListener{
 		ImageIcon combinedIcon = new ImageIcon(combinedImage);
 		allButtons[y][x].setIcon(combinedIcon);
 	}
-}
+	
+	public void setJewelImage(int x, int y){
+		BufferedImage img = imgloader.getImage(board.getJewel(x,y).colour);
+		ImageIcon icon = new ImageIcon(img);
+		allButtons[y][x].setIcon(icon);
+		}
+	}
