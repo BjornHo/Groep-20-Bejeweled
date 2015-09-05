@@ -20,7 +20,17 @@ public class Board {
 		this.jewelGrid = grid;
 	}
 	
-	public void selectJewel(Coordinate c) {
+	/**
+	 * Processes the selection of the Jewel at coordinate c, taking the previous
+	 * selection (if there is one) into account. If a jewel is selected that is
+	 * next to the previously selected jewel, swapJewels is called. Also
+	 * notifies all BoardListeners of the currently and previously selected
+	 * jewel.
+	 * 
+	 * @param c
+	 *            Coordinate of the jewel to process.
+	 */
+	public void processJewel(Coordinate c) {
 
 		for(BoardListener l : boardListeners) {
 			l.jewelSelected(c, selectedPos);
@@ -33,14 +43,19 @@ public class Board {
 			swapJewels(selectedPos,c);
 			selectedPos = null;
 		}
-		
-
-		//System.out.println("SelectedPos: " + selectedPos.toString());
 	}
 	
+	/**
+	 * Swaps the jewels at the given coordinates with each other. Also notifies
+	 * all BoardListeners about the swap.
+	 * 
+	 * @param c1
+	 *            Coordinate of the first jewel.
+	 * @param c2
+	 *            Coordinate of the second jewel.
+	 */
 	public void swapJewels(Coordinate c1, Coordinate c2) {
-		// TODO: Swap the Jewels at c1 and c2. If no match is made, swap the Jewels back after a short delay. If a match is made, remove the involved Jewels.
-		// Check if c1 makes a match with c2's neighbours and check if c2 makes a match with c1's neighbours.
+		
 		Jewel jewel1 = getJewel(c1);
 		Jewel jewel2 = getJewel(c2);
 		setJewel(jewel1, c2);

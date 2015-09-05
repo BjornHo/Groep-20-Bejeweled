@@ -120,28 +120,7 @@ public class GUI extends JFrame implements ActionListener, BoardListener {
 			for(int x = 0; x < 8; x++){
 				if(e.getSource().equals(allButtons[y][x])){
 					Coordinate c = new Coordinate(x,y);
-					board.selectJewel(c);
-//					if(!board.hasSelectedJewel()){
-//						board.selectJewel(newJewel);
-//						highLightJewel(x, y);
-//					}
-//					else{
-//						Coordinate oldJewel = board.getSelectedJewel();
-//						if(Coordinate.areAdjacent(newJewel, oldJewel)){
-//							board.swapJewels(oldJewel, newJewel);
-//							//setJewelImage(oldJewel.getX(), oldJewel.getY());
-//							//setJewelImage(newJewel.getX(), newJewel.getY());
-//							board.setSelectedJewel(null);
-//							System.out.println("These are next to each other");
-//						}
-//						else{
-//							setJewelImage(oldJewel.getX(), oldJewel.getY());
-//							board.selectJewel(newJewel);
-//							highLightJewel(x, y);
-//							System.out.println("These are not next to each other");
-//						}
-//								
-//					}
+					board.processJewel(c);
 					return;
 				}
 			}
@@ -190,6 +169,11 @@ public class GUI extends JFrame implements ActionListener, BoardListener {
 	@Override
 	public void boardChanged() {
 		System.out.println("boardchanged");
+		for(int y = 0; y < 8; y++){
+			for(int x = 0; x < 8; x++){
+				setJewelImage(x, y);
+			}
+		}
 	}
 
 	@Override
