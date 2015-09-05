@@ -1,24 +1,41 @@
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class Board {
 	
 	private Jewel[][] jewelGrid = createGrid();
 	private Coordinate selectedPos = null;
+	private List<BoardListener> boardListeners;
 	
+	public Board() {
+		this.boardListeners = new ArrayList<>();
+	}
+	
+	public void addBoardListener(BoardListener listener) {
+		this.boardListeners.add(listener);
+	}
+		
 	public void setGrid(Jewel[][] grid) {
 		this.jewelGrid = grid;
 	}
 	
 	public void selectJewel(Coordinate c) {
-		System.out.println(c.toString());
+
+		for(BoardListener l : boardListeners) {
+			l.jewelSelected(c, selectedPos);
+		}	
+		
 		if ( !hasSelectedJewel() || !Coordinate.areAdjacent(selectedPos, c) ) {
 			selectedPos = c;
 		}
 		else if (Coordinate.areAdjacent(selectedPos, c)) {
 			swapJewels(selectedPos,c);
+			selectedPos = null;
 		}
-		System.out.println("SelectedPos: " + selectedPos.toString());
+		
+
+		//System.out.println("SelectedPos: " + selectedPos.toString());
 	}
 	
 	public void swapJewels(Coordinate c1, Coordinate c2) {
@@ -29,6 +46,9 @@ public class Board {
 		setJewel(jewel1, c2);
 		setJewel(jewel2, c1);
 		
+		for(BoardListener l : boardListeners) {
+			l.jewelsSwapped(c1, c2);
+		}		
 	}
 	
 	private Jewel[][] createGrid() {

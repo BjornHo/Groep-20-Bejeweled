@@ -20,7 +20,7 @@ import javax.swing.JPanel;
 
 
 
-public class GUI extends JFrame implements ActionListener{
+public class GUI extends JFrame implements ActionListener, BoardListener {
 	private GridBagLayout k = new GridBagLayout();
 	private JPanel pane = new JPanel(k);
 	private JButton[][] allButtons = new JButton[8][8];
@@ -52,6 +52,8 @@ public class GUI extends JFrame implements ActionListener{
 		createButtons();
 		createGridPane();
 		bgPanel.add(createScoreBoard(), BorderLayout.NORTH);
+		board.addBoardListener(this);
+		
     	
 	}
 	
@@ -117,28 +119,29 @@ public class GUI extends JFrame implements ActionListener{
 		for(int y = 0; y < 8; y++){
 			for(int x = 0; x < 8; x++){
 				if(e.getSource().equals(allButtons[y][x])){
-					Coordinate newJewel = new Coordinate(x,y);
-					if(!board.hasSelectedJewel()){
-						board.selectJewel(newJewel);
-						highLightJewel(x, y);
-					}
-					else{
-						Coordinate oldJewel = board.getSelectedJewel();
-						if(Coordinate.areAdjacent(newJewel, oldJewel)){
-							board.swapJewels(oldJewel, newJewel);
-							setJewelImage(oldJewel.getX(), oldJewel.getY());
-							setJewelImage(newJewel.getX(), newJewel.getY());
-							board.setSelectedJewel(null);
-							System.out.println("These are next to each other");
-						}
-						else{
-							setJewelImage(oldJewel.getX(), oldJewel.getY());
-							board.selectJewel(newJewel);
-							highLightJewel(x, y);
-							System.out.println("These are not next to each other");
-						}
-								
-					}
+					Coordinate c = new Coordinate(x,y);
+					board.selectJewel(c);
+//					if(!board.hasSelectedJewel()){
+//						board.selectJewel(newJewel);
+//						highLightJewel(x, y);
+//					}
+//					else{
+//						Coordinate oldJewel = board.getSelectedJewel();
+//						if(Coordinate.areAdjacent(newJewel, oldJewel)){
+//							board.swapJewels(oldJewel, newJewel);
+//							//setJewelImage(oldJewel.getX(), oldJewel.getY());
+//							//setJewelImage(newJewel.getX(), newJewel.getY());
+//							board.setSelectedJewel(null);
+//							System.out.println("These are next to each other");
+//						}
+//						else{
+//							setJewelImage(oldJewel.getX(), oldJewel.getY());
+//							board.selectJewel(newJewel);
+//							highLightJewel(x, y);
+//							System.out.println("These are not next to each other");
+//						}
+//								
+//					}
 					return;
 				}
 			}
@@ -176,4 +179,25 @@ public class GUI extends JFrame implements ActionListener{
 		ImageIcon icon = new ImageIcon(img);
 		allButtons[y][x].setIcon(icon);
 		}
+
+	@Override
+	public void jewelsSwapped(Coordinate a, Coordinate b) {
+		System.out.println("jewels swapped, a:" + a + ", b:" + b);
+		setJewelImage(a.getX(), a.getY());
+		setJewelImage(b.getX(), b.getY());
 	}
+
+	@Override
+	public void boardChanged() {
+		System.out.println("boardchanged");
+	}
+
+	@Override
+	public void jewelSelected(Coordinate c, Coordinate old) {
+		System.out.println("Jewel selected: " + c + ", old:" + old);
+		highLightJewel(c.getX(), c.getY());
+		if(old != null)
+			setJewelImage(old.getX(), old.getY());
+		
+	}
+}
