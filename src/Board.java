@@ -24,6 +24,11 @@ public class Board {
 	public void swapJewels(Coordinate c1, Coordinate c2) {
 		// TODO: Swap the Jewels at c1 and c2. If no match is made, swap the Jewels back after a short delay. If a match is made, remove the involved Jewels.
 		// Check if c1 makes a match with c2's neighbours and check if c2 makes a match with c1's neighbours.
+		Jewel jewel1 = getJewel(c1);
+		Jewel jewel2 = getJewel(c2);
+		setJewel(jewel1, c2);
+		setJewel(jewel2, c1);
+		
 	}
 	
 	private Jewel[][] createGrid() {
@@ -44,12 +49,24 @@ public class Board {
 		return jewelGrid[y][x];
 	}
 	
+	public Jewel getJewel(Coordinate c){
+		return jewelGrid[c.getY()][c.getX()];
+	}
+	
 	public boolean hasSelectedJewel() {
 		return selectedPos != null;
 	}
 	
 	public Coordinate getSelectedJewel(){
 		return selectedPos;
+	}
+	
+	public void setJewel(Jewel jewel, Coordinate c){
+		jewelGrid[c.getY()][c.getX()] = jewel;
+	}
+	
+	public void setSelectedJewel(Coordinate c){
+		selectedPos = c;
 	}
 	
 		// =========================================================================================================================

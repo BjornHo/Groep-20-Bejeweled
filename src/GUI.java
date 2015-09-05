@@ -125,6 +125,10 @@ public class GUI extends JFrame implements ActionListener{
 					else{
 						Coordinate oldJewel = board.getSelectedJewel();
 						if(Coordinate.areAdjacent(newJewel, oldJewel)){
+							board.swapJewels(oldJewel, newJewel);
+							setJewelImage(oldJewel.getX(), oldJewel.getY());
+							setJewelImage(newJewel.getX(), newJewel.getY());
+							board.setSelectedJewel(null);
 							System.out.println("These are next to each other");
 						}
 						else{
@@ -162,6 +166,11 @@ public class GUI extends JFrame implements ActionListener{
 		allButtons[y][x].setIcon(combinedIcon);
 	}
 	
+	/**
+	 * setJewelImage sets the icon on coordinate (x,y) to the current jewel on that coordinate
+	 * @param x the X coordinate of the jewel on the board.
+	 * @param y the Y coordinate of the jewel on the board.
+	 */
 	public void setJewelImage(int x, int y){
 		BufferedImage img = imgloader.getImage(board.getJewel(x,y).colour);
 		ImageIcon icon = new ImageIcon(img);
