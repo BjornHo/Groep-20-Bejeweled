@@ -175,4 +175,8 @@ public class Coordinate {
 	public String toString() {
 		return "Coordinate(" + x + "," + y + ")";
 	}
+	
+	public boolean equals(Coordinate that) {
+		return this.x == that.x && this.y == that.y;
+	}
 }

@@ -157,7 +157,7 @@ public class GUI extends JFrame implements ActionListener, BoardListener {
 		BufferedImage img = imgloader.getImage(board.getJewel(x,y).colour);
 		ImageIcon icon = new ImageIcon(img);
 		allButtons[y][x].setIcon(icon);
-		}
+	}
 
 	@Override
 	public void jewelsSwapped(Coordinate a, Coordinate b) {
