@@ -5,6 +5,7 @@ public class Board {
 	
 	private Jewel[][] jewelGrid = createGrid();
 	private Coordinate selectedPos = null;
+	private ArrayList<ArrayList<Coordinate>> ListOfMatches;
 	
 	public void setGrid(Jewel[][] grid) {
 		this.jewelGrid = grid;
@@ -206,6 +207,84 @@ public class Board {
 				}
 			}
 			return aligncount;
+		}
+		
+		/**
+		 * Method that checks the entire board for horizontally matching jewels.
+		 */
+		public void processHorizontalMatches () {
+			//Variable required for checking matches.
+			int n;
+			
+			//First y, then x, because we're checking matches in rows.
+			for (int y = 0; y < 8; y++){
+				for(int x = 0; x < 8; x++){
+					Coordinate initialc = new Coordinate(x,y);
+					Jewel initialj = this.getJewel(x,y);
+					
+					//A list of possibly aligned identical jewels.
+					ArrayList<Coordinate> matchingset = new ArrayList<Coordinate>();
+					matchingset.add(initialc);
+					
+					//This loop checks east of the initial jewel, one at a time.
+					for (n = (x+1); n < 8; n++) {
+						Coordinate nextc = new Coordinate(y,n);
+						Jewel nextj = this.getJewel(y,n);
+						
+						if (nextj.getColour() == initialj.getColour()) {
+							matchingset.add(nextc);
+						}
+						else {
+							break;
+						}
+					}
+					
+					//If 3 or more Jewels are in the list "matchingset", the list itself is stored in a list of all matches.
+					if (matchingset.size() >= 3) {
+						ListOfMatches.add(matchingset);
+					}
+					x = n - 1;
+				}
+			}
+		}
+		
+		/**
+		 * Method that checks the entire board for vertically matching jewels.
+		 */
+		public void processVerticallMatches () {
+			//Variable required for checking matches.
+			int n;
+			
+			//First x, then y, because we're checking matches in columns.
+			for (int x = 0; x < 8; x++){
+				for(int y = 0; y < 8; y++){
+					Coordinate initialc = new Coordinate(x,y);
+					Jewel initialj = this.getJewel(x,y);
+					
+					//A list of possibly aligned identical jewels.
+					ArrayList<Coordinate> matchingset = new ArrayList<Coordinate>();
+					matchingset.add(initialc);
+					
+					//This loop checks east of the initial jewel, one at a time.
+					for (n = (y+1); n < 8; n++) {
+						Coordinate nextc = new Coordinate(x,n);
+						Jewel nextj = this.getJewel(x,n);
+						
+						if (nextj.getColour() == initialj.getColour()) {
+							matchingset.add(nextc);
+						}
+						else {
+							break;
+						}
+					}
+					
+					//If 3 or more Jewels are in the list "matchingset", the list itself is stored in a list of all matches.
+					if (matchingset.size() >= 3) {
+						ListOfMatches.add(matchingset);
+					}
+					x = n - 1;
+				}
+			}
 		}
 	
 }
