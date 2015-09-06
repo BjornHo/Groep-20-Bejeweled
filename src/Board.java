@@ -41,43 +41,46 @@ public class Board {
 
 		else if (Coordinate.areAdjacent(selectedPos, c)) {
 			swapJewels(selectedPos,c);
-			Set<Match> matches = checkMatches();
+			List<Match> matches = checkMatches();
 			if(matches.isEmpty()) {
 				swapJewels(selectedPos,c);
 				selectedPos = null;
 				return;
 			}
-			processMatch(matches);
+			while(!matches.isEmpty()){
+				processMatch(matches.get(0));
+				matches=checkMatches();
+			}
 		}
 	}
 	
-	public void processMatch(Set<Match> match) {
-		
+	public void processMatch(Match m) {
+
+		if(m.isHorizontal()) {
+			for(Coordinate c : m.getCoordinates()) {
+
+				while(c.hasNorth()){
+					setJewel(getJewel(c.getNorth()), c);
+					c = c.getNorth();
+				}
+				setJewel(new Jewel(Colour.randomColour()), c);
+			}
+		}
+		else if(m.isVertical()) {
+			int aboveMatch = m.getYMin();  //nr of elements above the group of jewels that form a vertical match
+			
+			int x = m.getX();
+			//move all jewels above the cleared ones down.
+			for(int delta = 0; delta < aboveMatch; delta++) {
+				setJewel(getJewel(x,m.getYMax()-m.size()-delta), new Coordinate(x, m.getYMax()-delta));
+			}
+			//place new Jewels on the newly blanked spaces.
+			for(int y=m.getYMax() - aboveMatch; y >= 0; y--) {
+				setJewel(new Jewel(Colour.randomColour()), new Coordinate(x,y));
+			}
+		}
+		notifyBoardChanged();
 	}
-	
-//	public void processHorizontalMatch(Set<Coordinate> match) {
-//		for(Coordinate c : match) {
-//			//TODO: add points for 1 Jewel.
-//			for(int y = c.getY(); y > 0; y--){
-//				setJewel(getJewel(c.getNorth()), c);
-//			}
-//			setJewel(new Jewel(Colour.randomColour()), new Coordinate(c.getX(), 0));
-//		}
-//		notifyBoardChanged();
-//	}
-//	
-//	public void processVerticalMatch(Set<Coordinate> match) {
-//		//TODO: implement processVerticalMatch.
-////		for(Coordinate c : match) {
-////			for(int y = c.getY(); y > 0; y--){
-////				setJewel(getJewel(c.getNorth()), c);
-////			}
-////			setJewel(new Jewel(Colour.Red), new Coordinate(c.getX(), 0));
-////		}
-////		notifyBoardChanged();
-//	}
-	
-	
 	
 	/**
 	 * Swaps the jewels at the given coordinates with each other. Also notifies
@@ -166,7 +169,7 @@ public class Board {
 		selectedPos = c;
 	}
 	
-	public void checkVerticalMatches(Set<Match> matched){
+	public void checkVerticalMatches(List<Match> matched){
 		Match m = new Match();
 		for(int x = 0; x < 8; x++){
 			
@@ -196,7 +199,7 @@ public class Board {
 		}
 	}
 	
-	public void checkHorizontalMatches(Set<Match> matched){
+	public void checkHorizontalMatches(List<Match> matched){
 		Match m = new Match();
 		for(int y = 0; y < 8; y++){
 			
@@ -218,7 +221,6 @@ public class Board {
 				else{
 					prevColour = jewelGrid[y][x].getColour();
 					sameColorCounter = 1;
-					//System.out.println("m.size(): " + m.size());
 					if(m.size() > 2){
 						matched.add(m);
 					}
@@ -228,151 +230,12 @@ public class Board {
 		}
 	}
 	
-	public Set<Match> checkMatches(){
-		Set<Match> matched = new HashSet<Match>();
+	public List<Match> checkMatches(){
+		List<Match> matched = new ArrayList<Match>();
 		checkVerticalMatches(matched);
 		checkHorizontalMatches(matched);
-		System.out.println("Number of Matches: " + Integer.toString(matched.size()));
+		System.out.println("Number of Matches: " + matched.size());
 		return matched;
 	}
-	
-		// =========================================================================================================================
-		// ==================== Slechst een idee om matching the checken, misschien wat lang? ======================================
-		// =========================================================================================================================
-		
-		/**
-		 * Method that checks whether or not 3 or more Jewels are aligned.
-		 * 
-		 * @param Coordinate c
-		 * 				Coordinate of the Jewel being checked.
-		 * @return boolean
-		 * 				True if 3 or more Jewels are aligned.
-		 */
-		public boolean isHorizontalMatch(Coordinate c) {
-			return (checkWesternAlignment(c) + checkEasternAlignment(c)) >= 3;
-		}
-		
-		/**
-		 * Method that counts how many Jewels with the same colour are aligned west of the designated Jewel coordinate.
-		 * 
-		 * @param Coordinate c
-		 * 				Coordinate of the Jewel being checked for western alignment.
-		 * @return int
-		 * 				Amount of aligning Jewels.
-		 */
-		public int checkWesternAlignment(Coordinate c) {
-			int aligncount = 1;
-			Jewel C = this.getJewel(c.getX(), c.getY());
-			
-			if (c.hasWest()) {
-				Jewel West = this.getJewel(c.getWest().getX(), c.getWest().getY());
-				if (West.isSameColour(C)) {
-					aligncount++;
-					if (c.getWest().hasWest()) {
-						Jewel WestWest = this.getJewel(c.getWest().getWest().getX(), c.getWest().getWest().getY());
-						if (WestWest.isSameColour(C)) {
-							aligncount++;
-						}
-					}
-				}
-			}
-			return aligncount;
-		}
-		
-		/**
-		 * Method that counts how many Jewels with the same colour are aligned east of the designated Jewel coordinate.
-		 * 
-		 * @param Coordinate c
-		 * 				Coordinate of the Jewel being checked for eastern alignment.
-		 * @return int
-		 * 				Amount of aligning Jewels.
-		 */
-		public int checkEasternAlignment(Coordinate c) {
-			int aligncount = 1;
-			Jewel C = this.getJewel(c.getX(), c.getY());
-			
-			if (c.hasEast()) {
-				Jewel East = this.getJewel(c.getEast().getX(), c.getEast().getY());
-				if (East.isSameColour(C)) {
-					aligncount++;
-					if (c.getEast().hasEast()) {
-						Jewel EastEast = this.getJewel(c.getEast().getEast().getX(), c.getEast().getEast().getY());
-						if (EastEast.isSameColour(C)) {
-							aligncount++;
-						}
-					}
-				}
-			}
-			return aligncount;
-		}
-
-		
-		
-		
-		/**
-		 * Method that checks whether or not 3 or more Jewels are aligned.
-		 * 
-		 * @param Coordinate c
-		 * 				Coordinate of the Jewel being checked.
-		 * @return boolean
-		 * 				True if 3 or more Jewels are aligned.
-		 */
-		public boolean isVerticalMatch(Coordinate c) {
-			return (checkNorthernAlignment(c) + checkSouthernAlignment(c)) >= 3;
-		}
-		
-		/**
-		 * Method that counts how many Jewels with the same colour are aligned north of the designated Jewel coordinate.
-		 * 
-		 * @param Coordinate c
-		 * 				Coordinate of the Jewel being checked for northern alignment.
-		 * @return int
-		 * 				Amount of aligning Jewels.
-		 */
-		public int checkNorthernAlignment(Coordinate c) {
-			int aligncount = 1;
-			Jewel C = this.getJewel(c.getX(), c.getY());
-			
-			if (c.hasNorth()) {
-				Jewel North = this.getJewel(c.getNorth().getX(), c.getNorth().getY());
-				if (North.isSameColour(C)) {
-					aligncount++;
-					if (c.getNorth().hasNorth()) {
-						Jewel NorthNorth = this.getJewel(c.getNorth().getNorth().getX(), c.getNorth().getNorth().getY());
-						if (NorthNorth.isSameColour(C)) {
-							aligncount++;
-						}
-					}
-				}
-			}
-			return aligncount;
-		}
-		
-		/**
-		 * Method that counts how many Jewels with the same colour are aligned south of the designated Jewel coordinate.
-		 * 
-		 * @param Coordinate c
-		 * 				Coordinate of the Jewel being checked for southern alignment.
-		 * @return int
-		 * 				Amount of aligning Jewels.
-		 */
-		public int checkSouthernAlignment(Coordinate c) {
-			int aligncount = 1;
-			Jewel C = this.getJewel(c.getX(), c.getY());
-			
-			if (c.hasSouth()) {
-				Jewel South = this.getJewel(c.getSouth().getX(), c.getSouth().getY());
-				if (South.isSameColour(C)) {
-					aligncount++;
-					if (c.getSouth().hasSouth()) {
-						Jewel SouthSouth = this.getJewel(c.getSouth().getSouth().getX(), c.getSouth().getSouth().getY());
-						if (SouthSouth.isSameColour(C)) {
-							aligncount++;
-						}
-					}
-				}
-			}
-			return aligncount;
-		}
 	
 }
