@@ -17,6 +17,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.WindowConstants;
 
 
 
@@ -53,7 +54,7 @@ public class GUI extends JFrame implements ActionListener, BoardListener {
 		createGridPane();
 		bgPanel.add(createScoreBoard(), BorderLayout.NORTH);
 		board.addBoardListener(this);
-		
+		setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     	
 	}
 	
