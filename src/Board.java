@@ -9,14 +9,23 @@ public class Board {
 	private Jewel[][] jewelGrid = createGrid();
 	private Coordinate selectedPos = null;
 	private List<BoardListener> boardListeners;
+	private List<StatsListener> statsListeners;
+	
+	private int score = 0;
+	private int level = 1;
 
 	
 	public Board() {
 		this.boardListeners = new ArrayList<>();
+		this.statsListeners = new ArrayList<>();
 	}
 	
 	public void addBoardListener(BoardListener listener) {
 		this.boardListeners.add(listener);
+	}
+	
+	public void addStatsListener(StatsListener listener) {
+		this.statsListeners.add(listener);
 	}
 		
 	public void setGrid(Jewel[][] grid) {
@@ -56,7 +65,8 @@ public class Board {
 	}
 	
 	public void processMatch(Match m) {
-
+		score += m.getPoints();
+		notifyScoreChanged();
 		if(m.isHorizontal()) {
 			for(Coordinate c : m.getCoordinates()) {
 
@@ -143,6 +153,18 @@ public class Board {
 	public void notifyBoardChanged() {
 		for(BoardListener l : boardListeners) {
 			l.boardChanged();
+		}
+	}
+	
+	public void notifyScoreChanged() {
+		for(StatsListener l : statsListeners){
+			l.scoreChanged(score);
+		}
+	}
+	
+	public void notifyLevelChanged(int level) {
+		for(StatsListener l : statsListeners){
+			l.levelChanged(level);
 		}
 	}
 	

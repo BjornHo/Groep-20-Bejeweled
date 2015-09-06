@@ -58,8 +58,10 @@ public class GUI extends JFrame implements ActionListener, BoardListener {
 		add(bgPanel, BorderLayout.CENTER);
 		createButtons();
 		createGridPane();
-		bgPanel.add(createScoreBoard(), BorderLayout.NORTH);
+		ScoreBoard sc = createScoreBoard();
+		bgPanel.add(sc, BorderLayout.NORTH);
 		board.addBoardListener(this);
+		board.addStatsListener(sc);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
     	
