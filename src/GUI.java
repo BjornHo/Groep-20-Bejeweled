@@ -13,6 +13,8 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -30,13 +32,17 @@ public class GUI extends JFrame implements ActionListener, BoardListener {
 	
 	private Board board = new Board();
 	private static IMGLoader imgloader;
+	public static SoundLoader soundloader;
 	
 	/**
 	 * Main method so we can checkout what the GUI looks like.
 	 * @param args
+	 * @throws UnsupportedAudioFileException 
+	 * @throws LineUnavailableException 
 	 */
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws IOException, LineUnavailableException, UnsupportedAudioFileException {
 		imgloader = new IMGLoader();
+		soundloader = new SoundLoader();
 		GUI g = new GUI();
 		g.setVisible(true);
 		
@@ -175,6 +181,17 @@ public class GUI extends JFrame implements ActionListener, BoardListener {
 				setJewelImage(x, y);
 			}
 		}
+		
+			try {
+				GUI.soundloader.playSound(Sounds.Match);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (LineUnavailableException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		
 	}
 
 	@Override

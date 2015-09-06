@@ -181,7 +181,7 @@ public class Board {
 					if(sameColorCounter == 3){
 						m.add(new Coordinate(x, y-2));
 						m.add(new Coordinate(x, y-1));
-						m.add(new Coordinate(x, y));
+						m.add(new Coordinate(x, y));		
 					}
 					if(sameColorCounter > 3){
 						m.add(new Coordinate(x, y));
