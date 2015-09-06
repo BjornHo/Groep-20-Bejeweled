@@ -53,7 +53,7 @@ public class GUI extends JFrame implements ActionListener, BoardListener {
 		createGridPane();
 		bgPanel.add(createScoreBoard(), BorderLayout.NORTH);
 		board.addBoardListener(this);
-		
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     	
 	}
 	
