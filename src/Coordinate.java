@@ -63,7 +63,7 @@ public class Coordinate {
 	 * 				A Coordinate located north of Coordinate c.
 	 */
 	public Coordinate getNorth() {
-		Coordinate NorthJewel = new Coordinate(this.x, (this.y + 1));
+		Coordinate NorthJewel = new Coordinate(this.x, (this.y - 1));
 		return NorthJewel;
 	}
 	
@@ -89,7 +89,7 @@ public class Coordinate {
 	 * 				A Coordinate located south of Coordinate c.
 	 */
 	public Coordinate getSouth() {
-		Coordinate SouthJewel = new Coordinate(this.x, (this.y - 1));
+		Coordinate SouthJewel = new Coordinate(this.x, (this.y + 1));
 		return SouthJewel;
 	}
 	
@@ -113,7 +113,7 @@ public class Coordinate {
 	 * 				True if Jewel object has northern neighbour.
 	 */
 	public boolean hasNorth() {
-		return this.y <= 6;
+		return y > 0;
 	}
 	
 	/**
@@ -133,7 +133,7 @@ public class Coordinate {
 	 * 				True if Jewel object has southern neighbour.
 	 */
 	public boolean hasSouth() {
-		return this.y >= 1;
+		return this.y < 7;
 	}
 	
 	/**
@@ -174,5 +174,9 @@ public class Coordinate {
 	 */
 	public String toString() {
 		return "Coordinate(" + x + "," + y + ")";
+	}
+	
+	public boolean equals(Coordinate that) {
+		return this.x == that.x && this.y == that.y;
 	}
 }
