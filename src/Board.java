@@ -41,7 +41,7 @@ public class Board {
 
 		else if (Coordinate.areAdjacent(selectedPos, c)) {
 			swapJewels(selectedPos,c);
-			Set<Coordinate> matches = checkMatches();
+			Set<Match> matches = checkMatches();
 			if(matches.isEmpty()) {
 				swapJewels(selectedPos,c);
 				selectedPos = null;
@@ -51,56 +51,33 @@ public class Board {
 		}
 	}
 	
-	public void processMatch(Set<Coordinate> match) {
-		if(matchIsVertical(match))
-			processVerticalMatch(match);
-		else if(matchIsHorizontal(match))
-			processHorizontalMatch(match);
+	public void processMatch(Set<Match> match) {
+		
 	}
 	
-	public void processHorizontalMatch(Set<Coordinate> match) {
-		for(Coordinate c : match) {
-			//TODO: add points for 1 Jewel.
-			for(int y = c.getY(); y > 0; y--){
-				setJewel(getJewel(c.getNorth()), c);
-			}
-			setJewel(new Jewel(Colour.randomColour()), new Coordinate(c.getX(), 0));
-		}
-		notifyBoardChanged();
-	}
-	
-	public void processVerticalMatch(Set<Coordinate> match) {
-		//TODO: implement processVerticalMatch.
+//	public void processHorizontalMatch(Set<Coordinate> match) {
 //		for(Coordinate c : match) {
+//			//TODO: add points for 1 Jewel.
 //			for(int y = c.getY(); y > 0; y--){
 //				setJewel(getJewel(c.getNorth()), c);
 //			}
-//			setJewel(new Jewel(Colour.Red), new Coordinate(c.getX(), 0));
+//			setJewel(new Jewel(Colour.randomColour()), new Coordinate(c.getX(), 0));
 //		}
 //		notifyBoardChanged();
-	}
+//	}
+//	
+//	public void processVerticalMatch(Set<Coordinate> match) {
+//		//TODO: implement processVerticalMatch.
+////		for(Coordinate c : match) {
+////			for(int y = c.getY(); y > 0; y--){
+////				setJewel(getJewel(c.getNorth()), c);
+////			}
+////			setJewel(new Jewel(Colour.Red), new Coordinate(c.getX(), 0));
+////		}
+////		notifyBoardChanged();
+//	}
 	
-	public boolean matchIsVertical(Set<Coordinate> match) {
-		int x = -1;
-		for(Coordinate c : match) {
-			if(x == -1)
-				x = c.getX();
-			else if(x != c.getX())
-				return false;
-		}
-		return true;
-	}
 	
-	public boolean matchIsHorizontal(Set<Coordinate> match) {
-		int y = -1;
-		for(Coordinate c : match) {
-			if(y == -1)
-				y = c.getY();
-			else if(y != c.getY())
-				return false;
-		}
-		return true;
-	}
 	
 	/**
 	 * Swaps the jewels at the given coordinates with each other. Also notifies
@@ -189,59 +166,73 @@ public class Board {
 		selectedPos = c;
 	}
 	
-	public void checkVerticalMatches(Set<Coordinate> matched){
+	public void checkVerticalMatches(Set<Match> matched){
+		Match m = new Match();
 		for(int x = 0; x < 8; x++){
+			
 			int sameColorCounter = 1;
 			Colour prevColour = jewelGrid[0][x].getColour();
 			for(int y = 1; y < 8; y++){
 				if(prevColour.equals(jewelGrid[y][x].getColour())){
 					sameColorCounter++;
 					if(sameColorCounter == 3){
-						matched.add(new Coordinate(x, y-2));
-						matched.add(new Coordinate(x, y-1));
-						matched.add(new Coordinate(x, y));
+						m.add(new Coordinate(x, y-2));
+						m.add(new Coordinate(x, y-1));
+						m.add(new Coordinate(x, y));
 					}
 					if(sameColorCounter > 3){
-						matched.add(new Coordinate(x, y));
+						m.add(new Coordinate(x, y));
 					}
 				}
 				else{
 					prevColour = jewelGrid[y][x].getColour();
 					sameColorCounter = 1;
+					if(m.size() > 2){
+						matched.add(m);
+					}
+					m = new Match();
 				}
 			}
 		}
 	}
 	
-	public void checkHorizontalMatches(Set<Coordinate> matched){
+	public void checkHorizontalMatches(Set<Match> matched){
+		Match m = new Match();
 		for(int y = 0; y < 8; y++){
+			
 			int sameColorCounter = 1;
 			Colour prevColour = jewelGrid[y][0].getColour();
 			for(int x = 1; x < 8; x++){
 				if(prevColour.equals(jewelGrid[y][x].getColour())){
 					sameColorCounter++;
+					System.out.println(sameColorCounter + ", (" + x + "," + y + ")" );
 					if(sameColorCounter == 3){
-						matched.add(new Coordinate(x-2, y));
-						matched.add(new Coordinate(x-1, y));
-						matched.add(new Coordinate(x, y));
+						m.add(new Coordinate(x-2, y));
+						m.add(new Coordinate(x-1, y));
+						m.add(new Coordinate(x, y));
 					}
 					if(sameColorCounter > 3){
-						matched.add(new Coordinate(x, y));
+						m.add(new Coordinate(x, y));
 					}
 				}
 				else{
 					prevColour = jewelGrid[y][x].getColour();
 					sameColorCounter = 1;
+					//System.out.println("m.size(): " + m.size());
+					if(m.size() > 2){
+						matched.add(m);
+					}
+					m = new Match();
 				}
 			}
 		}
 	}
 	
-	public Set<Coordinate> checkMatches(){
-		Set<Coordinate> matched = new HashSet<Coordinate>();
+	public Set<Match> checkMatches(){
+		Set<Match> matched = new HashSet<Match>();
 		checkVerticalMatches(matched);
 		checkHorizontalMatches(matched);
-		System.out.println("Number of jewels matched: " + Integer.toString(matched.size()));
+		System.out.println("Number of Matches: " + Integer.toString(matched.size()));
 		return matched;
 	}
 	
