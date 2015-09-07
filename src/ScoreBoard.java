@@ -20,11 +20,11 @@ public class ScoreBoard extends JPanel implements StatsListener {
 		super();
 		int score = 0;
 		int level = 1;
-		scoreLabel = new JLabel("<html><font size=\"15\">Level " + level  + "</font></html>", JLabel.CENTER);
-		levelLabel = new JLabel("<html><font size=\"15\">Score " + score + "</font></html>", JLabel.CENTER);
+		levelLabel = new JLabel("<html><font size=\"15\">Level " + level  + "</font></html>", JLabel.CENTER);
+		scoreLabel = new JLabel("<html><font size=\"15\">Score " + score + "</font></html>", JLabel.CENTER);
 		setLayout(new GridLayout(2,1));
-		add(scoreLabel);
 		add(levelLabel);
+		add(scoreLabel);
 	}
 	
 	/**
