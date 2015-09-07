@@ -10,6 +10,8 @@ import javax.swing.*;
  *
  *  Also, any component added directly to this panel will be made
  *  non-opaque so that the custom painting can show through.
+ *  @Author - Rob Camick (October 12, 2008)
+ *  @Source - https://tips4java.wordpress.com/2008/10/12/background-panel/
  */
 public class BackgroundPanel extends JPanel
 {

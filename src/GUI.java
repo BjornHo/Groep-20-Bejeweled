@@ -67,6 +67,10 @@ public class GUI extends JFrame implements ActionListener, BoardListener {
     	
 	}
 	
+	/**
+	 * Gets the background image for the GUI.
+	 * @return Image - the background image.
+	 */
 	private Image getBackgroundImage(){
 		try {
 			bgImage = ImageIO.read(new File("src/bejeweled background.jpg"));

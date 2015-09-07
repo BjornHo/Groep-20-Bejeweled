@@ -8,8 +8,6 @@ public class ScoreBoard extends JPanel implements StatsListener {
 	 * Default serialization ID.
 	 */
 	private static final long serialVersionUID = 1L;
-	//private int score;
-	//private int level;
 	private JLabel scoreLabel;
 	private JLabel levelLabel;
 	
@@ -42,37 +40,6 @@ public class ScoreBoard extends JPanel implements StatsListener {
 	public JLabel getLevelLabel(){
 		return levelLabel;
 	}
-	
-//	/**
-//	 * Refreshes the score for the player on the ScoreBoard.
-//	 */
-//	private void refreshScore() {
-//		scoreLabel.setText("<html><font size=\"15\">Score " + score + "</font></html>");
-//	}
-//	
-//	/**
-//	 * Refreshes the current level of the game.
-//	 */
-//	private void refreshLevel() {
-//		levelLabel.setText("<html><font size=\"15\">Level " + level  + "</font></html>");
-//	}
-//	
-//	/**
-//	 * Allows the level to be incremented.
-//	 */
-//	public void incrementLevel() {
-//		level++;
-//		refreshLevel();
-//	}
-//	
-//	/**
-//	 * Allows the score to be altered.
-//	 * @param points
-//	 */
-//	public void increaseScore(int points) {
-//		score += points;
-//		refreshScore();
-//	}
 
 	@Override
 	public void scoreChanged(int score) {
