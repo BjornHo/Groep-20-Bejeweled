@@ -20,14 +20,26 @@ public class Board {
 		this.statsListeners = new ArrayList<>();
 	}
 	
+	/**
+	 * Adds a BoardListener to the Board.
+	 * @param BoardListener listener - the listener to be added.
+	 */
 	public void addBoardListener(BoardListener listener) {
 		this.boardListeners.add(listener);
 	}
 	
+	/**
+	 * Adds a StatsListener to the Board.
+	 * @param StatsListener listener - the listener to be added.
+	 */
 	public void addStatsListener(StatsListener listener) {
 		this.statsListeners.add(listener);
 	}
-		
+	
+	/**
+	 * Sets the play field to the given grid.
+	 * @param Jewel[][] grid - the grid that will become the play field.
+	 */
 	public void setGrid(Jewel[][] grid) {
 		this.jewelGrid = grid;
 	}
@@ -64,6 +76,10 @@ public class Board {
 		}
 	}
 	
+	/**
+	 * Updates the score. Checks for completed sets. Refills the board. Updates the board.
+	 * @param Match m - the match to be processed.
+	 */
 	public void processMatch(Match m) {
 		score += m.getPoints();
 		notifyScoreChanged();
@@ -111,6 +127,10 @@ public class Board {
 		notifySwap(c1, c2);
 	}
 	
+	/**
+	 * Creates the predetermined grid of jewels for the start of the game.
+	 * @return Jewel[][] - The 2d array of Jewels that will be the starting play field.
+	 */
 	private Jewel[][] createGrid() {
 		Jewel[][] grid = { 
 				{ new Jewel(Colour.Red), new Jewel(Colour.Red), new Jewel(Colour.Blue), new Jewel(Colour.Yellow), new Jewel(Colour.Blue), new Jewel(Colour.Green), new Jewel(Colour.Green), new Jewel(Colour.Red) },
@@ -156,42 +176,81 @@ public class Board {
 		}
 	}
 	
+	/**
+	 * Notifies the StatsListener that the score has been changed / needs updating.
+	 */
 	public void notifyScoreChanged() {
 		for(StatsListener l : statsListeners){
 			l.scoreChanged(score);
 		}
 	}
 	
+	/**
+	 * Notifies the StatsListener that the level has been changed / needs updating.
+	 * @param level - int - the level to be updated to.
+	 */
 	public void notifyLevelChanged(int level) {
 		for(StatsListener l : statsListeners){
 			l.levelChanged(level);
 		}
 	}
 	
+	/**
+	 * Returns the jewel from the given coordinates.
+	 * @param x - int - x coordinate
+	 * @param y - int - y coordinate
+	 * @return Jewel - the jewel from at the given coordinates.
+	 */
 	public Jewel getJewel(int x, int y) {
 		return jewelGrid[y][x];
 	}
 	
+	/**
+	 * Returns the jewel from the given coordinateds.
+	 * @param c - coordinates of the jewel you want.
+	 * @return Jewel - the jewel from the given coordinates.
+	 */
 	public Jewel getJewel(Coordinate c){
 		return jewelGrid[c.getY()][c.getX()];
 	}
 	
+	/**
+	 * Returns whether there is a jewel currently selected.
+	 * @return boolean - true/false if there is a selected jewel.
+	 */
 	public boolean hasSelectedJewel() {
 		return selectedPos != null;
 	}
 	
+	/**
+	 * Returns the coordinates of the currently selected jewel.
+	 * @return Coordinate - coordinate of the selected jewel.
+	 */
 	public Coordinate getSelectedJewel(){
 		return selectedPos;
 	}
 	
+	/**
+	 * Sets the jewel at the given coordinate to the given jewel.
+	 * @param jewel - the jewel that the selected jewel will become.
+	 * @param c - the coordinates of the selected jewel.
+	 */
 	public void setJewel(Jewel jewel, Coordinate c){
 		jewelGrid[c.getY()][c.getX()] = jewel;
 	}
 	
+	/**
+	 * Sets the jewel at the given coordinate as the selected jewel.
+	 * @param c - coordinate of jewel to be selected.
+	 */
 	public void setSelectedJewel(Coordinate c){
 		selectedPos = c;
 	}
 	
+	/**
+	 * Checks the game field for vertically alligned matches (compeleted sets).
+	 * @param matched - the list of matches to be added to.
+	 */
 	public void checkVerticalMatches(List<Match> matched){
 		Match m = new Match();
 		for(int x = 0; x < 8; x++){
@@ -222,6 +281,10 @@ public class Board {
 		}
 	}
 	
+	/**
+	 * Checks the game field for horizontally alligned matches (completed sets).
+	 * @param matched - the list of matches to be added to.
+	 */
 	public void checkHorizontalMatches(List<Match> matched){
 		Match m = new Match();
 		for(int y = 0; y < 8; y++){
@@ -255,6 +318,10 @@ public class Board {
 
 	}
 	
+	/**
+	 * Checks for matches (completed sets) within the game field.
+	 * @return List<Match> - The list of matches found.
+	 */
 	public List<Match> checkMatches(){
 		List<Match> matched = new ArrayList<Match>();
 		checkVerticalMatches(matched);
