@@ -3,21 +3,51 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-
+/**
+ * @author Group 20
+ *
+ * Class that defines the game board. Contains methods able to create and manipulate Bejeweled game boards.
+ */
 public class Board {
 	
+	/**
+	 * 2-Dimensional grid of spaces defining the board's playing field.
+	 */
 	private Jewel[][] jewelGrid = createGrid();
+	
+	/**
+	 * Coordinate object used to define the currently selected Coordinate.
+	 */
 	private Coordinate selectedPos = null;
+	
+	/**
+	 * List of Board Listeners, which will respond according to certain inputs from the user.
+	 */
 	private List<BoardListener> boardListeners;
 	
+	/**
+	 * Board constructor method.
+	 */
 	public Board() {
 		this.boardListeners = new ArrayList<>();
 	}
 	
+	/**
+	 * Method that adds a board listener to the "boardListeners" list.
+	 * 
+	 * @param BoardListener listener
+	 * 				The Board Listener added.	
+	 */
 	public void addBoardListener(BoardListener listener) {
 		this.boardListeners.add(listener);
 	}
-		
+	
+	/**
+	 * Method that sets a specific grid as the game board.
+	 * 
+	 * @param Jewel[][] grid
+	 * 				The grid of the game board.
+	 */
 	public void setGrid(Jewel[][] grid) {
 		this.jewelGrid = grid;
 	}
