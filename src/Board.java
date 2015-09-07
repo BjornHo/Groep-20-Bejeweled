@@ -29,6 +29,14 @@ public class Board {
 	}
 	
 	/**
+	 * Returns the list of all current BoardListeners.
+	 */
+	public List<BoardListener> getBoardListeners(){
+		return boardListeners;
+	}
+	
+	
+	/**
 	 * Adds a StatsListener to the Board.
 	 * @param StatsListener listener - the listener to be added.
 	 */
@@ -37,11 +45,22 @@ public class Board {
 	}
 	
 	/**
+	 * Returns the list of all current StatsListeners.
+	 */
+	public List<StatsListener> getStatsListeners(){
+		return statsListeners;
+	}
+	
+	/**
 	 * Sets the play field to the given grid.
 	 * @param Jewel[][] grid - the grid that will become the play field.
 	 */
 	public void setGrid(Jewel[][] grid) {
 		this.jewelGrid = grid;
+	}
+	
+	public Jewel[][] getGrid(){
+		return jewelGrid;
 	}
 	
 	/**
@@ -99,7 +118,8 @@ public class Board {
 			int x = m.getX();
 			//move all jewels above the cleared ones down.
 			for(int delta = 0; delta < aboveMatch; delta++) {
-				setJewel(getJewel(x,m.getYMax()-m.size()-delta), new Coordinate(x, m.getYMax()-delta));
+				
+				setJewel(getJewel(new Coordinate(x,m.getYMax()-m.size()-delta)), new Coordinate(x, m.getYMax()-delta));
 			}
 			//place new Jewels on the newly blanked spaces.
 			for(int y=m.getYMax() - aboveMatch; y >= 0; y--) {
@@ -195,15 +215,6 @@ public class Board {
 		}
 	}
 	
-	/**
-	 * Returns the jewel from the given coordinates.
-	 * @param x - int - x coordinate
-	 * @param y - int - y coordinate
-	 * @return Jewel - the jewel from at the given coordinates.
-	 */
-	public Jewel getJewel(int x, int y) {
-		return jewelGrid[y][x];
-	}
 	
 	/**
 	 * Returns the jewel from the given coordinateds.

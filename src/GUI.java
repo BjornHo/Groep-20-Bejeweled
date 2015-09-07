@@ -30,7 +30,7 @@ public class GUI extends JFrame implements ActionListener, BoardListener {
 	private BackgroundPanel bgPanel;
 	private Image bgImage;
 	
-	private Board board = new Board();
+	private Board board;
 	private static IMGLoader imgloader;
 	public static SoundLoader soundloader;
 	
@@ -41,9 +41,7 @@ public class GUI extends JFrame implements ActionListener, BoardListener {
 	 * @throws LineUnavailableException 
 	 */
 	public static void main(String[] args) throws IOException, LineUnavailableException, UnsupportedAudioFileException {
-		imgloader = new IMGLoader();
-		soundloader = new SoundLoader();
-		GUI g = new GUI();
+		GUI g = new GUI(new Board());
 		g.setVisible(true);
 		
 	}
@@ -51,7 +49,10 @@ public class GUI extends JFrame implements ActionListener, BoardListener {
 	/**
 	 * Constructor for the GUI.
 	 */
-	public GUI(){
+	public GUI(Board b) throws IOException, LineUnavailableException, UnsupportedAudioFileException{
+		board = b;
+		imgloader = new IMGLoader();
+		soundloader = new SoundLoader();
 		setSize(800,800);
 		setResizable(false);
 		bgPanel = new BackgroundPanel(getBackgroundImage());
@@ -147,7 +148,7 @@ public class GUI extends JFrame implements ActionListener, BoardListener {
 	 * @param y the Y coordinate of the jewel on the board.
 	 */
 	public void highLightJewel(int x, int y) {
-		Colour colour = board.getJewel(x, y).colour;
+		Colour colour = board.getJewel(new Coordinate(x, y)).colour;
 		BufferedImage jewelImage = imgloader.getImage(colour);
 		BufferedImage selectedImage= imgloader.getImage(Colour.Selected);
 		
@@ -168,7 +169,7 @@ public class GUI extends JFrame implements ActionListener, BoardListener {
 	 * @param y the Y coordinate of the jewel on the board.
 	 */
 	public void setJewelImage(int x, int y){
-		BufferedImage img = imgloader.getImage(board.getJewel(x,y).colour);
+		BufferedImage img = imgloader.getImage(board.getJewel(new Coordinate(x,y)).colour);
 		ImageIcon icon = new ImageIcon(img);
 		allButtons[y][x].setIcon(icon);
 	}
