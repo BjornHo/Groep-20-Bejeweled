@@ -2,7 +2,7 @@ package jewel;
 
 public class Jewel {
 
-	protected Colour colour;
+	public Colour colour;
 	
 	/**
 	 * Jewel Constructor

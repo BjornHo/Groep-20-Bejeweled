@@ -88,5 +88,22 @@ public class Match {
 			return coordinates.get(0).getY();
 		return -1;
 	}
+	
+	@Override
+	public boolean equals(Object other) {
+		if(other instanceof Match){
+			Match that = (Match)other;
+			if(this.size() != that.size()){
+				return false;
+			}
+			for(int i = 0; i < this.size(); i++){
+				if(!this.coordinates.contains(that.coordinates.get(i))){
+					return false;
+				}
+			}
+			return true;
+		}
+		return false;
+	}
 
 }
