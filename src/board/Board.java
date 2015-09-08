@@ -8,10 +8,27 @@ import jewel.Colour;
 import jewel.Jewel;
 
 
+/**
+ * @author Group 20
+ *
+ * Class that defines the game board. Contains methods able to create and manipulate Bejeweled game boards.
+ */
+
 public class Board {
 	
+	/**
+	 * 2-Dimensional grid of spaces defining the board's playing field.
+	 */
 	private Jewel[][] jewelGrid = createGrid();
+	
+	/**
+	 * Coordinate object used to define the currently selected Coordinate.
+	 */
 	private Coordinate selectedPos = null;
+	
+	/**
+	 * List of Board Listeners, which will respond according to certain inputs from the user.
+	 */
 	private List<BoardListener> boardListeners;
 	private List<StatsListener> statsListeners;
 	
@@ -19,6 +36,9 @@ public class Board {
 	private int level = 1;
 
 	
+	/**
+	 * Board constructor method.
+	 */
 	public Board() {
 		this.boardListeners = new ArrayList<>();
 		this.statsListeners = new ArrayList<>();
