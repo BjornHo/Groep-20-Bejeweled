@@ -1,3 +1,4 @@
+package gui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -20,6 +21,11 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
+
+import board.Board;
+import board.BoardListener;
+import board.Coordinate;
+import jewel.Colour;
 
 
 
@@ -147,7 +153,7 @@ public class GUI extends JFrame implements ActionListener, BoardListener {
 	 * @param y the Y coordinate of the jewel on the board.
 	 */
 	public void highLightJewel(int x, int y) {
-		Colour colour = board.getJewel(x, y).colour;
+		Colour colour = board.getJewel(x, y).getColour();
 		BufferedImage jewelImage = imgloader.getImage(colour);
 		BufferedImage selectedImage= imgloader.getImage(Colour.Selected);
 		
@@ -168,7 +174,7 @@ public class GUI extends JFrame implements ActionListener, BoardListener {
 	 * @param y the Y coordinate of the jewel on the board.
 	 */
 	public void setJewelImage(int x, int y){
-		BufferedImage img = imgloader.getImage(board.getJewel(x,y).colour);
+		BufferedImage img = imgloader.getImage(board.getJewel(x,y).getColour());
 		ImageIcon icon = new ImageIcon(img);
 		allButtons[y][x].setIcon(icon);
 	}
