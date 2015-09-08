@@ -6,5 +6,10 @@
 5. If 2 gems are switched and no matches are made, return the gems to their original positions.
 6. Make Jewel class.
 7. Make Board class.
-
 8. Make 3 buttons disappear if they align vertically or horizontally
+
+// packages
+// split classes
+// start using octopull, maven,
+// pull requests
+
