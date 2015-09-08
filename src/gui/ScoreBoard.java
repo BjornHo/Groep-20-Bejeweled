@@ -1,6 +1,9 @@
+package gui;
 import java.awt.GridLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import board.StatsListener;
 
 public class ScoreBoard extends JPanel implements StatsListener {
 

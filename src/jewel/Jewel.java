@@ -1,3 +1,4 @@
+package jewel;
 
 public class Jewel {
 

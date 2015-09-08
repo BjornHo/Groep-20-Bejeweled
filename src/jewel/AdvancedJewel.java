@@ -1,3 +1,7 @@
+package jewel;
+
+import board.Coordinate;
+
 /**
  * @author hvkooijman
  * Jewel class that does store coordinates within it's Jewel Objects.

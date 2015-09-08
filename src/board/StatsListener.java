@@ -1,3 +1,4 @@
+package board;
 
 public interface StatsListener {
 	
