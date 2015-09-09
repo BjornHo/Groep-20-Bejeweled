@@ -26,6 +26,7 @@ import board.Board;
 import board.BoardListener;
 import board.Coordinate;
 import jewel.Colour;
+import jewel.Jewel;
 
 
 
@@ -36,7 +37,7 @@ public class GUI extends JFrame implements ActionListener, BoardListener {
 	private BackgroundPanel bgPanel;
 	private Image bgImage;
 	
-	private Board board = new Board();
+	private Board board;
 	private static IMGLoader imgloader;
 	public static SoundLoader soundloader;
 	
@@ -47,9 +48,7 @@ public class GUI extends JFrame implements ActionListener, BoardListener {
 	 * @throws LineUnavailableException 
 	 */
 	public static void main(String[] args) throws IOException, LineUnavailableException, UnsupportedAudioFileException {
-		imgloader = new IMGLoader();
-		soundloader = new SoundLoader();
-		GUI g = new GUI();
+		GUI g = new GUI(new Board());
 		g.setVisible(true);
 		
 	}
@@ -57,7 +56,10 @@ public class GUI extends JFrame implements ActionListener, BoardListener {
 	/**
 	 * Constructor for the GUI.
 	 */
-	public GUI(){
+	public GUI(Board b) throws IOException, LineUnavailableException, UnsupportedAudioFileException{
+		board = b;
+		imgloader = new IMGLoader();
+		soundloader = new SoundLoader();
 		setSize(800,800);
 		setResizable(false);
 		bgPanel = new BackgroundPanel(getBackgroundImage());
@@ -147,15 +149,27 @@ public class GUI extends JFrame implements ActionListener, BoardListener {
 		}
 	}
 	
+	private BufferedImage iconToBuffered(ImageIcon icon) {
+		BufferedImage result = new BufferedImage(
+			    icon.getIconWidth(),
+			    icon.getIconHeight(),
+			    BufferedImage.TYPE_INT_RGB);
+		Graphics g = result.createGraphics();
+		icon.paintIcon(null, g, 0,0);
+		g.dispose();
+		return result;
+	}
+	
 	/**
 	 * highLightJewel draws 2 images on top of each other. The colour of the jewel and the selectedImage border.
 	 * @param x the X coordinate of the jewel on the board.
 	 * @param y the Y coordinate of the jewel on the board.
 	 */
 	public void highLightJewel(int x, int y) {
-		Colour colour = board.getJewel(x, y).getColour();
-		BufferedImage jewelImage = imgloader.getImage(colour);
-		BufferedImage selectedImage= imgloader.getImage(Colour.Selected);
+
+		Colour colour = board.getJewel(new Coordinate(x, y)).colour;
+		BufferedImage jewelImage = iconToBuffered(imgloader.getImage(colour));
+		BufferedImage selectedImage= iconToBuffered(imgloader.getImage(Colour.Selected));
 		
 		int width = Math.max(jewelImage.getWidth(), selectedImage.getWidth());
 		int height = Math.max(jewelImage.getHeight(), selectedImage.getHeight());
@@ -174,8 +188,7 @@ public class GUI extends JFrame implements ActionListener, BoardListener {
 	 * @param y the Y coordinate of the jewel on the board.
 	 */
 	public void setJewelImage(int x, int y){
-		BufferedImage img = imgloader.getImage(board.getJewel(x,y).getColour());
-		ImageIcon icon = new ImageIcon(img);
+		ImageIcon icon = imgloader.getImage(board.getJewel(new Coordinate(x,y)).colour);
 		allButtons[y][x].setIcon(icon);
 	}
 

@@ -180,4 +180,13 @@ public class Coordinate {
 	public boolean equals(Coordinate that) {
 		return this.x == that.x && this.y == that.y;
 	}
+	
+	@Override
+	public boolean equals(Object other){
+		if(other instanceof Coordinate){
+			Coordinate that = (Coordinate)other;
+			return (this.x == that.x && this.y == that.y);
+		}
+		return false;
+	}
 }
