@@ -239,4 +239,53 @@ public class MatchTest {
 		match.add(new Coordinate(0,2));
 		assertEquals(-1, match.getY());
 	}
+	
+	/**
+	 * Testing the equals(Object other) method with other being a non-Match Object.
+	 */
+	
+	@Test
+	public void equalsDiffertentObject(){
+		assertEquals(false, match.equals(new Coordinate(0,0)));
+	}
+	
+	/**
+	 * Testing the equals(Object other) method with other being a different sized match.
+	 */
+	
+	@Test
+	public void equalsDifferentSize(){
+		match.add(new Coordinate(0,0));
+		assertEquals(false, match.equals(new Match()));
+	}
+	
+	/**
+	 * Testing the equals(Object other) method with other being a same sized match with different elements.
+	 */
+	
+	@Test
+	public void equalsDifferentElements(){
+		match.add(new Coordinate(0,0));
+		Match other = new Match();
+		other.add(new Coordinate(1,1));
+		assertEquals(false, match.equals(other));
+	}
+	
+	/**
+	 * Testing the equals(Object other) method with other being a same sized match with the same elements in a different order.
+	 */
+	
+	@Test
+	public void equalsDifferentOrder(){
+		Match other = new Match();
+		Coordinate c1 = new Coordinate(0,0);
+		Coordinate c2 = new Coordinate(1,1);
+		
+		match.add(c1);
+		match.add(c2);
+		other.add(c2);
+		other.add(c1);
+		
+		assertEquals(true, match.equals(other));
+	}
 }
