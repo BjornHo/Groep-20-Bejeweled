@@ -51,7 +51,7 @@ public class Coordinate {
 	 */
 	public static boolean areAdjacent(Coordinate c1, Coordinate c2) {
 		return ( (Math.abs(c1.x - c2.x) == 1 && c1.y == c2.y) //Horizontal adjacency check
-				 || 
+				 ^ 
 				 (c1.x == c2.x && Math.abs(c1.y - c2.y) == 1) ); //Vertical adjacency check
 	}
 	
@@ -175,10 +175,6 @@ public class Coordinate {
 	 */
 	public String toString() {
 		return "Coordinate(" + x + "," + y + ")";
-	}
-	
-	public boolean equals(Coordinate that) {
-		return this.x == that.x && this.y == that.y;
 	}
 	
 	@Override
