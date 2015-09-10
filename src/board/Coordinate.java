@@ -185,4 +185,9 @@ public class Coordinate {
 		}
 		return false;
 	}
+	
+	@Override
+	public int hashCode(){
+		return (5*x + x* (x + y));
+	}
 }

@@ -1,6 +1,5 @@
 package gui;
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridBagConstraints;
@@ -20,13 +19,11 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.WindowConstants;
 
 import board.Board;
 import board.BoardListener;
 import board.Coordinate;
 import jewel.Colour;
-import jewel.Jewel;
 
 
 

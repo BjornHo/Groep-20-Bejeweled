@@ -1,8 +1,6 @@
 package board;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import jewel.Colour;
 import jewel.Jewel;
@@ -33,7 +31,6 @@ public class Board {
 	private List<StatsListener> statsListeners;
 	
 	private int score = 0;
-	private int level = 1;
 
 	
 	/**

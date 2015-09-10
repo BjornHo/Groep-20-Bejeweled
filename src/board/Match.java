@@ -103,5 +103,10 @@ public class Match {
 		}
 		return false;
 	}
+	
+	@Override
+	public int hashCode(){
+		return((coordinates.size() + 1) * yMax);
+	}
 
 }
