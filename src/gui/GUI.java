@@ -181,14 +181,12 @@ public class GUI extends JFrame implements ActionListener, BoardListener {
 
 	@Override
 	public void jewelsSwapped(Coordinate a, Coordinate b) {
-		System.out.println("jewels swapped, a:" + a + ", b:" + b);
 		setJewelImage(a.getX(), a.getY());
 		setJewelImage(b.getX(), b.getY());
 	}
 
 	@Override
 	public void boardChanged() {
-		System.out.println("boardchanged");
 		for(int y = 0; y < 8; y++){
 			for(int x = 0; x < 8; x++){
 				setJewelImage(x, y);
@@ -209,7 +207,6 @@ public class GUI extends JFrame implements ActionListener, BoardListener {
 
 	@Override
 	public void jewelSelected(Coordinate c, Coordinate old) {
-		System.out.println("Jewel selected: " + c + ", old:" + old);
 		highLightJewel(c.getX(), c.getY());
 		if(old != null)
 			setJewelImage(old.getX(), old.getY());

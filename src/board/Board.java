@@ -326,7 +326,6 @@ public class Board {
 			for(int x = 1; x < 8; x++){
 				if(prevColour.equals(jewelGrid[y][x].getColour())){
 					sameColorCounter++;
-					System.out.println(sameColorCounter + ", (" + x + "," + y + ")" );
 					if(sameColorCounter == 3){
 						m.add(new Coordinate(x-2, y));
 						m.add(new Coordinate(x-1, y));
@@ -358,7 +357,6 @@ public class Board {
 		List<Match> matched = new ArrayList<Match>();
 		checkVerticalMatches(matched);
 		checkHorizontalMatches(matched);
-		System.out.println("Number of Matches: " + matched.size());
 		return matched;
 	}
 

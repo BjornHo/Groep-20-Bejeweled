@@ -31,8 +31,6 @@ public class SoundLoader {
 		streamMap = new HashMap<Sounds, AudioInputStream>(allFiles.length);
 
 		for (File file : allFiles) {
-			System.out.println(file);
-			System.out.println(file.getName());
 			int removeExtension = file.getName().indexOf(".");
 			String soundName = file.getName().substring(0, removeExtension);
 			
@@ -42,10 +40,6 @@ public class SoundLoader {
 			DataLine.Info info = new DataLine.Info(Clip.class, audioFormat);
 			Clip audioClip = (Clip) AudioSystem.getLine(info);
 			
-			//InputStream inputStream = new FileInputStream(file);
-		//	AudioStream audioStream = new AudioStream(inputStream);
-
-			System.out.println(Sounds.valueOf(soundName));
 			soundMap.put(Sounds.valueOf(soundName), audioClip);
 			streamMap.put(Sounds.valueOf(soundName), audioinputStream);
 
