@@ -23,7 +23,7 @@ public class SoundLoader {
 
 	public SoundLoader() throws IOException, LineUnavailableException, UnsupportedAudioFileException {
 
-		String directory = (System.getProperty("user.dir") + File.separator + "src" + File.separator + "Sounds");
+		String directory = (System.getProperty("user.dir") + File.separator + "src" + File.separator + "main" + File.separator +"java" + File.separator + "Sounds");
 		File folder = new File(directory);
 		File[] allFiles = folder.listFiles();
 

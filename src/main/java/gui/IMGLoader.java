@@ -21,7 +21,7 @@ public class IMGLoader {
 		BufferedImage gemImage;
 		imagemap = new HashMap<Colour, BufferedImage>(8);
 		
-		String directory = (System.getProperty("user.dir") + File.separator+ "src" + File.separator + "Jewelimg"); 
+		String directory = (System.getProperty("user.dir") + File.separator+ "src" + File.separator + "main" + File.separator +"java" + File.separator + "Jewelimg"); 
 		
 		File folder = new File(directory);
 		File[] allFiles = folder.listFiles();
