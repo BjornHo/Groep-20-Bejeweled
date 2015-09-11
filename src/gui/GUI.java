@@ -176,7 +176,7 @@ public class GUI extends JFrame implements ActionListener, BoardListener {
 		BufferedImage img = imgloader.getImage(board.getJewel(new Coordinate(x,y)).colour);
 		ImageIcon icon = new ImageIcon(img);
 		allButtons[y][x].setIcon(icon);
-		System.out.println(board.getJewel(new Coordinate(x,y)).colour + " was put on coordinate (y,x) -> (" + y + "," + x + ")");
+		//System.out.println(board.getJewel(new Coordinate(x,y)).colour + " was put on coordinate (y,x) -> (" + y + "," + x + ")");
 	}
 
 	@Override
@@ -210,6 +210,5 @@ public class GUI extends JFrame implements ActionListener, BoardListener {
 		highLightJewel(c.getX(), c.getY());
 		if(old != null)
 			setJewelImage(old.getX(), old.getY());
-		
 	}
 }
