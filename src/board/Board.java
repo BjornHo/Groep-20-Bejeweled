@@ -280,35 +280,29 @@ public class Board {
 	}
 	
 	/**
-	 * Checks the game field for vertically alligned matches (compeleted sets).
+	 * Checks the game field for vertically aligned matches (completed sets).
 	 * @param matched - the list of matches to be added to.
 	 */
-	public void checkVerticalMatches(List<Match> matched){
-		Match m = new Match();
-		for(int x = 0; x < 8; x++){
-			
-			int sameColorCounter = 1;
-			Colour prevColour = jewelGrid[0][x].getColour();
-			for(int y = 1; y < 8; y++){
-				if(prevColour.equals(jewelGrid[y][x].getColour())){
-					sameColorCounter++;
-					if(sameColorCounter == 3){
-						m.add(new Coordinate(x, y-2));
-						m.add(new Coordinate(x, y-1));
-						m.add(new Coordinate(x, y));		
-					}
-					if(sameColorCounter > 3){
-						m.add(new Coordinate(x, y));
-					}
+	public void checkVerticalMatches(List<Match> matched) {
+		int n;
+		//First y, then x, because we're checking matches in rows.
+		for (int x = 0; x < 8; x++){
+			for(int y = 0; y < 8; y++){
+				Colour initialc = jewelGrid[y][x].colour;
+				Match m = new Match();
+				m.add(new Coordinate(x,y));
+				//This loop checks east of the initial jewel, one at a time.
+				for (n = (y+1); n < 8; n++) {
+					Colour nextc = jewelGrid[n][x].colour;
+					if (initialc.equals(nextc))
+						m.add(new Coordinate(x,n));
+					else
+						break;
 				}
-				else{
-					prevColour = jewelGrid[y][x].getColour();
-					sameColorCounter = 1;
-					if(m.size() > 2){
-						matched.add(m);
-					}
-					m = new Match();
-				}
+				//If 3 or more Jewels are in the list "matchingset", the list itself is stored in a list of all matches.
+				if (m.size() >= 3)
+					matched.add(m);
+				y = n - 1;
 			}
 		}
 	}
@@ -317,40 +311,28 @@ public class Board {
 	 * Checks the game field for horizontally alligned matches (completed sets).
 	 * @param matched - the list of matches to be added to.
 	 */
-	public void checkHorizontalMatches(List<Match> matched){
-		System.out.println("I am now checking for matches resulting from the given Jewel swap.");
-		Match m = new Match();
-		System.out.println(jewelGrid[7][5].getColour());
-		System.out.println(jewelGrid[7][6].getColour());
-		System.out.println(jewelGrid[7][7].getColour());
-		for(int y = 0; y < 8; y++){
-			
-			int sameColorCounter = 1;
-			Colour prevColour = jewelGrid[y][0].getColour();
-			for(int x = 1; x < 8; x++){
-				if(prevColour.equals(jewelGrid[y][x].getColour())){
-					sameColorCounter++;
-					if(sameColorCounter == 3){
-						m.add(new Coordinate(x-2, y));
-						m.add(new Coordinate(x-1, y));
-						m.add(new Coordinate(x, y));
-					}
-					if(sameColorCounter > 3){
-						m.add(new Coordinate(x, y));
-					}
+	public void checkHorizontalMatches(List<Match> matched) {
+		int n;
+		//First y, then x, because we're checking matches in rows.
+		for (int y = 0; y < 8; y++){
+			for(int x = 0; x < 8; x++){
+				Colour initialc = jewelGrid[y][x].colour;
+				Match m = new Match();
+				m.add(new Coordinate(x,y));
+				//This loop checks east of the initial jewel, one at a time.
+				for (n = (x+1); n < 8; n++) {
+					Colour nextc = jewelGrid[y][n].colour;
+					if (initialc.equals(nextc))
+						m.add(new Coordinate(n,y));
+					else
+						break;
 				}
-				else{
-					prevColour = jewelGrid[y][x].getColour();
-					sameColorCounter = 1;
-					if(m.size() > 2){
-						matched.add(m);
-					}
-					m = new Match();
-				}
+				//If 3 or more Jewels are in the list "matchingset", the list itself is stored in a list of all matches.
+				if (m.size() >= 3)
+					matched.add(m);
+				x = n - 1;
 			}
 		}
-
-
 	}
 	
 	/**
