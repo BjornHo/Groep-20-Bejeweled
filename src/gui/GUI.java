@@ -26,7 +26,6 @@ import board.Coordinate;
 import jewel.Colour;
 
 
-
 public class GUI extends JFrame implements ActionListener, BoardListener {
 	private GridBagLayout k = new GridBagLayout();
 	private JPanel pane = new JPanel(k);
@@ -57,7 +56,7 @@ public class GUI extends JFrame implements ActionListener, BoardListener {
 		board = b;
 		imgloader = new IMGLoader();
 		soundloader = new SoundLoader();
-		setSize(800,800);
+		setSize(700,700);
 		setResizable(false);
 		bgPanel = new BackgroundPanel(getBackgroundImage());
 		add(bgPanel, BorderLayout.CENTER);
@@ -177,6 +176,7 @@ public class GUI extends JFrame implements ActionListener, BoardListener {
 		BufferedImage img = imgloader.getImage(board.getJewel(new Coordinate(x,y)).colour);
 		ImageIcon icon = new ImageIcon(img);
 		allButtons[y][x].setIcon(icon);
+		System.out.println(board.getJewel(new Coordinate(x,y)).colour + " was put on coordinate (y,x) -> (" + y + "," + x + ")");
 	}
 
 	@Override
