@@ -285,23 +285,20 @@ public class Board {
 	 */
 	public void checkVerticalMatches(List<Match> matched) {
 		int n;
-		//First y, then x, because we're checking matches in rows.
-		for (int x = 0; x < 8; x++){
-			for(int y = 0; y < 8; y++){
+		for (int x = 0; x < 8; x++){						// First the x loop, then y loop,
+			for(int y = 0; y < 8; y++){						// because we're checking matches in columns.
 				Colour initialc = jewelGrid[y][x].colour;
 				Match m = new Match();
 				m.add(new Coordinate(x,y));
-				//This loop checks east of the initial jewel, one at a time.
-				for (n = (y+1); n < 8; n++) {
+				for (n = (y+1); n < 8; n++) {				//This loop checks east of the initial jewel, one at a time.
 					Colour nextc = jewelGrid[n][x].colour;
 					if (initialc.equals(nextc))
 						m.add(new Coordinate(x,n));
 					else
 						break;
 				}
-				//If 3 or more Jewels are in the list "matchingset", the list itself is stored in a list of all matches.
-				if (m.size() >= 3)
-					matched.add(m);
+				if (m.size() >= 3)							// If 3 or more Jewels are in a "match" object, 
+					matched.add(m);							// the object is stored in a list contain all current matches.
 				y = n - 1;
 			}
 		}
@@ -313,23 +310,20 @@ public class Board {
 	 */
 	public void checkHorizontalMatches(List<Match> matched) {
 		int n;
-		//First y, then x, because we're checking matches in rows.
-		for (int y = 0; y < 8; y++){
-			for(int x = 0; x < 8; x++){
+		for (int y = 0; y < 8; y++){						// First the y loop, then the x loop,
+			for(int x = 0; x < 8; x++){						// because we're checking matches in rows.
 				Colour initialc = jewelGrid[y][x].colour;
 				Match m = new Match();
 				m.add(new Coordinate(x,y));
-				//This loop checks east of the initial jewel, one at a time.
-				for (n = (x+1); n < 8; n++) {
+				for (n = (x+1); n < 8; n++) {				//This loop checks east of the initial jewel, one at a time.
 					Colour nextc = jewelGrid[y][n].colour;
 					if (initialc.equals(nextc))
 						m.add(new Coordinate(n,y));
 					else
 						break;
 				}
-				//If 3 or more Jewels are in the list "matchingset", the list itself is stored in a list of all matches.
-				if (m.size() >= 3)
-					matched.add(m);
+				if (m.size() >= 3)							// If 3 or more Jewels are in a "match" object, 
+					matched.add(m);							// the object is stored in a list contain all current matches.
 				x = n - 1;
 			}
 		}
