@@ -56,7 +56,7 @@ public class GUI extends JFrame implements ActionListener, BoardListener {
 		board = b;
 		imgloader = new IMGLoader();
 		soundloader = new SoundLoader();
-		setSize(700,700);
+		setSize(800,800);
 		setResizable(false);
 		bgPanel = new BackgroundPanel(getBackgroundImage());
 		add(bgPanel, BorderLayout.CENTER);
