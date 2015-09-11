@@ -301,7 +301,7 @@ public class Board {
 						m.add(new Coordinate(x, y));
 					}
 				}
-				else{
+				if (!prevColour.equals(jewelGrid[y][x].getColour()) || y == 7){
 					prevColour = jewelGrid[y][x].getColour();
 					sameColorCounter = 1;
 					if(m.size() > 2){
@@ -335,7 +335,7 @@ public class Board {
 						m.add(new Coordinate(x, y));
 					}
 				}
-				else{
+				if (!prevColour.equals(jewelGrid[y][x].getColour()) || x == 7){
 					prevColour = jewelGrid[y][x].getColour();
 					sameColorCounter = 1;
 					if(m.size() > 2){
