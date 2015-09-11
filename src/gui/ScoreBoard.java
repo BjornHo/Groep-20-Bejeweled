@@ -44,12 +44,10 @@ public class ScoreBoard extends JPanel implements StatsListener {
 		return levelLabel;
 	}
 
-	@Override
 	public void scoreChanged(int score) {
 		scoreLabel.setText("<html><font size=\"15\">Score " + score + "</font></html>");
 	}
 
-	@Override
 	public void levelChanged(int level) {
 		levelLabel.setText("<html><font size=\"15\">Level " + level  + "</font></html>");
 		

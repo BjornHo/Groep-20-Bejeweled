@@ -1,4 +1,10 @@
-package test;
+
+
+
+
+
+
+
 
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
@@ -13,11 +19,17 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import board.*;
+import board.Board;
+import board.BoardListener;
+import board.Coordinate;
+import board.Match;
+import board.StatsListener;
 import gui.GUI;
 import gui.ScoreBoard;
 import jewel.Colour;
 import jewel.Jewel;
+
+
 
 
 public class BoardTest {

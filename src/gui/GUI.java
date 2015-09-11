@@ -133,7 +133,6 @@ public class GUI extends JFrame implements ActionListener, BoardListener {
 	/**
 	 * Determining which button is pressed
 	 */
-	@Override
 	public void actionPerformed(ActionEvent e) {
 		for(int y = 0; y < 8; y++){
 			for(int x = 0; x < 8; x++){
@@ -179,13 +178,11 @@ public class GUI extends JFrame implements ActionListener, BoardListener {
 		allButtons[y][x].setIcon(icon);
 	}
 
-	@Override
 	public void jewelsSwapped(Coordinate a, Coordinate b) {
 		setJewelImage(a.getX(), a.getY());
 		setJewelImage(b.getX(), b.getY());
 	}
 
-	@Override
 	public void boardChanged() {
 		for(int y = 0; y < 8; y++){
 			for(int x = 0; x < 8; x++){
@@ -205,7 +202,6 @@ public class GUI extends JFrame implements ActionListener, BoardListener {
 		
 	}
 
-	@Override
 	public void jewelSelected(Coordinate c, Coordinate old) {
 		highLightJewel(c.getX(), c.getY());
 		if(old != null)

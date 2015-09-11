@@ -7,7 +7,7 @@ public class Match {
 	private int yMax = -1;
 	
 	public Match() {
-		coordinates = new ArrayList<>();
+		coordinates = new ArrayList<Coordinate>();
 	}
 	
 	public void add(Coordinate c) {

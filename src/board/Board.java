@@ -37,8 +37,8 @@ public class Board {
 	 * Board constructor method.
 	 */
 	public Board() {
-		this.boardListeners = new ArrayList<>();
-		this.statsListeners = new ArrayList<>();
+		this.boardListeners = new ArrayList<BoardListener>();
+		this.statsListeners = new ArrayList<StatsListener>();
 	}
 	
 	/**
