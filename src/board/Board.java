@@ -318,7 +318,11 @@ public class Board {
 	 * @param matched - the list of matches to be added to.
 	 */
 	public void checkHorizontalMatches(List<Match> matched){
+		System.out.println("I am now checking for matches resulting from the given Jewel swap.");
 		Match m = new Match();
+		System.out.println(jewelGrid[7][5].getColour());
+		System.out.println(jewelGrid[7][6].getColour());
+		System.out.println(jewelGrid[7][7].getColour());
 		for(int y = 0; y < 8; y++){
 			
 			int sameColorCounter = 1;
