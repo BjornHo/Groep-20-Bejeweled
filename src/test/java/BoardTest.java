@@ -104,14 +104,14 @@ public class BoardTest {
 	 * @throws UnsupportedAudioFileException
 	 */
 	
-	@Test
-	public void addBoardListener() throws IOException, LineUnavailableException, UnsupportedAudioFileException{
-		GUI gui = new GUI(board);
-		assertEquals(1, board.getBoardListeners().size());
-		board.addBoardListener(gui);
-		assertEquals(2, board.getBoardListeners().size());
-		assertEquals(gui, board.getBoardListeners().get(1));
-	}
+//	@Test
+//	public void addBoardListener() throws IOException, LineUnavailableException, UnsupportedAudioFileException{
+//		GUI gui = new GUI(board);
+//		assertEquals(1, board.getBoardListeners().size());
+//		board.addBoardListener(gui);
+//		assertEquals(2, board.getBoardListeners().size());
+//		assertEquals(gui, board.getBoardListeners().get(1));
+//	}
 	
 	/**
 	 * Test to test the getStatsListeners() method.
