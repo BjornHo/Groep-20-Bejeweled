@@ -1,11 +1,3 @@
-
-
-
-
-
-
-
-
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
@@ -24,7 +16,6 @@ import board.BoardListener;
 import board.Coordinate;
 import board.Match;
 import board.StatsListener;
-import gui.GUI;
 import gui.ScoreBoard;
 import jewel.Colour;
 import jewel.Jewel;
@@ -96,23 +87,7 @@ public class BoardTest {
 		List<BoardListener> result = board.getBoardListeners();
 		assertEquals(0, result.size());
 	}
-	
-	/**
-	 * Test to test the addBoardListeners() method.
-	 * @throws IOException
-	 * @throws LineUnavailableException
-	 * @throws UnsupportedAudioFileException
-	 */
-	
-//	@Test
-//	public void addBoardListener() throws IOException, LineUnavailableException, UnsupportedAudioFileException{
-//		GUI gui = new GUI(board);
-//		assertEquals(1, board.getBoardListeners().size());
-//		board.addBoardListener(gui);
-//		assertEquals(2, board.getBoardListeners().size());
-//		assertEquals(gui, board.getBoardListeners().get(1));
-//	}
-	
+
 	/**
 	 * Test to test the getStatsListeners() method.
 	 */
