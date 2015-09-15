@@ -1,7 +1,7 @@
 package logger;
 
-public interface Writer {
-	public void write(String text);
+public abstract class Writer {
 	
-	public Priority getPriority();
+	public abstract void write(String text);
+
 }
