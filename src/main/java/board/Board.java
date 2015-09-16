@@ -282,6 +282,14 @@ public class Board {
 	}
 	
 	/**
+	 * Sets the jewel at the given coordinate as the selected jewel.
+	 * @param c - coordinate of jewel to be selected.
+	 */
+	public void setSelectedJewel(Coordinate c){
+		selectedPos = c;
+	}
+	
+	/**
 	 * Checks the game field for vertically aligned matches (completed sets).
 	 * @param matched - the list of matches to be added to.
 	 */
