@@ -1,9 +1,11 @@
 package board;
 import java.util.ArrayList;
 import java.util.List;
+import logger.Logger;
 
 import jewel.Colour;
 import jewel.Jewel;
+import logger.Priority;
 
 
 /**
@@ -32,6 +34,7 @@ public class Board {
 	
 	private int score = 0;
 
+	private Logger l;
 	
 	/**
 	 * Board constructor method.
@@ -39,6 +42,7 @@ public class Board {
 	public Board() {
 		this.boardListeners = new ArrayList<BoardListener>();
 		this.statsListeners = new ArrayList<StatsListener>();
+		l = Logger.createLogger(Priority.INFO);
 	}
 	
 	/**
@@ -47,6 +51,7 @@ public class Board {
 	 */
 	public void addBoardListener(BoardListener listener) {
 		this.boardListeners.add(listener);
+		l.log(Priority.INFO, "BoardListener " + listener.getClass().getSimpleName() + " added to Board.");
 	}
 	
 	/**
@@ -63,6 +68,7 @@ public class Board {
 	 */
 	public void addStatsListener(StatsListener listener) {
 		this.statsListeners.add(listener);
+		l.log(Priority.INFO, "StatsListener " + listener.getClass().getSimpleName() + " added to Board.");
 	}
 	
 	/**
@@ -78,6 +84,7 @@ public class Board {
 	 */
 	public void setGrid(Jewel[][] grid) {
 		this.jewelGrid = grid;
+		l.log(Priority.INFO, "Grid set.");
 	}
 	
 	public Jewel[][] getGrid(){
@@ -99,13 +106,16 @@ public class Board {
 		if ( !hasSelectedJewel() || (!Coordinate.areAdjacent(selectedPos, c) && !c.equals(selectedPos)) ) {
 			notifySelect(c, selectedPos);
 			selectedPos = c;
+			l.log(Priority.INFO, "Selected Position " + c);
 		}
 
 		else if (Coordinate.areAdjacent(selectedPos, c)) {
 			swapJewels(selectedPos,c);
+			l.log(Priority.INFO, "Swapped Jewels " + selectedPos + ", " + c);
 			List<Match> matches = checkMatches();
 			if(matches.isEmpty()) {
 				swapJewels(selectedPos,c);
+				l.log(Priority.INFO, "Swapped back Jewels " + selectedPos + ", " + c);
 				selectedPos = null;
 				return;
 			}
@@ -272,14 +282,6 @@ public class Board {
 	}
 	
 	/**
-	 * Sets the jewel at the given coordinate as the selected jewel.
-	 * @param c - coordinate of jewel to be selected.
-	 */
-	public void setSelectedJewel(Coordinate c){
-		selectedPos = c;
-	}
-	
-	/**
 	 * Checks the game field for vertically aligned matches (completed sets).
 	 * @param matched - the list of matches to be added to.
 	 */
@@ -298,8 +300,10 @@ public class Board {
 					else
 						break;
 				}
-				if (m.size() >= 3)							// If 3 or more Jewels are in a "match" object, 
+				if (m.size() >= 3)	{						// If 3 or more Jewels are in a "match" object, 
 					matched.add(m);							// the object is stored in a list contain all current matches.
+					l.log(Priority.INFO, m.size() + "-match found (vertical): " + m.getCoordinates());
+				}
 				y = n - 1;
 			}
 		}
@@ -324,8 +328,10 @@ public class Board {
 					else
 						break;
 				}
-				if (m.size() >= 3)							// If 3 or more Jewels are in a "match" object, 
+				if (m.size() >= 3)	{						// If 3 or more Jewels are in a "match" object, 
 					matched.add(m);							// the object is stored in a list contain all current matches.
+					l.log(Priority.INFO, m.size() + "-match found (horizontal): " + m.getCoordinates());
+				}
 				x = n - 1;
 			}
 		}
@@ -339,6 +345,7 @@ public class Board {
 		List<Match> matched = new ArrayList<Match>();
 		checkVerticalMatches(matched);
 		checkHorizontalMatches(matched);
+		l.log(Priority.INFO, "checkMatches, " + matched.size() + " matches found.");
 		return matched;
 	}
 }

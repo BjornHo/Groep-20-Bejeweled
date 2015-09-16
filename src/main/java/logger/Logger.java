@@ -58,7 +58,9 @@ public class Logger {
 	public static Logger createLogger(Priority p) {
 		Logger l = new Logger(p);
 		Writer w1 = new ConsoleWriter();
+		Writer w2 = new TXTFileWriter();
 		l.addWriter(w1);
+		l.addWriter(w2);
 		return l;
 	}
 
