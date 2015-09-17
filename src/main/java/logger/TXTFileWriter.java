@@ -8,11 +8,10 @@ import java.io.IOException;
 public class TXTFileWriter implements Writer {
 	
 	private BufferedWriter w;
-	private File f;
 	
-	public TXTFileWriter() {
+	public TXTFileWriter(File f) {
 		try {
-			w = new BufferedWriter(new FileWriter("logs/log.txt",true));
+			w = new BufferedWriter(new FileWriter(f,true));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

@@ -1,5 +1,6 @@
 package logger;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -25,7 +26,9 @@ public class Logger {
 	}
 	
 	public void addWriter(Writer w){
-		writers.add(w);
+		if(!writers.contains(w)) {
+			writers.add(w);
+		}
 	}
 	
 	/**
@@ -55,10 +58,14 @@ public class Logger {
 		return dateFormat.format(date);
 	}
 	
+	public Priority getPriority() {
+		return p;
+	}
+	
 	public static Logger createLogger(Priority p) {
 		Logger l = new Logger(p);
 		Writer w1 = new ConsoleWriter();
-		Writer w2 = new TXTFileWriter();
+		Writer w2 = new TXTFileWriter(new File("logs/log.txt"));
 		l.addWriter(w1);
 		l.addWriter(w2);
 		return l;
