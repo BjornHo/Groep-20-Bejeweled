@@ -10,16 +10,14 @@ import logger.Priority;
 
 /**
  * @author Group 20
- *
- * Class that defines the game board. Contains methods able to create and manipulate Bejeweled game boards.
+ * Class that defines the game board.
+ * Contains methods able to create and manipulate Bejeweled game boards.
  */
-
 public class Board {
-	
-	/**
+    /**
 	 * 2-Dimensional grid of spaces defining the board's playing field.
 	 */
-	private Jewel[][] jewelGrid = createGrid();
+    private Jewel[][] jewelGrid = createGrid();
 	
 	/**
 	 * Coordinate object used to define the currently selected Coordinate.
@@ -135,8 +133,7 @@ public class Board {
 		notifyScoreChanged();
 		if(m.isHorizontal()) {
 			for(Coordinate c : m.getCoordinates()) {
-
-				while(c.hasNorth()){
+				while (c.hasNorth()) {
 					setJewel(getJewel(c.getNorth()), c);
 					c = c.getNorth();
 				}
