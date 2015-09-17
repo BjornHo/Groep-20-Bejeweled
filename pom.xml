@@ -71,6 +71,7 @@
   </execution>
  </executions>
 </plugin>
+</plugins>
 
 </build>
 
@@ -84,4 +85,3 @@
     </dependency>
   </dependencies>
 </project>
-</plugins>
