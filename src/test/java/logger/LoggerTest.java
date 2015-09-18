@@ -6,6 +6,7 @@ import org.mockito.Mock;
 
 import static org.mockito.Matchers.*;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
 import static org.mockito.Mockito.*;
 
 import org.mockito.runners.MockitoJUnitRunner;
@@ -25,6 +26,9 @@ public class LoggerTest {
 	private String warningLog = "[WARNING] " + warningMessage;
 	private String infoLog = "[INFO] " + infoMessage;
 	
+	/**
+	 * Setting up a new Logger object and adding Writer objects to them for testing.
+	 */
 	@Before
 	public void before() {
 		l = new Logger(Priority.ERROR);
@@ -36,9 +40,16 @@ public class LoggerTest {
 	@Test
 	public void testSetGetPriority() {
 		l.setPriority(Priority.INFO);
+		assertSame(Priority.INFO, l.getPriority());
 		assertEquals(Priority.INFO, l.getPriority());
+		
 		l.setPriority(Priority.ERROR);
+		assertSame(Priority.ERROR, l.getPriority());
 		assertEquals(Priority.ERROR, l.getPriority());
+		
+		l.setPriority(Priority.WARNING);
+		assertSame(Priority.WARNING, l.getPriority());
+		assertEquals(Priority.WARNING, l.getPriority());
 	}
 	
 	@Test

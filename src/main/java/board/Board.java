@@ -1,10 +1,11 @@
 package board;
+
 import java.util.ArrayList;
 import java.util.List;
-import logger.Logger;
 
 import jewel.Colour;
 import jewel.Jewel;
+import logger.Logger;
 import logger.Priority;
 
 
@@ -45,11 +46,14 @@ public class Board {
 	
 	/**
 	 * Adds a BoardListener to the Board.
-	 * @param BoardListener listener - the listener to be added.
+	 * 
+	 * @param BoardListener listener
+	 * 					the listener to be added.
 	 */
 	public void addBoardListener(BoardListener listener) {
 		this.boardListeners.add(listener);
-		l.log(Priority.INFO, "BoardListener " + listener.getClass().getSimpleName() + " added to Board.");
+		l.log(Priority.INFO, "BoardListener " + listener.getClass().getSimpleName()
+				+ " added to Board.");
 	}
 	
 	/**
@@ -72,7 +76,7 @@ public class Board {
 	/**
 	 * Returns the list of all current StatsListeners.
 	 */
-	public List<StatsListener> getStatsListeners(){
+	public List<StatsListener> getStatsListeners() {
 		return statsListeners;
 	}
 	
@@ -117,9 +121,9 @@ public class Board {
 				selectedPos = null;
 				return;
 			}
-			while(!matches.isEmpty()){
+			while (!matches.isEmpty()) {
 				processMatch(matches.get(0));
-				matches=checkMatches();
+				matches = checkMatches();
 			}
 		}
 	}
@@ -237,7 +241,7 @@ public class Board {
 	 * Notifies the StatsListener that the level has been changed / needs updating.
 	 * @param level - int - the level to be updated to.
 	 */
-	public void notifyLevelChanged(int level) {
+  public void notifyLevelChanged(int level) {
 		for(StatsListener l : statsListeners){
 			l.levelChanged(level);
 		}

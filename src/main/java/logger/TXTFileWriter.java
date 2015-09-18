@@ -5,6 +5,10 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+/**
+ * @author Daniel
+ * TXTFileWriter 
+ */
 public class TXTFileWriter implements Writer {
 	
 	private BufferedWriter w;
