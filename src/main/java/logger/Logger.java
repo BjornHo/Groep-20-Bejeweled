@@ -23,7 +23,7 @@ public class Logger {
 		priority = Priority.INFO;
 		Writer w1 = new ConsoleWriter();
 		Writer w2 = new TXTFileWriter(new File("logs/" + getFileNameString() + ".log"));
-		writers.add(w1);
+		//writers.add(w1);
 		writers.add(w2);
 	}
 	
