@@ -16,28 +16,25 @@ public class Logger {
 
 	private static List<Writer> writers = new ArrayList<Writer>();
 	private static Priority priority;
-
+	private static SimpleDateFormat dateLogFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+	private static SimpleDateFormat dateFileNameFormat = new SimpleDateFormat("yyyy_MM_dd__HH_mm_ss");
+	
 	static {
 		priority = Priority.INFO;
 		Writer w1 = new ConsoleWriter();
 		Writer w2 = new TXTFileWriter(new File("logs/" + getFileNameString() + ".log"));
 		writers.add(w1);
 		writers.add(w2);
-		System.out.println("init logger...");
-	}
-
-	public static void addWriter(Writer writer){
-		if (!writers.contains(writers)) {
-			writers.add(writer);
-		}
 	}
 	
 	private Logger(Priority p) {
 		priority = p;
 	}
 
-	public static void setPriority(Priority p) {
-		priority = p;
+	public static void addWriter(Writer writer){
+		if (!writers.contains(writers)) {
+			writers.add(writer);
+		}
 	}
 
 	/**
@@ -52,7 +49,7 @@ public class Logger {
 
 	/**
 	 * Logs the String "text" iff the log has a priority that is equal to or
-	 * higher than the priority of the Logger.
+	 * higher than the priority of the Logger class.
 	 * 
 	 * @param priority
 	 *            The priority of logging "text".
@@ -66,23 +63,35 @@ public class Logger {
 			}
 		}
 	}
-
+	
+	/**
+	 * Returns the date/time as a String, in a format that is suitable for use
+	 * in the logs.
+	 * 
+	 * @return The date and time as a String.
+	 */
 	private static String getDateString() {
-		SimpleDateFormat dateFormat = new SimpleDateFormat(
-				"yyyy/MM/dd HH:mm:ss");
 		Date date = new Date();
-		return dateFormat.format(date);
+		return dateLogFormat.format(date);
 	}
 
+	/**
+	 * Returns the date/time as a String, in a format that is suitable for use
+	 * in the filenames of the log files.
+	 * 
+	 * @return The date and time as a String.
+	 */
 	private static String getFileNameString() {
-		SimpleDateFormat dateFormat = new SimpleDateFormat(
-				"yyyy_MM_dd__HH_mm_ss");
 		Date date = new Date();
-		return dateFormat.format(date);
+		return dateFileNameFormat.format(date);
 	}
 
 	public static Priority getPriority() {
 		return priority;
+	}
+
+	public static void setPriority(Priority p) {
+		priority = p;
 	}
 
 }

@@ -7,7 +7,7 @@ import java.io.IOException;
 
 /**
  * @author Daniel
- * TXTFileWriter 
+ * Class that outputs log messages to a (text) file.
  */
 public class TXTFileWriter implements Writer {
 	
