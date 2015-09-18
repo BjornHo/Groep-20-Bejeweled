@@ -18,8 +18,6 @@ public class LoggerTest {
 	@Mock private Writer w2;
 	@Mock private Writer w3;
 	
-	private Logger logger;
-	
 	private String errorMessage = "This is an error message.";
 	private String warningMessage = "This is a warning.";
 	private String infoMessage = "This is some information.";
@@ -32,28 +30,28 @@ public class LoggerTest {
 	 */
 	@Before
 	public void before() {
-		logger = new Logger(Priority.ERROR);
-		logger.addWriter(w1);
-		logger.addWriter(w2);
-		logger.addWriter(w3);
+		//logger = new Logger(Priority.ERROR);
+		Logger.addWriter(w1);
+		Logger.addWriter(w2);
+		Logger.addWriter(w3);
 	}
 	
 	@Test
 	public void testSetGetPriority() {
-		logger.setPriority(Priority.INFO);
-		assertEquals(Priority.INFO, logger.getPriority());
+		Logger.setPriority(Priority.INFO);
+		assertEquals(Priority.INFO, Logger.getPriority());
 		
-		logger.setPriority(Priority.ERROR);
-		assertEquals(Priority.ERROR, logger.getPriority());
+		Logger.setPriority(Priority.ERROR);
+		assertEquals(Priority.ERROR, Logger.getPriority());
 		
-		logger.setPriority(Priority.WARNING);
-		assertEquals(Priority.WARNING, logger.getPriority());
+		Logger.setPriority(Priority.WARNING);
+		assertEquals(Priority.WARNING, Logger.getPriority());
 	}
 	
 	@Test
 	public void testLog() {
-		logger.setPriority(Priority.INFO);
-		logger.log(infoMessage);
+		Logger.setPriority(Priority.INFO);
+		Logger.log(infoMessage);
 
 		verify(w1).write(endsWith(infoLog));
 		verify(w2).write(endsWith(infoLog));
@@ -66,10 +64,10 @@ public class LoggerTest {
 	
 	@Test
 	public void testLogInfo() {
-		logger.setPriority(Priority.INFO);
-		logger.log(Priority.INFO, infoMessage);
-		logger.log(Priority.WARNING, warningMessage);
-		logger.log(Priority.ERROR, errorMessage);
+		Logger.setPriority(Priority.INFO);
+		Logger.log(Priority.INFO, infoMessage);
+		Logger.log(Priority.WARNING, warningMessage);
+		Logger.log(Priority.ERROR, errorMessage);
 		verify(w1).write(endsWith(infoLog));
 		verify(w2).write(endsWith(infoLog));
 		verify(w3).write(endsWith(infoLog));
@@ -88,10 +86,10 @@ public class LoggerTest {
 	
 	@Test
 	public void testLogWarning() {
-		logger.setPriority(Priority.WARNING);
-		logger.log(Priority.INFO, infoMessage);
-		logger.log(Priority.WARNING, warningMessage);
-		logger.log(Priority.ERROR, errorMessage);
+		Logger.setPriority(Priority.WARNING);
+		Logger.log(Priority.INFO, infoMessage);
+		Logger.log(Priority.WARNING, warningMessage);
+		Logger.log(Priority.ERROR, errorMessage);
 		
 		verify(w1).write(endsWith(warningLog));
 		verify(w2).write(endsWith(warningLog));
@@ -107,10 +105,10 @@ public class LoggerTest {
 	
 	@Test
 	public void testLogError() {
-		logger.setPriority(Priority.ERROR);
-		logger.log(Priority.INFO, infoMessage);
-		logger.log(Priority.WARNING, warningMessage);
-		logger.log(Priority.ERROR, errorMessage);
+		Logger.setPriority(Priority.ERROR);
+		Logger.log(Priority.INFO, infoMessage);
+		Logger.log(Priority.WARNING, warningMessage);
+		Logger.log(Priority.ERROR, errorMessage);
 		
 		verify(w1).write(endsWith(errorLog));
 		verify(w2).write(endsWith(errorLog));
