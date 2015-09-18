@@ -21,8 +21,12 @@ public class ScoreBoard extends JPanel implements StatsListener {
 		super();
 		int score = 0;
 		int level = 1;
-		levelLabel = new JLabel("<html><font size=\"15\">Level " + level  + "</font></html>", JLabel.CENTER);
-		scoreLabel = new JLabel("<html><font size=\"15\">Score " + score + "</font></html>", JLabel.CENTER);
+		levelLabel = new JLabel("<html><font size=\"15\">Level " 
+								+ level  
+								+ "</font></html>", JLabel.CENTER);
+		scoreLabel = new JLabel("<html><font size=\"15\">Score " 
+								+ score 
+								+ "</font></html>", JLabel.CENTER);
 		setLayout(new GridLayout(2,1));
 		add(levelLabel);
 		add(scoreLabel);
@@ -32,7 +36,7 @@ public class ScoreBoard extends JPanel implements StatsListener {
 	 * Gets the scoreLabel of the scoreboard.
 	 * @return - JLabel scoreLabel
 	 */
-	public JLabel getScoreLabel(){
+	public JLabel getScoreLabel() {
 		return scoreLabel;
 	}
 	
@@ -40,7 +44,7 @@ public class ScoreBoard extends JPanel implements StatsListener {
 	 * Gets the levelLabel of the scoreboard.
 	 * @return JLabel levelLabel
 	 */
-	public JLabel getLevelLabel(){
+	public JLabel getLevelLabel() {
 		return levelLabel;
 	}
 

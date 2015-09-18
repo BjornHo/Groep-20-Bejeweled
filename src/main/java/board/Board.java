@@ -296,13 +296,15 @@ public class Board {
 				m.add(new Coordinate(x,y));
 				for (n = (y+1); n < 8; n++) {				//This loop checks east of the initial jewel, one at a time.
 					Colour nextc = jewelGrid[n][x].colour;
-					if (initialc.equals(nextc))
+					if (initialc.equals(nextc)) {
 						m.add(new Coordinate(x,n));
-					else
+					} else {
 						break;
+					}
 				}
-				if (m.size() >= 3)							// If 3 or more Jewels are in a "match" object, 
+				if (m.size() >= 3) {
 					matched.add(m);							// the object is stored in a list contain all current matches.
+				}
 				y = n - 1;
 			}
 		}
@@ -322,13 +324,15 @@ public class Board {
 				m.add(new Coordinate(x,y));
 				for (n = (x + 1); n < 8; n++) {				//This loop checks east of the initial jewel, one at a time.
 					Colour nextc = jewelGrid[y][n].colour;
-					if (initialc.equals(nextc))
+					if (initialc.equals(nextc)) {
 						m.add(new Coordinate(n,y));
-					else
+					} else {
 						break;
+					}
 				}
-				if (m.size() >= 3)							// If 3 or more Jewels are in a "match" object, 
+				if (m.size() >= 3) {
 					matched.add(m);							// the object is stored in a list contain all current matches.
+				}
 				x = n - 1;
 			}
 		}

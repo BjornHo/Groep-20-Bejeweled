@@ -1,4 +1,10 @@
 package gui;
+
+import board.Board;
+import board.BoardListener;
+import board.Coordinate;
+import jewel.Colour;
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -11,7 +17,6 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-
 import javax.imageio.ImageIO;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
@@ -20,12 +25,12 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import board.Board;
-import board.BoardListener;
-import board.Coordinate;
-import jewel.Colour;
-
-
+/**
+ * The GUI class handles the user interface.
+ * Mainly takes information in and passes it through to the user.
+ * @author pickl_000
+ *
+ */
 public class GUI extends JFrame implements ActionListener, BoardListener {
 	private GridBagLayout k = new GridBagLayout();
 	private JPanel pane = new JPanel(k);
@@ -204,7 +209,8 @@ public class GUI extends JFrame implements ActionListener, BoardListener {
 
 	public void jewelSelected(Coordinate c, Coordinate old) {
 		highLightJewel(c.getX(), c.getY());
-		if(old != null)
+		if(old != null) {
 			setJewelImage(old.getX(), old.getY());
+		}
 	}
 }

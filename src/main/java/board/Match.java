@@ -46,10 +46,11 @@ public class Match {
 	public boolean isVertical() {
 		int x = -1;
 		for(Coordinate c : coordinates) {
-			if(x == -1)
+			if(x == -1) {
 				x = c.getX();
-			else if(x != c.getX())
+			} else if(x != c.getX()) {
 				return false;
+			}
 		}
 		return true;
 	}
@@ -57,17 +58,19 @@ public class Match {
 	public boolean isHorizontal() {
 		int y = -1;
 		for(Coordinate c : coordinates) {
-			if(y == -1)
+			if(y == -1) {
 				y = c.getY();
-			else if(y != c.getY())
+			} else if(y != c.getY()) {
 				return false;
+			}
 		}
 		return true;
 	}
 	
 	public int getYMin() {
-		if(yMax == -1)
+		if(yMax == -1) {
 			return -1;
+		}
 		return yMax - size() + 1;
 	}
 	
@@ -76,14 +79,16 @@ public class Match {
 	}
 	
 	public int getX() {
-		if(isVertical())
+		if(isVertical()) {
 			return coordinates.get(0).getX();
+		}
 		return -1;
 	}
 	
 	public int getY() {
-		if(isHorizontal())
+		if(isHorizontal()) {
 			return coordinates.get(0).getY();
+		}
 		return -1;
 	}
 	

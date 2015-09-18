@@ -11,12 +11,12 @@ public interface BoardListener {
 	/**
 	 * The Jewels with coordinates a and b are swapped.
 	 * 
-	 * @param a
+	 * @param first
 	 *            Coordinates of the first jewel.
-	 * @param b
+	 * @param second
 	 *            Coordinates of the second jewel.
 	 */
-	public void jewelsSwapped(Coordinate a, Coordinate b);
+	public void jewelsSwapped(Coordinate first, Coordinate second);
 	
 	/**
 	 * The jewel at coordinates jewel is currently selected, the jewel with

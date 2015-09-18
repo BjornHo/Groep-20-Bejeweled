@@ -1,12 +1,12 @@
 package gui;
+
+import jewel.Colour;
+
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
-
 import javax.imageio.ImageIO;
-
-import jewel.Colour;
 
 public class IMGLoader {
 	private HashMap<Colour, BufferedImage> imagemap;
