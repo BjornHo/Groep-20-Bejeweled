@@ -15,18 +15,18 @@ import java.util.List;
 public class Logger {
 
 	private List<Writer> writers = new ArrayList<Writer>();
-	private Priority p;
+	private Priority priority;
 	
-	public Logger(Priority p) {
-		this.p = p;
+	public Logger(Priority priority) {
+		this.priority = priority;
 	}
 	
-	public void setPriority(Priority p) {
-		this.p = p;
+	public void setPriority(Priority priority) {
+		this.priority = priority;
 	}
 	
-	public void addWriter(Writer w){
-		if(!writers.contains(w)) {
+	public void addWriter(Writer w) {
+		if (!writers.contains(w)) {
 			writers.add(w);
 		}
 	}
@@ -35,35 +35,35 @@ public class Logger {
 	 * Logs the String "text", using priority INFO.
 	 * @param text String to log.
 	 */
-	public void log(String text){
+	public void log(String text) {
 		log(Priority.INFO, text);
 	}
 	
 	/**
 	 * Logs the String "text" iff the log has a priority that is equal to or higher than the priority of the Logger.
-	 * @param p The priority of logging "text".
+	 * @param priority The priority of logging "text".
 	 * @param text Text to log.
 	 */
-	public void log(Priority p, String text) {
-		if(p.ordinal() <= this.p.ordinal()){
-			for(Writer w : writers){
-				w.write(getDateString() + " [" + p + "] " + text);
+	public void log(Priority priority, String text) {
+		if (priority.ordinal() <= this.priority.ordinal()) {
+			for (Writer w : writers) {
+				w.write(getDateString() + " [" + priority + "] " + text);
 			}
 		}
 	}
 	
-	private String getDateString(){
+	private String getDateString() {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
 		Date date = new Date();
 		return dateFormat.format(date);
 	}
 	
 	public Priority getPriority() {
-		return p;
+		return priority;
 	}
 	
-	public static Logger createLogger(Priority p) {
-		Logger l = new Logger(p);
+	public static Logger createLogger(Priority priority) {
+		Logger l = new Logger (priority);
 		Writer w1 = new ConsoleWriter();
 		Writer w2 = new TXTFileWriter(new File("logs/log.txt"));
 		l.addWriter(w1);
