@@ -1,4 +1,5 @@
 package board;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,7 +10,9 @@ import jewel.Jewel;
 /**
  * @author Group 20
  *
- * Class that defines the game board. Contains methods able to create and manipulate Bejeweled game boards.
+ * Class that defines the game board. 
+ * Contains methods able to create and 
+ * manipulate Bejeweled game boards.
  */
 
 public class Board {
@@ -52,7 +55,7 @@ public class Board {
 	/**
 	 * Returns the list of all current BoardListeners.
 	 */
-	public List<BoardListener> getBoardListeners(){
+	public List<BoardListener> getBoardListeners() {
 		return boardListeners;
 	}
 	
@@ -68,7 +71,7 @@ public class Board {
 	/**
 	 * Returns the list of all current StatsListeners.
 	 */
-	public List<StatsListener> getStatsListeners(){
+	public List<StatsListener> getStatsListeners() {
 		return statsListeners;
 	}
 	
@@ -80,7 +83,7 @@ public class Board {
 		this.jewelGrid = grid;
 	}
 	
-	public Jewel[][] getGrid(){
+	public Jewel[][] getGrid() {
 		return jewelGrid;
 	}
 	
@@ -231,7 +234,7 @@ public class Board {
 	 * @param level - int - the level to be updated to.
 	 */
 	public void notifyLevelChanged(int level) {
-		for(StatsListener l : statsListeners){
+		for(StatsListener l : statsListeners) {
 			l.levelChanged(level);
 		}
 	}
@@ -242,7 +245,7 @@ public class Board {
 	 * @param c - coordinates of the jewel you want.
 	 * @return Jewel - the jewel from the given coordinates.
 	 */
-	public Jewel getJewel(Coordinate c){
+	public Jewel getJewel(Coordinate c) {
 		return jewelGrid[c.getY()][c.getX()];
 	}
 	
@@ -258,7 +261,7 @@ public class Board {
 	 * Returns the coordinates of the currently selected jewel.
 	 * @return Coordinate - coordinate of the selected jewel.
 	 */
-	public Coordinate getSelectedJewel(){
+	public Coordinate getSelectedJewel() {
 		return selectedPos;
 	}
 	
@@ -267,7 +270,7 @@ public class Board {
 	 * @param jewel - the jewel that the selected jewel will become.
 	 * @param c - the coordinates of the selected jewel.
 	 */
-	public void setJewel(Jewel jewel, Coordinate c){
+	public void setJewel(Jewel jewel, Coordinate c) {
 		jewelGrid[c.getY()][c.getX()] = jewel;
 	}
 	
@@ -275,7 +278,7 @@ public class Board {
 	 * Sets the jewel at the given coordinate as the selected jewel.
 	 * @param c - coordinate of jewel to be selected.
 	 */
-	public void setSelectedJewel(Coordinate c){
+	public void setSelectedJewel(Coordinate c) {
 		selectedPos = c;
 	}
 	
@@ -286,8 +289,8 @@ public class Board {
 
 	public void checkVerticalMatches(List<Match> matched) {
 		int n;
-		for (int x = 0; x < 8; x++){						// First the x loop, then y loop,
-			for(int y = 0; y < 8; y++){						// because we're checking matches in columns.
+		for (int x = 0; x < 8; x++) {						// First the x loop, then y loop,
+			for(int y = 0; y < 8; y++) {						// because we're checking matches in columns.
 				Colour initialc = jewelGrid[y][x].colour;
 				Match m = new Match();
 				m.add(new Coordinate(x,y));
@@ -312,12 +315,12 @@ public class Board {
 
 	public void checkHorizontalMatches(List<Match> matched) {
 		int n;
-		for (int y = 0; y < 8; y++){						// First the y loop, then the x loop,
-			for(int x = 0; x < 8; x++){						// because we're checking matches in rows.
+		for (int y = 0; y < 8; y++) {						// First the y loop, then the x loop,
+			for(int x = 0; x < 8; x++) {						// because we're checking matches in rows.
 				Colour initialc = jewelGrid[y][x].colour;
 				Match m = new Match();
 				m.add(new Coordinate(x,y));
-				for (n = (x+1); n < 8; n++) {				//This loop checks east of the initial jewel, one at a time.
+				for (n = (x + 1); n < 8; n++) {				//This loop checks east of the initial jewel, one at a time.
 					Colour nextc = jewelGrid[y][n].colour;
 					if (initialc.equals(nextc))
 						m.add(new Coordinate(n,y));
@@ -335,7 +338,7 @@ public class Board {
 	 * Checks for matches (completed sets) within the game field.
 	 * @return List<Match> - The list of matches found.
 	 */
-	public List<Match> checkMatches(){
+	public List<Match> checkMatches() {
 		List<Match> matched = new ArrayList<Match>();
 		checkVerticalMatches(matched);
 		checkHorizontalMatches(matched);
