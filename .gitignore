@@ -16,4 +16,4 @@ hs_err_pid*
 target/
 
 #ignore the log files, but not the log directory
-#logs/**
+logs/**
