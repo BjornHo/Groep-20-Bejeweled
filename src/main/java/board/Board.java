@@ -1,23 +1,24 @@
 package board;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import jewel.Colour;
 import jewel.Jewel;
+import logger.Logger;
+import logger.Priority;
 
 
 /**
  * @author Group 20
- *
- * Class that defines the game board. Contains methods able to create and manipulate Bejeweled game boards.
+ * Class that defines the game board.
+ * Contains methods able to create and manipulate Bejeweled game boards.
  */
-
 public class Board {
-	
-	/**
-	 * 2-Dimensional grid of spaces defining the board's playing field.
+
+	/** 2-Dimensional grid of spaces defining the board's playing field.
 	 */
-	private Jewel[][] jewelGrid = createGrid();
+    private Jewel[][] jewelGrid = createGrid();
 	
 	/**
 	 * Coordinate object used to define the currently selected Coordinate.
@@ -31,7 +32,6 @@ public class Board {
 	private List<StatsListener> statsListeners;
 	
 	private int score = 0;
-
 	
 	/**
 	 * Board constructor method.
@@ -43,10 +43,14 @@ public class Board {
 	
 	/**
 	 * Adds a BoardListener to the Board.
-	 * @param BoardListener listener - the listener to be added.
+	 * 
+	 * @param BoardListener listener
+	 * 					the listener to be added.
 	 */
 	public void addBoardListener(BoardListener listener) {
 		this.boardListeners.add(listener);
+		Logger.log(Priority.INFO, "BoardListener " + listener.getClass().getSimpleName()
+				+ " added to Board.");
 	}
 	
 	/**
@@ -63,12 +67,13 @@ public class Board {
 	 */
 	public void addStatsListener(StatsListener listener) {
 		this.statsListeners.add(listener);
+		Logger.log(Priority.INFO, "StatsListener " + listener.getClass().getSimpleName() + " added to Board.");
 	}
 	
 	/**
 	 * Returns the list of all current StatsListeners.
 	 */
-	public List<StatsListener> getStatsListeners(){
+	public List<StatsListener> getStatsListeners() {
 		return statsListeners;
 	}
 	
@@ -78,6 +83,7 @@ public class Board {
 	 */
 	public void setGrid(Jewel[][] grid) {
 		this.jewelGrid = grid;
+		Logger.log(Priority.INFO, "Grid set.");
 	}
 	
 	public Jewel[][] getGrid(){
@@ -99,19 +105,22 @@ public class Board {
 		if ( !hasSelectedJewel() || (!Coordinate.areAdjacent(selectedPos, c) && !c.equals(selectedPos)) ) {
 			notifySelect(c, selectedPos);
 			selectedPos = c;
+			Logger.log(Priority.INFO, "Selected Position " + c);
 		}
 
 		else if (Coordinate.areAdjacent(selectedPos, c)) {
 			swapJewels(selectedPos,c);
+			Logger.log(Priority.INFO, "Swapped Jewels " + selectedPos + ", " + c);
 			List<Match> matches = checkMatches();
 			if(matches.isEmpty()) {
 				swapJewels(selectedPos,c);
+				Logger.log(Priority.INFO, "Swapped back Jewels " + selectedPos + ", " + c);
 				selectedPos = null;
 				return;
 			}
-			while(!matches.isEmpty()){
+			while (!matches.isEmpty()) {
 				processMatch(matches.get(0));
-				matches=checkMatches();
+				matches = checkMatches();
 			}
 		}
 	}
@@ -125,8 +134,7 @@ public class Board {
 		notifyScoreChanged();
 		if(m.isHorizontal()) {
 			for(Coordinate c : m.getCoordinates()) {
-
-				while(c.hasNorth()){
+				while (c.hasNorth()) {
 					setJewel(getJewel(c.getNorth()), c);
 					c = c.getNorth();
 				}
@@ -230,7 +238,7 @@ public class Board {
 	 * Notifies the StatsListener that the level has been changed / needs updating.
 	 * @param level - int - the level to be updated to.
 	 */
-	public void notifyLevelChanged(int level) {
+  public void notifyLevelChanged(int level) {
 		for(StatsListener l : statsListeners){
 			l.levelChanged(level);
 		}
@@ -298,8 +306,10 @@ public class Board {
 					else
 						break;
 				}
-				if (m.size() >= 3)							// If 3 or more Jewels are in a "match" object, 
+				if (m.size() >= 3)	{						// If 3 or more Jewels are in a "match" object, 
 					matched.add(m);							// the object is stored in a list contain all current matches.
+					Logger.log(Priority.INFO, m.size() + "-match found (vertical): " + m.getCoordinates());
+				}
 				y = n - 1;
 			}
 		}
@@ -324,8 +334,10 @@ public class Board {
 					else
 						break;
 				}
-				if (m.size() >= 3)							// If 3 or more Jewels are in a "match" object, 
+				if (m.size() >= 3)	{						// If 3 or more Jewels are in a "match" object, 
 					matched.add(m);							// the object is stored in a list contain all current matches.
+					Logger.log(Priority.INFO, m.size() + "-match found (horizontal): " + m.getCoordinates());
+				}
 				x = n - 1;
 			}
 		}
@@ -339,6 +351,7 @@ public class Board {
 		List<Match> matched = new ArrayList<Match>();
 		checkVerticalMatches(matched);
 		checkHorizontalMatches(matched);
+		Logger.log(Priority.INFO, "checkMatches, " + matched.size() + " matches found.");
 		return matched;
 	}
 }
