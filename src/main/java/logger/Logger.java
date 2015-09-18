@@ -25,7 +25,6 @@ public class Logger {
 		Writer w2 = new TXTFileWriter(new File("logs/" + getFileNameString() + ".log"));
 		//writers.add(w1);
 		writers.add(w2);
-		System.out.println("To pass or not to pass? That is the travis question.");
 	}
 	
 	private Logger(Priority p) {
