@@ -53,7 +53,13 @@ public class Logger {
 	}
 	
 	private String getDateString() {
-		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+		Date date = new Date();
+		return dateFormat.format(date);
+	}
+	
+	private String getFileNameString() {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd__HH_mm_ss");
 		Date date = new Date();
 		return dateFormat.format(date);
 	}
@@ -65,7 +71,7 @@ public class Logger {
 	public static Logger createLogger(Priority priority) {
 		Logger l = new Logger (priority);
 		Writer w1 = new ConsoleWriter();
-		Writer w2 = new TXTFileWriter(new File("logs/log.txt"));
+		Writer w2 = new TXTFileWriter(new File("logs/" + l.getFileNameString() + ".log"));
 		l.addWriter(w1);
 		l.addWriter(w2);
 		return l;
