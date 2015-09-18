@@ -80,13 +80,13 @@
         <version>2.7</version>
         <configuration>
           <check>
-            <branchRate>85</branchRate>
-            <lineRate>85</lineRate>
+            <branchRate>0</branchRate>
+            <lineRate>0</lineRate>
             <haltOnFailure>true</haltOnFailure>
-            <totalBranchRate>85</totalBranchRate>
-            <totalLineRate>85</totalLineRate>
-            <packageLineRate>85</packageLineRate>
-            <packageBranchRate>85</packageBranchRate>
+            <totalBranchRate>0</totalBranchRate>
+            <totalLineRate>0</totalLineRate>
+            <packageLineRate>0</packageLineRate>
+            <packageBranchRate>0</packageBranchRate>
             <regexes>
               <regex>
                 <pattern>com.example.reallyimportant.*</pattern>
