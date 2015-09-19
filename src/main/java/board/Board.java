@@ -14,7 +14,6 @@ import java.util.List;
  *     Class that defines the game board.
  */
 public class Board {
-
 	/** 2-Dimensional grid of spaces defining the board's playing field.
 	 */
     private Jewel[][] jewelGrid = createGrid();

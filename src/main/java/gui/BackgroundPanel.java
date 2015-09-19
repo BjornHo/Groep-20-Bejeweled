@@ -27,6 +27,8 @@ import javax.swing.JViewport;
  */
 public class BackgroundPanel extends JPanel {
 
+
+
 	/**
 	 * Default serialization ID.
 	 */
@@ -290,7 +292,8 @@ public class BackgroundPanel extends JPanel {
 				   gra.drawImage(image, x, y, null, null);
 			   }
 		   }
-	}
+	   }
+	
 
 	/**
 	 * Custom painting code for drawing the ACTUAL image as the background.

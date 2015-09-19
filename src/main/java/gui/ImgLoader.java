@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.util.HashMap;
 
 import javax.imageio.ImageIO;
-
+//
 /**
  * Class that loads Image files to use them as Jewel images.
  * 
