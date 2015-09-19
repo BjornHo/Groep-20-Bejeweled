@@ -15,29 +15,13 @@
 	<pmd-config-url>
       ${basedir}/ruleset.xml
    </pmd-config-url>
+   <checkstyle.config.location>checkstyle.xml</checkstyle.config.location>
   </properties>
   
 
 
 
 	<build>
-		<plugins>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-checkstyle-plugin</artifactId>
-					<version>2.16</version>
-				</plugin>
-				
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-pmd-plugin</artifactId>
-					<version>3.5</version>
-				</plugin>
-		</plugins>
-		
-		
-
-		<pluginManagement>
 			<plugins>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
@@ -51,7 +35,7 @@
 								<goal>check</goal>
 							</goals>
 							<configuration>
-								<failOnViolation>false</failOnViolation>
+								<failOnViolation>false</failOnViolation>						
 							</configuration>
 						</execution>
 					</executions>
@@ -84,7 +68,6 @@
 					</executions>
 				</plugin>
 			</plugins>
-		</pluginManagement>
 	</build>
 
 
@@ -106,19 +89,6 @@
 
 	<reporting>
 		<plugins>
-			<plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-checkstyle-plugin</artifactId>
-                <version>2.16</version>
-                <reportSets>
-                    <reportSet>
-                        <reports>
-                            <report>checkstyle</report>
-                        </reports>
-                    </reportSet>
-                </reportSets>
-            </plugin>
-
 			 <plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-pmd-plugin</artifactId>
