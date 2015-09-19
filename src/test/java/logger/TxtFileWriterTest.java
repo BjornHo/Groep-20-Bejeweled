@@ -13,7 +13,7 @@ import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
-public class TXTFileWriterTest {
+public class TxtFileWriterTest {
 	private File f;
 	private Writer w;
 	private String s = "Lorum ipsum dolor sit amet.";
@@ -23,7 +23,7 @@ public class TXTFileWriterTest {
 	public void before() throws FileNotFoundException {
 		f =  new File("src/test/java/logger/log.txt");
 		f.delete();
-		w = new TXTFileWriter(f);
+		w = new TxtFileWriter(f);
 		reader  = new BufferedReader(new FileReader("src/test/java/logger/log.txt"));
 	}
 	

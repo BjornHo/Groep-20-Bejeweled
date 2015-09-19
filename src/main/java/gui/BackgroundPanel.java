@@ -27,8 +27,6 @@ import javax.swing.JViewport;
  */
 public class BackgroundPanel extends JPanel {
 
-
-
 	/**
 	 * Default serialization ID.
 	 */
