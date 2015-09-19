@@ -3,8 +3,9 @@ package jewel;
 import board.Coordinate;
 
 /**
- * @author hvkooijman
  * Jewel class that does store coordinates within it's Jewel Objects.
+ * 
+ * @author hvkooijman
  */
 public class AdvancedJewel extends Jewel {
 
@@ -14,14 +15,13 @@ public class AdvancedJewel extends Jewel {
 	 * AdvancedJewel constructor method.
 	 * 
 	 * @param colour 
-	 * 			Colour of the Jewel.
-	 * @param c
-	 * 			Coordinate of the Jewel.
+	 *     Colour of the Jewel.
+	 * @param coord
+	 *     Coordinate of the Jewel.
 	 */
-	public AdvancedJewel(Colour colour, Coordinate c) {
+	public AdvancedJewel(Colour colour, Coordinate coord) {
 		super(colour);
-		this.coordinate.setX(c.getX());
-		this.coordinate.setY(c.getY());
+		this.coordinate.setX(coord.getX());
+		this.coordinate.setY(coord.getY());
 	}
-
 }
