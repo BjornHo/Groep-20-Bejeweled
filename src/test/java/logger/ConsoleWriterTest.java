@@ -24,7 +24,7 @@ public class ConsoleWriterTest {
 	@Test
 	public void testWrite() {
 		w.write(s);
-		assertEquals(s + "\n", sysout.toString());
+		assertEquals(s, sysout.toString().trim());
 	}
 
 	@After
