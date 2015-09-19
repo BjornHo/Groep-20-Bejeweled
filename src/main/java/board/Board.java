@@ -1,9 +1,5 @@
 package board;
 
-import java.util.ArrayList;
-import java.util.List;
-
-
 import jewel.Colour;
 import jewel.Jewel;
 import logger.Logger;
