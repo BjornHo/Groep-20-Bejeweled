@@ -1,4 +1,10 @@
 package gui;
+
+import board.Board;
+import board.BoardListener;
+import board.Coordinate;
+import jewel.Colour;
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -20,41 +26,54 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import board.Board;
-import board.BoardListener;
-import board.Coordinate;
-import jewel.Colour;
-
-
-public class GUI extends JFrame implements ActionListener, BoardListener {
-	private GridBagLayout k = new GridBagLayout();
-	private JPanel pane = new JPanel(k);
+/**
+ * This class handles the graphical representation of our Bejeweled game.
+ * 
+ * @author Group 20
+ */
+public class Gui extends JFrame implements ActionListener, BoardListener {
+	
+	/**
+	 * Default serialization ID.
+	 */
+	private static final long serialVersionUID = 1L;
+	private GridBagLayout gbl = new GridBagLayout();
+	private JPanel pane = new JPanel(gbl);
 	private JButton[][] allButtons = new JButton[8][8];
 	private BackgroundPanel bgPanel;
 	private Image bgImage;
 	
 	private Board board;
-	private static IMGLoader imgloader;
+	private static ImgLoader imgloader;
 	public static SoundLoader soundloader;
 	
 	/**
-	 * Main method so we can checkout what the GUI looks like.
+	 * Main method used to verify what the GUI looks like.
+	 * 
 	 * @param args
-	 * @throws UnsupportedAudioFileException 
-	 * @throws LineUnavailableException 
+	 *     Input Array of Strings (for cmd line).
+	 * @throws UnsupportedAudioFileException
+	 *     If type of audio file is not supported.
+	 * @throws LineUnavailableException
+	 *     If an audio line cannot be opened because it is unavailable.
 	 */
-	public static void main(String[] args) throws IOException, LineUnavailableException, UnsupportedAudioFileException {
-		GUI g = new GUI(new Board());
-		g.setVisible(true);
+	public static void main(String[] args) throws IOException, LineUnavailableException,
+		UnsupportedAudioFileException {
+		Gui gui = new Gui(new Board());
+		gui.setVisible(true);
 		
 	}
 	
 	/**
-	 * Constructor for the GUI.
+	 * GUI Constructor method.
+	 * 
+	 * @param board
+	 *     Board Object the GUI will make a graphical interface for.
 	 */
-	public GUI(Board b) throws IOException, LineUnavailableException, UnsupportedAudioFileException{
-		board = b;
-		imgloader = new IMGLoader();
+	public Gui(Board board) throws IOException, LineUnavailableException,
+		UnsupportedAudioFileException {
+		this.board = board;
+		imgloader = new ImgLoader();
 		soundloader = new SoundLoader();
 		setSize(800,800);
 		setResizable(false);
@@ -64,20 +83,22 @@ public class GUI extends JFrame implements ActionListener, BoardListener {
 		createGridPane();
 		ScoreBoard sc = createScoreBoard();
 		bgPanel.add(sc, BorderLayout.NORTH);
-		board.addBoardListener(this);
-		board.addStatsListener(sc);
+		this.board.addBoardListener(this);
+		this.board.addStatsListener(sc);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-    	
 	}
 	
 	/**
 	 * Gets the background image for the GUI.
-	 * @return Image - the background image.
+	 * 
+	 * @return Image
+	 *     The background image.
 	 */
-	private Image getBackgroundImage(){
+	private Image getBackgroundImage() {
 		try {
-			bgImage = ImageIO.read(new File((System.getProperty("user.dir") + File.separator+ "src" + File.separator + "main" + File.separator + "java"+ File.separator + "background.jpg")));
+			bgImage = ImageIO.read(new File((System.getProperty("user.dir")
+				+ File.separator + "src" + File.separator + "main" + File.separator
+				+ "java" + File.separator + "background.jpg")));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -88,26 +109,26 @@ public class GUI extends JFrame implements ActionListener, BoardListener {
 	 * Creates the score board for the GUI.
 	 * Has it's own method in case we make the ScoreBoard more complex.
 	 */
-	private ScoreBoard createScoreBoard(){
+	private ScoreBoard createScoreBoard() {
 		return new ScoreBoard();
 	}
 	
 	/**
 	 * Creates the pane with the button grid for the GUI.
 	 */
-	private void createGridPane(){
-		pane.setLayout(k);
-    	GridBagConstraints c = new GridBagConstraints();
-    	c.fill = GridBagConstraints.BOTH;
-    	c.insets = new Insets(5,5,5,5);
+	private void createGridPane() {
+		pane.setLayout(gbl);
+    	GridBagConstraints constraint = new GridBagConstraints();
+    	constraint.fill = GridBagConstraints.BOTH;
+    	constraint.insets = new Insets(5,5,5,5);
 		
-		for(int y = 0; y < 8; y++){
-			c.gridy = y;
-			for(int x = 0; x < 8; x++){
-				c.gridx = x;
+		for (int y = 0; y < 8; y++) {
+			constraint.gridy = y;
+			for (int x = 0; x < 8; x++) {
+				constraint.gridx = x;
 				allButtons[y][x].setPreferredSize(new Dimension(70,70));
 				setJewelImage(x,y);
-				pane.add(allButtons[y][x], c);
+				pane.add(allButtons[y][x], constraint);
 				
 			}
 		}
@@ -117,9 +138,9 @@ public class GUI extends JFrame implements ActionListener, BoardListener {
 	/**
 	 * Creates all the buttons and puts them into the button array for the GUI.
 	 */
-	private void createButtons(){
-		for(int x = 0; x < 8; x++){
-			for(int y = 0; y < 8; y++){
+	private void createButtons() {
+		for (int x = 0; x < 8; x++) {
+			for (int y = 0; y < 8; y++) {
 				allButtons[x][y] = new JButton();
 				allButtons[x][y].addActionListener(this);
 				allButtons[x][y].setOpaque(false);
@@ -130,14 +151,17 @@ public class GUI extends JFrame implements ActionListener, BoardListener {
 	}
 	
 	/**
-	 * Determining which button is pressed
+	 * Determining which button is pressed.
+	 * 
+	 * @param event
+	 *     ActionEvent to process.
 	 */
-	public void actionPerformed(ActionEvent e) {
-		for(int y = 0; y < 8; y++){
-			for(int x = 0; x < 8; x++){
-				if(e.getSource().equals(allButtons[y][x])){
-					Coordinate c = new Coordinate(x,y);
-					board.processJewel(c);
+	public void actionPerformed(ActionEvent event) {
+		for (int y = 0; y < 8; y++) {
+			for (int x = 0; x < 8; x++) {
+				if (event.getSource().equals(allButtons[y][x])) {
+					Coordinate coord = new Coordinate(x,y);
+					board.processJewel(coord);
 					return;
 				}
 			}
@@ -145,66 +169,69 @@ public class GUI extends JFrame implements ActionListener, BoardListener {
 	}
 	
 	/**
-	 * highLightJewel draws 2 images on top of each other. The colour of the jewel and the selectedImage border.
-	 * @param x the X coordinate of the jewel on the board.
-	 * @param y the Y coordinate of the jewel on the board.
+	 * Draws 2 images on top of each other; the colour of the jewel and
+	 * the selectedImage border.
+	 * 
+	 * @param xvalue 
+	 *     The x-coordinate of the jewel on the board.
+	 * @param yvalue t
+	 *     The y-coordinate of the jewel on the board.
 	 */
-	public void highLightJewel(int x, int y) {
-
-		Colour colour = board.getJewel(new Coordinate(x, y)).colour;
+	public void highLightJewel(int xvalue, int yvalue) {
+		Colour colour = board.getJewel(new Coordinate(xvalue, yvalue)).colour;
 		BufferedImage jewelImage = imgloader.getImage(colour);
-		BufferedImage selectedImage= imgloader.getImage(Colour.Selected);
+		BufferedImage selectedImage = imgloader.getImage(Colour.Selected);
 		
 		int width = Math.max(jewelImage.getWidth(), selectedImage.getWidth());
 		int height = Math.max(jewelImage.getHeight(), selectedImage.getHeight());
 		
-		BufferedImage combinedImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-		Graphics graphics = combinedImage.getGraphics();
+		BufferedImage combImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+		Graphics graphics = combImage.getGraphics();
 		graphics.drawImage(jewelImage, 0, 0, null);
 		graphics.drawImage(selectedImage, 0, 0, null);
-		ImageIcon combinedIcon = new ImageIcon(combinedImage);
-		allButtons[y][x].setIcon(combinedIcon);
+		ImageIcon combinedIcon = new ImageIcon(combImage);
+		allButtons[yvalue][xvalue].setIcon(combinedIcon);
 	}
 	
 	/**
 	 * setJewelImage sets the icon on coordinate (x,y) to the current jewel on that coordinate
-	 * @param x the X coordinate of the jewel on the board.
-	 * @param y the Y coordinate of the jewel on the board.
+	 * 
+	 * @param xvalue
+	 *     The x-coordinate of the jewel on the board.
+	 * @param yvalue
+	 *     The y-coordinate of the jewel on the board.
 	 */
-	public void setJewelImage(int x, int y){
-		BufferedImage img = imgloader.getImage(board.getJewel(new Coordinate(x,y)).colour);
+	public void setJewelImage(int xvalue, int yvalue) {
+		BufferedImage img = imgloader.getImage(board.getJewel(
+				new Coordinate(xvalue,yvalue)).colour);
 		ImageIcon icon = new ImageIcon(img);
-		allButtons[y][x].setIcon(icon);
-		//System.out.println(board.getJewel(new Coordinate(x,y)).colour + " was put on coordinate (y,x) -> (" + y + "," + x + ")");
+		allButtons[yvalue][xvalue].setIcon(icon);
 	}
 
-	public void jewelsSwapped(Coordinate a, Coordinate b) {
-		setJewelImage(a.getX(), a.getY());
-		setJewelImage(b.getX(), b.getY());
+	public void jewelsSwapped(Coordinate acoord, Coordinate bcoord) {
+		setJewelImage(acoord.getX(), acoord.getY());
+		setJewelImage(bcoord.getX(), bcoord.getY());
 	}
 
 	public void boardChanged() {
-		for(int y = 0; y < 8; y++){
-			for(int x = 0; x < 8; x++){
+		for (int y = 0; y < 8; y++) {
+			for (int x = 0; x < 8; x++) {
 				setJewelImage(x, y);
 			}
 		}
-		
 			try {
-				GUI.soundloader.playSound(Sounds.Match);
+				Gui.soundloader.playSound(Sounds.Match);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (LineUnavailableException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		
 	}
 
-	public void jewelSelected(Coordinate c, Coordinate old) {
-		highLightJewel(c.getX(), c.getY());
-		if(old != null)
+	public void jewelSelected(Coordinate coord, Coordinate old) {
+		highLightJewel(coord.getX(), coord.getY());
+		if (old != null) {
 			setJewelImage(old.getX(), old.getY());
+		}
 	}
 }

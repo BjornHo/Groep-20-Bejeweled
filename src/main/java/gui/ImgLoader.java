@@ -1,4 +1,7 @@
 package gui;
+
+import jewel.Colour;
+
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -6,41 +9,51 @@ import java.util.HashMap;
 
 import javax.imageio.ImageIO;
 
-import jewel.Colour;
-
-public class IMGLoader {
+/**
+ * Class that loads Image files to use them as Jewel images.
+ * 
+ * @author Group 20
+ */
+public class ImgLoader {
+	
 	private HashMap<Colour, BufferedImage> imagemap;
 	
-	
 	/**
-	 * This IMGLoader is to load every jewel image at once into an hashmap. Every colour of a jewel is
-	 * associated with the right image.
+	 * This ImgLoader is to load every jewel image at once into a hash map.
+	 * Every Colour of a jewel is associated with the right image.
+	 * 
 	 * @throws IOException
+	 *     If the input/output is incorrect.
 	 */
-	public IMGLoader() throws IOException {
+	public ImgLoader() throws IOException {
 		BufferedImage gemImage;
 		imagemap = new HashMap<Colour, BufferedImage>(8);
 		
-		String directory = (System.getProperty("user.dir") + File.separator+ "src" + File.separator + "main" + File.separator +"java" + File.separator + "Jewelimg"); 
+		String directory = (System.getProperty("user.dir") + File.separator + "src"
+				+ File.separator + "main" + File.separator
+				+ "java" + File.separator + "Jewelimg"); 
 		
 		File folder = new File(directory);
 		File[] allFiles = folder.listFiles();
-		for(File file : allFiles) {
+		for (File file : allFiles) {
 			int underScorePos = file.getName().indexOf("_");
 			gemImage = ImageIO.read(file);
-			imagemap.put(Colour.valueOf(file.getName().substring(0, underScorePos)), gemImage);
+			imagemap.put(Colour.valueOf(file.getName().substring(0, underScorePos)),
+					gemImage);
 		}
 	}
 	
 	/**
-	 * getImage method is to get the right image for a jewel.
-	 * @param colour is the colour of the jewel
-	 * @return returns the image of the jewel.
+	 * Method to get an Image for a jewel by associating its Colour.
+	 * 
+	 * @param colour
+	 *     The Colour of the jewel
+	 * @return BufferedImage
+	 *     The image of the jewel.
 	 */
 	public BufferedImage getImage(Colour colour) {
 		return imagemap.get(colour);
 	}
-	
 }
 
 
