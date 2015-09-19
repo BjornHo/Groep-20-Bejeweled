@@ -1,37 +1,57 @@
 package board;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Match {
+	/**
+	 * List of a Match Object containing the Coordinate Objects of matching jewels.
+	 */
 	private List<Coordinate> coordinates;
-	private int yMax = -1;
+	
+	/**
+	 * -1 to show there is no max y-value yet.
+	 */
+	private int ymax = -1;
 	
 	public Match() {
 		coordinates = new ArrayList<Coordinate>();
 	}
 	
-	public void add(Coordinate c) {
-		coordinates.add(c);
-		if(yMax == -1 || c.getY() > yMax) {
-			yMax = c.getY();
+	/**
+	 * Adds a Coordinate to a Match object.
+	 * 
+	 * @param coord
+	 *     Coordinate to be added.
+	 */
+	public void add(Coordinate coord) {
+		coordinates.add(coord);
+		if (ymax == -1 || coord.getY() > ymax) {
+			ymax = coord.getY();
 		}
 	}
 	
-	public Coordinate get(int i) {
-		return coordinates.get(i);
+	public Coordinate get(int coord) {
+		return coordinates.get(coord);
 	}
 	
 	public List<Coordinate> getCoordinates() {
 		return coordinates;
 	}
 	
-	public int size(){
+	public int size() {
 		return coordinates.size();
 	}
 	
+	/**
+	 * Method for returning amount of points certain matches will earn.
+	 * 
+	 * @return int
+	 *     Amount of points.
+	 */
 	public int getPoints() {
-		int s = size();
-		switch (s) {
+		int size = size();
+		switch (size) {
 		case 3:
 			return 50;
 		case 4:
@@ -43,59 +63,94 @@ public class Match {
 		}
 	}
 	
+	/**
+	 * Checks if a match is vertical.
+	 * 
+	 * @return boolean
+	 *     True if match is vertical.
+	 */
 	public boolean isVertical() {
-		int x = -1;
-		for(Coordinate c : coordinates) {
-			if(x == -1)
-				x = c.getX();
-			else if(x != c.getX())
+		int xcoord = -1;
+		for (Coordinate c : coordinates) {
+			if (xcoord == -1) {
+				xcoord = c.getX();
+			} else if (xcoord != c.getX()) {
 				return false;
+			}
 		}
 		return true;
 	}
 	
+	/**
+	 * Checks if a match is horizontal.
+	 * 
+	 * @return boolean
+	 *     True if match is horizontal.
+	 */
 	public boolean isHorizontal() {
-		int y = -1;
-		for(Coordinate c : coordinates) {
-			if(y == -1)
-				y = c.getY();
-			else if(y != c.getY())
+		int ycoord = -1;
+		for (Coordinate c : coordinates) {
+			if (ycoord == -1) {
+				ycoord = c.getY();
+			} else if (ycoord != c.getY()) {
 				return false;
+			}
 		}
 		return true;
 	}
 	
+	/**
+	 * Returns minimum y-value of the Coordinates of a Match object.
+	 * 
+	 * @return int
+	 *     Minimum y-value.
+	 */
 	public int getYMin() {
-		if(yMax == -1)
+		if (ymax == -1) {
 			return -1;
-		return yMax - size() + 1;
+		}
+		return ymax - size() + 1;
 	}
 	
 	public int getYMax() {
-		return yMax;
+		return ymax;
 	}
 	
+	/**
+	 * Returns x-value of a Match, if vertical.
+	 * 
+	 * @return int
+	 *     x-value.
+	 */
 	public int getX() {
-		if(isVertical())
+		if (isVertical()) {
 			return coordinates.get(0).getX();
+		}
 		return -1;
 	}
 	
+	/**
+	 * Returns y-value of a Match, if Horizontal.
+	 * 
+	 * @return int
+	 *     y-value.
+	 */
 	public int getY() {
-		if(isHorizontal())
+		if (isHorizontal()) {
 			return coordinates.get(0).getY();
+		}
 		return -1;
 	}
 	
 	@Override
 	public boolean equals(Object other) {
-		if(other instanceof Match){
+		if (other instanceof Match) {
 			Match that = (Match)other;
-			if(this.size() != that.size()){
+			if (this.size() != that.size()) {
 				return false;
 			}
-			for(int i = 0; i < this.size(); i++){
-				if(!this.coordinates.contains(that.coordinates.get(i))){
+			for (int i = 0; i < this.size(); i++) {
+				if (!this.coordinates.contains(that.coordinates.get(i))) {
 					return false;
 				}
 			}
@@ -105,8 +160,8 @@ public class Match {
 	}
 	
 	@Override
-	public int hashCode(){
-		return((coordinates.size() + 1) * yMax);
+	public int hashCode() {
+		return ((coordinates.size() + 1) * ymax);
 	}
 
 }
