@@ -118,9 +118,7 @@
 					</reportSet>
 				</reportSets>
 			</plugin>
-		</plugins>	
-    </reporting>
-	
+			
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>cobertura-maven-plugin</artifactId>
