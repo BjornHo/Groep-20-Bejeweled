@@ -17,21 +17,22 @@ public class Logger {
 	private static List<Writer> writers = new ArrayList<Writer>();
 	private static Priority priority;
 	private static SimpleDateFormat dateLogFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-	private static SimpleDateFormat dateFileNameFormat = new SimpleDateFormat("yyyy_MM_dd__HH_mm_ss");
+	private static SimpleDateFormat dateFileNameFormat =
+			new SimpleDateFormat("yyyy_MM_dd__HH_mm_ss");
 	
 	static {
 		priority = Priority.INFO;
-		Writer w1 = new ConsoleWriter();
-		Writer w2 = new TXTFileWriter(new File("logs/" + getFileNameString() + ".log"));
+		//Writer w1 = new ConsoleWriter();
+		Writer w2 = new TxtFileWriter(new File("logs/" + getFileNameString() + ".log"));
 		//writers.add(w1);
 		writers.add(w2);
 	}
 	
-	private Logger(Priority p) {
-		priority = p;
+	private Logger(Priority prio) {
+		priority = prio;
 	}
 
-	public static void addWriter(Writer writer){
+	public static void addWriter(Writer writer) {
 		if (!writers.contains(writers)) {
 			writers.add(writer);
 		}
@@ -56,10 +57,10 @@ public class Logger {
 	 * @param text
 	 *            Text to log.
 	 */
-	public static void log(Priority p, String text) {
-		if (p.ordinal() <= priority.ordinal()) {
+	public static void log(Priority prio, String text) {
+		if (prio.ordinal() <= priority.ordinal()) {
 			for (Writer w : writers) {
-				w.write(getDateString() + " [" + p + "] " + text);
+				w.write(getDateString() + " [" + prio + "] " + text);
 			}
 		}
 	}
@@ -90,8 +91,8 @@ public class Logger {
 		return priority;
 	}
 
-	public static void setPriority(Priority p) {
-		priority = p;
+	public static void setPriority(Priority prio) {
+		priority = prio;
 	}
 
 }

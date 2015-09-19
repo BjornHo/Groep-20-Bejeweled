@@ -6,16 +6,17 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 /**
- * @author Daniel
  * Class that outputs log messages to a (text) file.
+ * 
+ * @author Group 20
  */
-public class TXTFileWriter implements Writer {
+public class TxtFileWriter implements Writer {
 	
-	private BufferedWriter w;
+	private BufferedWriter writer;
 	
-	public TXTFileWriter(File f) {
+	public TxtFileWriter(File file) {
 		try {
-			w = new BufferedWriter(new FileWriter(f,true));
+			writer = new BufferedWriter(new FileWriter(file,true));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -23,9 +24,9 @@ public class TXTFileWriter implements Writer {
 	
 	public void write(String text) {
 		try {
-			w.write(text);
-			w.newLine();
-			w.flush();
+			writer.write(text);
+			writer.newLine();
+			writer.flush();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
