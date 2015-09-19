@@ -15,3 +15,8 @@ hs_err_pid*
 # ignores the Maven folder
 target/
 
+# eclipse and project settings
+.settings/
+.project
+.classpath
+.eclipse-pmd
