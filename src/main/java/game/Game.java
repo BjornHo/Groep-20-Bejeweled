@@ -1,5 +1,8 @@
 package game;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import board.Board;
 import board.Coordinate;
 import board.Match;
@@ -8,9 +11,6 @@ import jewel.Colour;
 import jewel.Jewel;
 import logger.Logger;
 import logger.Priority;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class Game {
 	private Board board;

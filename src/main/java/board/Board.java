@@ -1,12 +1,12 @@
 package board;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import jewel.Colour;
 import jewel.Jewel;
 import logger.Logger;
 import logger.Priority;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author Group 20
