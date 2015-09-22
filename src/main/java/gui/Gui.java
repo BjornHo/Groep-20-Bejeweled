@@ -3,6 +3,7 @@ package gui;
 import board.Board;
 import board.BoardListener;
 import board.Coordinate;
+import game.Game;
 import jewel.Colour;
 
 import java.awt.BorderLayout;
@@ -43,7 +44,7 @@ public class Gui extends JFrame implements ActionListener, BoardListener {
 	private BackgroundPanel bgPanel;
 	private Image bgImage;
 	
-	private Board board;
+	private Game game;
 	private static ImgLoader imgloader;
 	public static SoundLoader soundloader;
 	
@@ -59,7 +60,7 @@ public class Gui extends JFrame implements ActionListener, BoardListener {
 	 */
 	public static void main(String[] args) throws IOException, LineUnavailableException,
 		UnsupportedAudioFileException {
-		Gui gui = new Gui(new Board());
+		Gui gui = new Gui(new Game());
 		gui.setVisible(true);
 		
 	}
@@ -70,9 +71,9 @@ public class Gui extends JFrame implements ActionListener, BoardListener {
 	 * @param board
 	 *     Board Object the GUI will make a graphical interface for.
 	 */
-	public Gui(Board board) throws IOException, LineUnavailableException,
+	public Gui(Game game) throws IOException, LineUnavailableException,
 		UnsupportedAudioFileException {
-		this.board = board;
+		this.game = game;
 		imgloader = new ImgLoader();
 		soundloader = new SoundLoader();
 		setSize(800,800);
@@ -83,8 +84,8 @@ public class Gui extends JFrame implements ActionListener, BoardListener {
 		createGridPane();
 		ScoreBoard sc = createScoreBoard();
 		bgPanel.add(sc, BorderLayout.NORTH);
-		this.board.addBoardListener(this);
-		this.board.addStatsListener(sc);
+		this.game.getBoard().addBoardListener(this);
+		this.game.addStatsListener(sc);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	
@@ -161,7 +162,7 @@ public class Gui extends JFrame implements ActionListener, BoardListener {
 			for (int x = 0; x < 8; x++) {
 				if (event.getSource().equals(allButtons[y][x])) {
 					Coordinate coord = new Coordinate(x,y);
-					board.processJewel(coord);
+					game.processJewel(coord);
 					return;
 				}
 			}
@@ -178,7 +179,7 @@ public class Gui extends JFrame implements ActionListener, BoardListener {
 	 *     The y-coordinate of the jewel on the board.
 	 */
 	public void highLightJewel(int xvalue, int yvalue) {
-		Colour colour = board.getJewel(new Coordinate(xvalue, yvalue)).colour;
+		Colour colour = game.getBoard().getJewel(new Coordinate(xvalue, yvalue)).colour;
 		BufferedImage jewelImage = imgloader.getImage(colour);
 		BufferedImage selectedImage = imgloader.getImage(Colour.Selected);
 		
@@ -202,7 +203,7 @@ public class Gui extends JFrame implements ActionListener, BoardListener {
 	 *     The y-coordinate of the jewel on the board.
 	 */
 	public void setJewelImage(int xvalue, int yvalue) {
-		BufferedImage img = imgloader.getImage(board.getJewel(
+		BufferedImage img = imgloader.getImage(game.getBoard().getJewel(
 				new Coordinate(xvalue,yvalue)).colour);
 		ImageIcon icon = new ImageIcon(img);
 		allButtons[yvalue][xvalue].setIcon(icon);

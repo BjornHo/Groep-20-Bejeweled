@@ -27,16 +27,12 @@ public class Board {
 	 * List of Board Listeners, which will respond according to certain inputs from the user.
 	 */
 	private List<BoardListener> boardListeners;
-	private List<StatsListener> statsListeners;
-	
-	private int score = 0;
 	
 	/**
 	 * Board constructor method.
 	 */
 	public Board() {
 		this.boardListeners = new ArrayList<BoardListener>();
-		this.statsListeners = new ArrayList<StatsListener>();
 	}
 	
 	/**
@@ -59,25 +55,6 @@ public class Board {
 	}
 	
 	/**
-	 * Adds a StatsListener to the Board.
-	 * 
-	 * @param listener
-	 *     The StatsListener to be added.
-	 */
-	public void addStatsListener(StatsListener listener) {
-		this.statsListeners.add(listener);
-		Logger.log(Priority.INFO, "StatsListener " + listener.getClass().getSimpleName()
-				+ " added to Board.");
-	}
-	
-	/**
-	 * Returns the list of all current StatsListeners.
-	 */
-	public List<StatsListener> getStatsListeners() {
-		return statsListeners;
-	}
-	
-	/**
 	 * Sets the play field to the given grid.
 	 * @param Jewel[][] grid - the grid that will become the play field.
 	 */
@@ -90,75 +67,12 @@ public class Board {
 		return jewelGrid;
 	}
 	
-	/**
-	 * Processes the selection of the Jewel at coordinate c, taking the previous
-	 * selection (if there is one) into account. If a jewel is selected that is
-	 * next to the previously selected jewel, swapJewels is called. Also
-	 * notifies all BoardListeners of the currently and previously selected
-	 * jewel.
-	 * 
-	 * @param coord
-	 *     Coordinate of the jewel to process.
-	 */
-	public void processJewel(Coordinate coord) {
-		if (!hasSelectedJewel() || (!Coordinate.areAdjacent(selectedPos, coord)
-				&& !coord.equals(selectedPos)) ) {
-			notifySelect(coord, selectedPos);
-			selectedPos = coord;
-			Logger.log(Priority.INFO, "Selected Position " + coord);
-			
-		} else if (Coordinate.areAdjacent(selectedPos, coord)) {
-			swapJewels(selectedPos,coord);
-			Logger.log(Priority.INFO, "Swapped Jewels " + selectedPos + ", " + coord);
-			List<Match> matches = checkMatches();
-			
-			if (matches.isEmpty()) {
-				swapJewels(selectedPos,coord);
-				Logger.log(Priority.INFO, "Swapped back Jewels "
-				+ selectedPos + ", " + coord);
-				selectedPos = null;
-				return;
-			}
-			while (!matches.isEmpty()) {
-				processMatch(matches.get(0));
-				matches = checkMatches();
-			}
-		}
+	public Coordinate getSelectedPos() {
+		return selectedPos;
 	}
 	
-	/**
-	 * Updates the score. Checks for completed sets. Refills the board. Updates the board.
-	 * @param match
-	 *     The Match to be processed.
-	 */
-	public void processMatch(Match match) {
-		score += match.getPoints();
-		notifyScoreChanged();
-		if (match.isHorizontal()) {
-			for (Coordinate c : match.getCoordinates()) {
-				while (c.hasNorth()) {
-					setJewel(getJewel(c.getNorth()), c);
-					c = c.getNorth();
-				}
-				setJewel(new Jewel(Colour.randomColour()), c);
-			}
-		} else if (match.isVertical()) {
-			//Nr. of elements above the group of jewels that form a vertical match
-			int aboveMatch = match.getYMin();  
-			
-			int xcoord = match.getX();
-			//Move all jewels above the cleared ones down.
-			for (int delta = 0; delta < aboveMatch; delta++) {
-				int temp = match.getYMax() - match.size() - delta;
-				setJewel(getJewel(new Coordinate(xcoord, temp)),
-						new Coordinate(xcoord, match.getYMax() - delta));
-			}
-			//Place new Jewels on the newly blanked spaces.
-			for (int y = match.getYMax() - aboveMatch; y >= 0; y--) {
-				setJewel(new Jewel(Colour.randomColour()),new Coordinate(xcoord,y));
-			}
-		}
-		notifyBoardChanged();
+	public void setSelectedPos(Coordinate pos) {
+		selectedPos = pos;
 	}
 	
 	/**
@@ -256,27 +170,6 @@ public class Board {
 	public void notifyBoardChanged() {
 		for (BoardListener l : boardListeners) {
 			l.boardChanged();
-		}
-	}
-	
-	/**
-	 * Notifies the StatsListener that the score has been changed / needs updating.
-	 */
-	public void notifyScoreChanged() {
-		for (StatsListener l : statsListeners) {
-			l.scoreChanged(score);
-		}
-	}
-	
-	/**
-	 * Notifies the StatsListener that the level has been changed / needs updating.
-	 * 
-	 * @param level
-	 *     (int) The level to be updated to.
-	 */
-  public void notifyLevelChanged(int level) {
-		for (StatsListener l : statsListeners) {
-			l.levelChanged(level);
 		}
 	}
 	

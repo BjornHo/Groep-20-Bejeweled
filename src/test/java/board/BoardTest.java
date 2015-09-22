@@ -88,32 +88,6 @@ public class BoardTest {
 		List<BoardListener> result = board.getBoardListeners();
 		assertEquals(0, result.size());
 	}
-
-	/**
-	 * Test to test the getStatsListeners() method.
-	 */
-	
-	@Test
-	public void getStatsListeners(){
-		List<StatsListener> result = board.getStatsListeners();
-		assertEquals(0, result.size());
-	}
-	
-	/**
-	 * Test to test the addStatsListener() method.
-	 * @throws IOException
-	 * @throws LineUnavailableException
-	 * @throws UnsupportedAudioFileException
-	 */
-	
-	@Test
-	public void addStatsListener() throws IOException, LineUnavailableException, UnsupportedAudioFileException{
-		ScoreBoard s = new ScoreBoard();
-		assertEquals(0, board.getStatsListeners().size());
-		board.addStatsListener(s);
-		assertEquals(1, board.getStatsListeners().size());
-		assertEquals(s, board.getStatsListeners().get(0));
-	}
 	
 	/**
 	 * Test to test the hasSelectedJewel() when there is no selected Jewel.
@@ -285,97 +259,6 @@ public class BoardTest {
 		assertEquals(3, result.get(0).size());
 		assertEquals(3, result.get(1).size());
 		assertEquals(result.get(0).get(0), result.get(1).get(0));
-	}
-	
-	/**
-	 * Test to test the processJewel() method when no jewel is selected.
-	 */
-	
-	@Test
-	public void processJewelNoSelectedJewel(){
-		Coordinate expected = new Coordinate(0,0);
-		board.processJewel(expected);
-		assertEquals(expected, board.getSelectedJewel());
-	}
-	
-	/**
-	 * Test to test the processJewel() method when a jewel is selected, and you process a non-adjacent jewel.
-	 */
-	
-	@Test
-	public void processJewelSelectedNotAdjacent(){
-		board.setSelectedJewel(new Coordinate(0,0));
-		Coordinate expected = new Coordinate(1,1);
-		board.processJewel(expected);
-		assertEquals(expected, board.getSelectedJewel());
-	}
-	
-	/**
-	 * Test to test the processJewel() method when you process the selected Jewel.
-	 */
-	
-	@Test
-	public void processJewelSelectedJewel(){
-		Coordinate expected = new Coordinate(0,0);
-		board.setSelectedJewel(expected);
-		board.processJewel(expected);
-		assertEquals(expected, board.getSelectedJewel());
-	}
-	
-	/**
-	 * Test to test the processJewel() method when you process a jewel adjacent to the selected one and no match is made.
-	 */
-	
-	@Test
-	public void processJewelSelectedAdjacentNoMatch(){
-		Jewel expected = new Jewel(Colour.Orange);
-		board.setJewel(expected, new Coordinate(0,0));
-		board.setSelectedJewel(new Coordinate(0,0));
-		board.processJewel(new Coordinate(0,1));
-		assertEquals(false, board.hasSelectedJewel());
-		assertEquals(expected, board.getJewel(new Coordinate(0,0)));
-	}
-	
-	/**
-	 * Test to test the processJewel() method when you process a jewel adjacent to the selected one and a match is made.
-	 */
-	
-	@Test
-	public void processJewelSelectedAdjacentMatch(){
-		Jewel expected = board.getJewel(new Coordinate(2,4));
-		board.setSelectedJewel(new Coordinate(3,7));
-		board.processJewel(new Coordinate(2,7));
-		assertEquals(expected, board.getJewel(new Coordinate(2,7)));
-	}
-	
-	/**
-	 * Test to test the processMatch() method with a vertical match.
-	 */
-	
-	@Test
-	public void processMatchVertical(){
-		Match m = new Match();
-		Jewel expected = board.getJewel(new Coordinate(0,4));
-		m.add(new Coordinate(0,5));
-		m.add(new Coordinate(0,6));
-		m.add(new Coordinate(0,7));
-		board.processMatch(m);
-		assertEquals(expected, board.getJewel(new Coordinate(0,7)));
-	}
-	
-	/**
-	 * Test to test the processMatch() method with a horizontal match.
-	 */
-	
-	@Test
-	public void processMatchHorizontal(){
-		Match m = new Match();
-		Jewel expected = board.getJewel(new Coordinate(0,6));
-		m.add(new Coordinate(0,7));
-		m.add(new Coordinate(1,7));
-		m.add(new Coordinate(2,7));
-		board.processMatch(m);
-		assertEquals(expected, board.getJewel(new Coordinate(0,7)));
 	}
 
 }
