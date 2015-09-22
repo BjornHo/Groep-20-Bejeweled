@@ -75,8 +75,8 @@ public class BoardTest {
 		};
 		board.setGrid(grid);
 		Coordinate expected = new Coordinate(0,0);
-		board.setSelectedJewel(expected);
-		assertEquals(expected, board.getSelectedJewel());
+		board.setSelectedPos(expected);
+		assertEquals(expected, board.getSelectedPos());
 	}
 	
 	/**
@@ -104,7 +104,7 @@ public class BoardTest {
 	
 	@Test
 	public void hasSelectedJewelTrue(){
-		board.setSelectedJewel(new Coordinate(0,0));
+		board.setSelectedPos(new Coordinate(0,0));
 		assertEquals(true, board.hasSelectedJewel());
 	}
 	

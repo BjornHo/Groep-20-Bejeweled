@@ -71,10 +71,16 @@ public class Board {
 		return selectedPos;
 	}
 	
-	public void setSelectedPos(Coordinate pos) {
-		selectedPos = pos;
+	/**
+	 * Sets coordinate coord as the selected position.
+	 * 
+	 * @param coord
+	 *     Coordinate (of jewel) to be selected.
+	 */
+	public void setSelectedPos(Coordinate coord) {
+		selectedPos = coord;
 	}
-	
+
 	/**
 	 * Swaps the jewels at the given coordinates with each other. Also notifies
 	 * all BoardListeners about the swap.
@@ -137,44 +143,6 @@ public class Board {
 	}
 	
 	/**
-	 * Notifies all BoardListeners of the swap (c1,c2).
-	 * 
-	 * @param c1
-	 *     Coordinate of the first jewel.
-	 * @param c2
-	 *     Coordinate of the first jewel.
-	 */
-	public void notifySwap(Coordinate c1, Coordinate c2) {
-		for (BoardListener l : boardListeners) {
-			l.jewelsSwapped(c1, c2);
-		}
-	}
-	
-	/**
-	 * Notifies all BoardListeners of the selected Jewels.
-	 * 
-	 * @param c1
-	 *     Coordinate of the first jewel.
-	 * @param c2
-	 *     Coordinate of the first jewel.
-	 */
-	public void notifySelect(Coordinate c1, Coordinate c2) {
-		for (BoardListener l : boardListeners) {
-			l.jewelSelected(c1, c2);
-		}
-	}
-	
-	/**
-	 * Notifies all BoardListeners of Jewels on the board being removed/added/moved.
-	 */
-	public void notifyBoardChanged() {
-		for (BoardListener l : boardListeners) {
-			l.boardChanged();
-		}
-	}
-	
-	
-	/**
 	 * Returns the jewel from the given coordinates.
 	 * 
 	 * @param coord
@@ -197,16 +165,6 @@ public class Board {
 	}
 	
 	/**
-	 * Returns the coordinates of the currently selected jewel.
-	 * 
-	 * @return Coordinate
-	 *     Coordinate of the selected jewel.
-	 */
-	public Coordinate getSelectedJewel() {
-		return selectedPos;
-	}
-	
-	/**
 	 * Sets the jewel at the given coordinate to the given jewel.
 	 * 
 	 * @param jewel
@@ -216,16 +174,6 @@ public class Board {
 	 */
 	public void setJewel(Jewel jewel, Coordinate coord) {
 		jewelGrid[coord.getY()][coord.getX()] = jewel;
-	}
-	
-	/**
-	 * Sets the jewel at the given coordinate as the selected jewel.
-	 * 
-	 * @param coord
-	 *     Coordinate of jewel to be selected.
-	 */
-	public void setSelectedJewel(Coordinate coord) {
-		selectedPos = coord;
 	}
 	
 	/**
@@ -306,5 +254,42 @@ public class Board {
 		checkHorizontalMatches(matched);
 		Logger.log(Priority.INFO, "checkMatches, " + matched.size() + " matches found.");
 		return matched;
+	}
+
+	/**
+	 * Notifies all BoardListeners of the swap (c1,c2).
+	 * 
+	 * @param c1
+	 *     Coordinate of the first jewel.
+	 * @param c2
+	 *     Coordinate of the first jewel.
+	 */
+	public void notifySwap(Coordinate c1, Coordinate c2) {
+		for (BoardListener l : boardListeners) {
+			l.jewelsSwapped(c1, c2);
+		}
+	}
+
+	/**
+	 * Notifies all BoardListeners of the selected Jewels.
+	 * 
+	 * @param c1
+	 *     Coordinate of the first jewel.
+	 * @param c2
+	 *     Coordinate of the first jewel.
+	 */
+	public void notifySelect(Coordinate c1, Coordinate c2) {
+		for (BoardListener l : boardListeners) {
+			l.jewelSelected(c1, c2);
+		}
+	}
+
+	/**
+	 * Notifies all BoardListeners of Jewels on the board being removed/added/moved.
+	 */
+	public void notifyBoardChanged() {
+		for (BoardListener l : boardListeners) {
+			l.boardChanged();
+		}
 	}
 }

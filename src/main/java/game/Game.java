@@ -132,7 +132,7 @@ public class Game {
 	 * @param level
 	 *     (int) The level to be updated to.
 	 */
-	public void notifyLevelChanged(int level) {
+	public void notifyLevelChanged() {
 		for (StatsListener l : statsListeners) {
 			l.levelChanged(level);
 		}
