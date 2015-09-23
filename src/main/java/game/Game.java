@@ -139,12 +139,19 @@ public class Game {
 		}
 	}
 	
+	public void notifyNextLevelChanged() {
+		for (StatsListener l : statsListeners) {
+			l.nextLevelChanged(scoreForNextLevel());;
+		}
+	}
+	
 	public void nextLevelCheck() {
 		if (score >= scoreForNextLevel()) {
 			level++;
 			score = 0;
 			notifyScoreChanged();
 			notifyLevelChanged();
+			notifyNextLevelChanged();
 		}
 	}
 	
