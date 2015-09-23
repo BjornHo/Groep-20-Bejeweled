@@ -33,6 +33,7 @@ public class Board {
 	/**
 	 * Coordinate object used to define the currently selected Coordinate.
 	 */
+	@XmlTransient
 	private Coordinate selectedPos = null;
 	
 	/**
