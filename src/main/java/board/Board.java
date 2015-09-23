@@ -3,6 +3,13 @@ package board;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+
 import jewel.Colour;
 import jewel.Jewel;
 import logger.Logger;
@@ -13,9 +20,14 @@ import logger.Priority;
  *     Contains methods able to create and manipulate Bejeweled game boards. 
  *     Class that defines the game board.
  */
+@XmlRootElement(name = "board")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Board {
-	/** 2-Dimensional grid of spaces defining the board's playing field.
+	/** 
+	 * 2-Dimensional grid of spaces defining the board's playing field.
 	 */
+	@XmlElement(name = "row")
+	@XmlElementWrapper(name = "grid")
     private Jewel[][] jewelGrid = createGrid();
 	
 	/**
@@ -26,6 +38,7 @@ public class Board {
 	/**
 	 * List of Board Listeners, which will respond according to certain inputs from the user.
 	 */
+	@XmlTransient
 	private List<BoardListener> boardListeners;
 	
 	/**

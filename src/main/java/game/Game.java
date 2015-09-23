@@ -3,6 +3,13 @@ package game;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+
 import board.Board;
 import board.Coordinate;
 import board.Match;
@@ -12,10 +19,14 @@ import jewel.Jewel;
 import logger.Logger;
 import logger.Priority;
 
+@XmlRootElement(name = "game")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Game {
 	private Board board;
 	private int score = 0;
 	private int level = 1;
+	
+	@XmlTransient
 	private List<StatsListener> statsListeners;
 	
 	public Game() {
@@ -136,5 +147,9 @@ public class Game {
 		for (StatsListener l : statsListeners) {
 			l.levelChanged(level);
 		}
+	}
+
+	public int getScore() {
+		return score;
 	}
 }
