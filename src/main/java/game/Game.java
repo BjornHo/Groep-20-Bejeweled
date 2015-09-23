@@ -78,6 +78,7 @@ public class Game {
 				processMatch(matches.get(0));
 				matches = board.checkMatches();
 			}
+			board.setSelectedPos(null);
 			nextLevelCheck();
 		}
 	}
