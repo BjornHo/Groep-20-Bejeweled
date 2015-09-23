@@ -14,6 +14,8 @@ public class ScoreBoard extends JPanel implements StatsListener {
 	private static final long serialVersionUID = 1L;
 	private JLabel scoreLabel;
 	private JLabel levelLabel;
+	private JLabel nextLevelLabel;
+	private JLabel nextScoreLabel;
 	
 	/**
 	 * The constructor for the ScoreBoard.
@@ -26,10 +28,17 @@ public class ScoreBoard extends JPanel implements StatsListener {
 				+ "</font></html>", JLabel.CENTER);
 		scoreLabel = new JLabel("<html><font size=\"15\">Score " + score
 				+ "</font></html>", JLabel.CENTER);
+		nextLevelLabel = new JLabel(
+				"<html><font size=\"6\">Points needed for next level: </font></html>", 
+				JLabel.RIGHT);
+		nextScoreLabel = new JLabel("<html><font size=\"15\">" + Integer.toString(1000) 
+				+ "</font></html>", JLabel.CENTER);
+		setLayout(new GridLayout(2,2));
 		
-		setLayout(new GridLayout(2,1));
 		add(levelLabel);
 		add(scoreLabel);
+		add(nextLevelLabel);
+		add(nextScoreLabel);
 	}
 	
 	/**
@@ -48,6 +57,10 @@ public class ScoreBoard extends JPanel implements StatsListener {
 	 */
 	public JLabel getLevelLabel() {
 		return levelLabel;
+	}
+	
+	public JLabel getNextLevelLabel() {
+		return nextLevelLabel;
 	}
 
 	/**
@@ -68,6 +81,9 @@ public class ScoreBoard extends JPanel implements StatsListener {
 	 */
 	public void levelChanged(int level) {
 		levelLabel.setText("<html><font size=\"15\">Level " + level  + "</font></html>");
-		
+	}
+	
+	public void nextLevelChanged(int nextLevelPoints) {
+		nextScoreLabel.setText("<html><font size=\"12\">" + nextLevelPoints + "</font></html>");
 	}
 }

@@ -67,7 +67,6 @@ public class Game {
 			board.swapJewels(board.getSelectedPos(),coord);
 			Logger.log(Priority.INFO, "Swapped Jewels " + board.getSelectedPos() + ", " + coord);
 			List<Match> matches = board.checkMatches();
-			
 			if (matches.isEmpty()) {
 				board.swapJewels(board.getSelectedPos(),coord);
 				Logger.log(Priority.INFO, "Swapped back Jewels "
@@ -79,6 +78,8 @@ public class Game {
 				processMatch(matches.get(0));
 				matches = board.checkMatches();
 			}
+			board.setSelectedPos(null);
+			nextLevelCheck();
 		}
 	}
 	
@@ -137,4 +138,26 @@ public class Game {
 			l.levelChanged(level);
 		}
 	}
+	
+	public void notifyNextLevelChanged() {
+		for (StatsListener l : statsListeners) {
+			l.nextLevelChanged(scoreForNextLevel());;
+		}
+	}
+	
+	public void nextLevelCheck() {
+		if (score >= scoreForNextLevel()) {
+			level++;
+			score = 0;
+			notifyScoreChanged();
+			notifyLevelChanged();
+			notifyNextLevelChanged();
+		}
+	}
+	
+	public int scoreForNextLevel() {
+		return 750 + 250 * level;
+	}
+	
+	
 }
