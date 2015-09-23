@@ -13,10 +13,9 @@ import game.Game;
 
 public class XmlParser {
 	
-	public void writeGame(String filename) throws JAXBException {
+	public void writeGame(String filename, Game game) throws JAXBException {
 		File file = new File(filename);
 		file.delete();
-		Game game = new Game();
 		JAXBContext context = JAXBContext.newInstance(Game.class);
 	    Marshaller m = context.createMarshaller();
 	    m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
@@ -36,7 +35,7 @@ public class XmlParser {
 	//For testing/debugging purposes only, will be removed.
 	public static void main( String args[] ) throws JAXBException, FileNotFoundException {
 		XmlParser x = new XmlParser();
-		x.writeGame("savegame/savegame.xml");
+		x.writeGame("savegame/savegame.xml", new Game());
 		Game res = x.readGame("savegame/savegame.xml");
 		System.out.println("score: " + res.getScore());
 	}

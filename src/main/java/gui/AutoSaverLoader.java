@@ -5,10 +5,18 @@ import java.awt.event.WindowListener;
 
 import javax.xml.bind.JAXBException;
 
+import game.Game;
 import xmlparser.XmlParser;
 
 public class AutoSaverLoader implements WindowListener {
 
+	private Game game;
+	
+	public AutoSaverLoader(Game game) {
+		super();
+		this.game = game;
+	}
+	
 	@Override
 	public void windowActivated(WindowEvent e) {
 		
@@ -23,7 +31,7 @@ public class AutoSaverLoader implements WindowListener {
 	public void windowClosing(WindowEvent e) {
 		XmlParser parser = new XmlParser();
 		try {
-			parser.writeGame("Temp File Name");
+			parser.writeGame("Temp File Name", game);
 		} catch (JAXBException e1) {
 			e1.printStackTrace();
 		}
@@ -46,7 +54,8 @@ public class AutoSaverLoader implements WindowListener {
 
 	@Override
 	public void windowOpened(WindowEvent e) {
-		//This is where the level would get loaded.
+		XmlParser parser = new XmlParser();
+		
 	}
 
 }
