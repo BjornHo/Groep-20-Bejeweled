@@ -1,6 +1,6 @@
 package gui;
 
-import board.Board;
+
 import board.BoardListener;
 import board.Coordinate;
 import game.Game;
@@ -16,8 +16,7 @@ import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
+
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -64,11 +63,10 @@ public class Gui extends JFrame implements ActionListener, BoardListener {
 	 */
 	public static void main(String[] args) throws IOException, LineUnavailableException,
 		UnsupportedAudioFileException {
-		XmlParser XmlParser = new XmlParser();
+		XmlParser xmlParser = new XmlParser();
 		initSaveGamePath(directoryFiles());
-		Gui gui = new Gui(XmlParser.readGame(saveGamePath));
+		Gui gui = new Gui(xmlParser.readGame(saveGamePath));
 		gui.setVisible(true);
-		
 	}
 	
 	/**
@@ -89,6 +87,8 @@ public class Gui extends JFrame implements ActionListener, BoardListener {
 		createButtons();
 		createGridPane();
 		ScoreBoard sc = createScoreBoard();
+		sc.levelChanged(game.getLevel());
+		sc.scoreChanged(game.getScore());
 		bgPanel.add(sc, BorderLayout.NORTH);
 		this.game.getBoard().addBoardListener(this);
 		this.game.addStatsListener(sc);
@@ -243,28 +243,16 @@ public class Gui extends JFrame implements ActionListener, BoardListener {
 	}
 	
 	public static void initSaveGamePath(File[] allFiles) {
-		
 		String extension = "";
-		
 		for (File file : allFiles) {
-			System.out.println(file.getName());
-			int i = file.getName().lastIndexOf('.');
-			if (i > 0) {
-			    extension = file.getName().substring(i+1);
+			int index = file.getName().lastIndexOf('.');
+			if (index > 0) {
+			    extension = file.getName().substring(index + 1);
 			}
-			System.out.println(extension);
-			
-			if(extension.equals("xml")) {
-				saveGamePath = file.getAbsolutePath();
-				System.out.println(saveGamePath);
-				
+			if (extension.equals("xml")) {
+				saveGamePath = file.getAbsolutePath();		
 			}
-			
-	
-		}
-		
-
-		
+		}	
 	}
 	
 	public static File[] directoryFiles() {
