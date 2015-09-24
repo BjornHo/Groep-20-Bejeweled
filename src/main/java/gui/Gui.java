@@ -74,7 +74,7 @@ public class Gui extends JFrame implements ActionListener, BoardListener {
 	public Gui(Game game) throws IOException, LineUnavailableException,
 		UnsupportedAudioFileException {
 		this.game = game;
-		this.addWindowListener(new AutoSaverLoader());
+		this.addWindowListener(new AutoSaverLoader(this.game));
 		imgloader = new ImgLoader();
 		soundloader = new SoundLoader();
 		setSize(800,800);
