@@ -1,5 +1,7 @@
  package xmlparser;
 
+import game.Game;
+ 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -9,11 +11,7 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
-import board.Coordinate;
-import game.Game;
-
 public class XmlParser {
-	
 	private JAXBContext context;
 	private Marshaller marshaller;
 	private Unmarshaller unmarshaller;
@@ -48,7 +46,6 @@ public class XmlParser {
 		} catch (JAXBException e) {
 			System.err.println("Savegame file " + filename + " could not be written.");
 		}
-
 	}
 	
 	/**
@@ -76,5 +73,4 @@ public class XmlParser {
 		}
 		return res;
 	}
-	
 }
