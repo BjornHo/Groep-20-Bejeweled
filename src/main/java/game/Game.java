@@ -173,5 +173,9 @@ public class Game {
 	public int getScore() {
 		return score;
 	}
+	
+	public int getLevel() {
+		return level;
+	}
 
 }

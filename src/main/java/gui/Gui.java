@@ -4,6 +4,7 @@ import board.BoardListener;
 import board.Coordinate;
 import game.Game;
 import jewel.Colour;
+import xmlparser.XmlParser;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -14,6 +15,7 @@ import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -46,6 +48,7 @@ public class Gui extends JFrame implements ActionListener, BoardListener {
 	private Game game;
 	private static ImgLoader imgloader;
 	public static SoundLoader soundloader;
+	public static String saveGamePath;
 	
 	/**
 	 * Main method used to verify what the GUI looks like.
@@ -59,9 +62,10 @@ public class Gui extends JFrame implements ActionListener, BoardListener {
 	 */
 	public static void main(String[] args) throws IOException, LineUnavailableException,
 		UnsupportedAudioFileException {
-		Gui gui = new Gui(new Game());
+		XmlParser xmlParser = new XmlParser();
+		initSaveGamePath(directoryFiles());
+		Gui gui = new Gui(xmlParser.readGame(saveGamePath));
 		gui.setVisible(true);
-		
 	}
 	
 	/**
@@ -83,6 +87,8 @@ public class Gui extends JFrame implements ActionListener, BoardListener {
 		createButtons();
 		createGridPane();
 		ScoreBoard sc = createScoreBoard();
+		sc.levelChanged(game.getLevel());
+		sc.scoreChanged(game.getScore());
 		bgPanel.add(sc, BorderLayout.NORTH);
 		this.game.getBoard().addBoardListener(this);
 		this.game.addStatsListener(sc);
@@ -235,4 +241,36 @@ public class Gui extends JFrame implements ActionListener, BoardListener {
 			setJewelImage(old.getX(), old.getY());
 		}
 	}
+	
+	/**
+	 * Sets the saveGamePath variable which is the absolute path to the savegame file.
+	 * @param allFiles is an array containing all the files in a directory.
+	 */
+	public static void initSaveGamePath(File[] allFiles) {
+		String extension = "";
+		for (File file : allFiles) {
+			int index = file.getName().lastIndexOf('.');
+			if (index > 0) {
+			    extension = file.getName().substring(index + 1);
+			}
+			if (extension.equals("xml")) {
+				saveGamePath = file.getAbsolutePath();		
+			}
+		}	
+	}
+	
+	/**
+	 * Gets all the files in the savegame directory.
+	 * @return it returns an array containing all the files.
+	 */
+	public static File[] directoryFiles() {
+		String directory = (System.getProperty("user.dir") + File.separator + "savegame");
+		File folder = new File(directory);
+		File[] allFiles = folder.listFiles();
+		return allFiles;
+	}
+	
+
+	
+
 }

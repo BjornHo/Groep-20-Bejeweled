@@ -70,7 +70,11 @@ public class XmlParser {
 			System.err.println("Error while reading savegame file " + filename
 					+ ". Creating new game instead.");
 			res = new Game();
-		}
+		} catch (NullPointerException e) {
+			  System.err.println("Error while reading savegame file " + filename
+						+ ". Creating new game instead.");
+				res = new Game();
+		  }
 		return res;
 	}
 }
