@@ -28,7 +28,7 @@ public class Autosaver implements WindowListener {
 	@Override
 	public void windowClosing(WindowEvent event) {
 		XmlParser parser = new XmlParser();
-		parser.writeGame(game, "savegame/Autosave");
+		parser.writeGame(game, "savegame/Autosave.xml");
 	}
 
 	@Override
