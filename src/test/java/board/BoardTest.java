@@ -260,5 +260,24 @@ public class BoardTest {
 		assertEquals(3, result.get(1).size());
 		assertEquals(result.get(0).get(0), result.get(1).get(0));
 	}
+	
+	@Test
+	public void testSwapJewels() {
+		Jewel jewel1 = new Jewel();
+		Jewel jewel2 = new Jewel();
+		Jewel[][] grid = {
+				{ jewel1, jewel2, new Jewel(Colour.Red), new Jewel(Colour.Yellow), new Jewel(Colour.Blue), new Jewel(Colour.Orange), new Jewel(Colour.Green), new Jewel(Colour.Blue)},
+				{ new Jewel(Colour.Red), new Jewel(Colour.Blue), new Jewel(Colour.Orange), new Jewel(Colour.Green), new Jewel(Colour.Blue), new Jewel(Colour.Orange), new Jewel(Colour.Green), new Jewel(Colour.Blue)},
+				{ new Jewel(Colour.Red), new Jewel(Colour.Orange), new Jewel(Colour.Green), new Jewel(Colour.Blue), new Jewel(Colour.Orange), new Jewel(Colour.Green), new Jewel(Colour.Blue), new Jewel(Colour.Orange)},
+				{ new Jewel(Colour.Blue), new Jewel(Colour.Green), new Jewel(Colour.Blue), new Jewel(Colour.Orange), new Jewel(Colour.Green), new Jewel(Colour.Blue), new Jewel(Colour.Orange), new Jewel(Colour.Green)},
+				{ new Jewel(Colour.White), new Jewel(Colour.Orange), new Jewel(Colour.Red), new Jewel(Colour.White), new Jewel(Colour.Orange), new Jewel(Colour.Orange), new Jewel(Colour.Yellow), new Jewel(Colour.White) },
+				{ new Jewel(Colour.White), new Jewel(Colour.Red), new Jewel(Colour.Blue), new Jewel(Colour.Yellow), new Jewel(Colour.Yellow), new Jewel(Colour.Green), new Jewel(Colour.Red), new Jewel(Colour.Yellow) },
+				{ new Jewel(Colour.Orange), new Jewel(Colour.Yellow), new Jewel(Colour.Blue), new Jewel(Colour.Purple), new Jewel(Colour.Red), new Jewel(Colour.Red), new Jewel(Colour.Green), new Jewel(Colour.Yellow) },
+				{ new Jewel(Colour.White), new Jewel(Colour.Purple), new Jewel(Colour.Green), new Jewel(Colour.Blue), new Jewel(Colour.Yellow), new Jewel(Colour.Orange), new Jewel(Colour.Red), new Jewel(Colour.Green) }
+		};
+		board.setGrid(grid);
+		board.swapJewels(new Coordinate(0,0), new Coordinate(1,0));
+		assertEquals(jewel2, board.getJewel(new Coordinate(0,0)));
+	}
 
 }
