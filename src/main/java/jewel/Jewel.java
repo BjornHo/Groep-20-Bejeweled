@@ -1,5 +1,9 @@
 package jewel;
 
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+
+@XmlRootElement(name = "jewel")
 public class Jewel {
 
 	public Colour colour;
@@ -12,6 +16,10 @@ public class Jewel {
 	 */
 	public Jewel(Colour colour) {
 		this.colour = colour;
+	}
+	
+	public Jewel() {
+		
 	}
 	
 	/**
