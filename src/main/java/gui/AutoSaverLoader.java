@@ -30,11 +30,6 @@ public class AutoSaverLoader implements WindowListener {
 	@Override
 	public void windowClosing(WindowEvent e) {
 		XmlParser parser = new XmlParser();
-		try {
-			parser.writeGame("savegame/Temp File Name", game);
-		} catch (JAXBException e1) {
-			e1.printStackTrace();
-		}
 	}
 
 	@Override
