@@ -1,6 +1,5 @@
 package gui;
 
-import board.Board;
 import board.BoardListener;
 import board.Coordinate;
 import game.Game;
@@ -74,7 +73,7 @@ public class Gui extends JFrame implements ActionListener, BoardListener {
 	public Gui(Game game) throws IOException, LineUnavailableException,
 		UnsupportedAudioFileException {
 		this.game = game;
-		this.addWindowListener(new AutoSaverLoader(this.game));
+		this.addWindowListener(new Autosaver(this.game));
 		imgloader = new ImgLoader();
 		soundloader = new SoundLoader();
 		setSize(800,800);

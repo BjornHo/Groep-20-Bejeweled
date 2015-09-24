@@ -1,5 +1,7 @@
  package xmlparser;
 
+import game.Game;
+ 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -8,9 +10,6 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
-
-import board.Coordinate;
-import game.Game;
 
 public class XmlParser {
 	private JAXBContext context;
