@@ -242,6 +242,10 @@ public class Gui extends JFrame implements ActionListener, BoardListener {
 		}
 	}
 	
+	/**
+	 * Sets the saveGamePath variable which is the absolute path to the savegame file.
+	 * @param allFiles is an array containing all the files in a directory.
+	 */
 	public static void initSaveGamePath(File[] allFiles) {
 		String extension = "";
 		for (File file : allFiles) {
@@ -255,6 +259,10 @@ public class Gui extends JFrame implements ActionListener, BoardListener {
 		}	
 	}
 	
+	/**
+	 * Gets all the files in the savegame directory.
+	 * @return it returns an array containing all the files.
+	 */
 	public static File[] directoryFiles() {
 		String directory = (System.getProperty("user.dir") + File.separator + "savegame");
 		File folder = new File(directory);
