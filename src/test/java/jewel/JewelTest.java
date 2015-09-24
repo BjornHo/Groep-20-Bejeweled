@@ -1,8 +1,7 @@
 package jewel;
 
-
-
 import static org.junit.Assert.assertEquals;
+
 import jewel.Colour;
 import jewel.Jewel;
 
@@ -14,14 +13,13 @@ public class JewelTest {
 	private Jewel jewel;
 	
 	@Before
-	public void before(){	
+	public void before() {	
 		jewel = new Jewel(Colour.Red);
 	}
 	
 	/**
 	 * Testing the getColour method.
 	 */
-	
 	@Test
 	public void getColour() {
 		assertEquals(Colour.Red, jewel.getColour());
@@ -32,7 +30,7 @@ public class JewelTest {
 	 */
 	
 	@Test
-	public void isSameColourTrue(){
+	public void isSameColourTrue() {
 		Jewel compared = new Jewel(Colour.Red);
 		assertEquals(true, jewel.isSameColour(compared));
 	}
@@ -40,11 +38,9 @@ public class JewelTest {
 	/**
 	 * Testing the isSameColour method with a jewel of a different Colour.
 	 */
-	
 	@Test
-	public void isSameColourFalse(){
+	public void isSameColourFalse() {
 		Jewel compared = new Jewel(Colour.Blue);
 		assertEquals(false, jewel.isSameColour(compared));
 	}
-
 }

@@ -61,7 +61,6 @@ public class Gui extends JFrame implements ActionListener, BoardListener {
 		UnsupportedAudioFileException {
 		Gui gui = new Gui(new Board());
 		gui.setVisible(true);
-		
 	}
 	
 	/**

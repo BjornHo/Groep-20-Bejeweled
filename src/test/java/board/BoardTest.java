@@ -1,16 +1,7 @@
 package board;
+
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
-
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.junit.Before;
-import org.junit.Test;
 
 import board.Board;
 import board.BoardListener;
@@ -21,21 +12,28 @@ import gui.ScoreBoard;
 import jewel.Colour;
 import jewel.Jewel;
 
+import org.junit.Before;
+import org.junit.Test;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 
 public class BoardTest {
-
+	
 	private Board board;
+	
 	@Before
-	public void before(){
+	public void before() {
 		board = new Board();
 	}
 	
 	/**
 	 * Test to test the getGrid() and setGrid() methods.
 	 */
-	
 	@Test
 	public void setGetGridTest() {
 		Jewel[][] grid = {
@@ -49,7 +47,6 @@ public class BoardTest {
 	/**
 	 * Test to test the getJewel() and setJewel() methods.
 	 */
-	
 	@Test
 	public void setGetJewel(){
 		Jewel[][] grid = {
@@ -66,9 +63,8 @@ public class BoardTest {
 	/**
 	 * Test to test the getSelectedJewel() and setSelectedJewel() methods.
 	 */
-	
 	@Test
-	public void setGetSelectedJewel(){
+	public void setGetSelectedJewel() {
 		Jewel[][] grid = {
 				{null, null},
 				{null, null}
@@ -82,7 +78,6 @@ public class BoardTest {
 	/**
 	 * Test to test the getBoardListeners() method.
 	 */
-	
 	@Test
 	public void getBoardListeners(){
 		List<BoardListener> result = board.getBoardListeners();
@@ -92,7 +87,6 @@ public class BoardTest {
 	/**
 	 * Test to test the getStatsListeners() method.
 	 */
-	
 	@Test
 	public void getStatsListeners(){
 		List<StatsListener> result = board.getStatsListeners();
@@ -105,7 +99,6 @@ public class BoardTest {
 	 * @throws LineUnavailableException
 	 * @throws UnsupportedAudioFileException
 	 */
-	
 	@Test
 	public void addStatsListener() throws IOException, LineUnavailableException, UnsupportedAudioFileException{
 		ScoreBoard s = new ScoreBoard();
@@ -118,7 +111,6 @@ public class BoardTest {
 	/**
 	 * Test to test the hasSelectedJewel() when there is no selected Jewel.
 	 */
-	
 	@Test
 	public void hasSelectedJewelFalse(){
 		assertEquals(false, board.hasSelectedJewel());
@@ -127,7 +119,6 @@ public class BoardTest {
 	/**
 	 * Test to test the hasSelectedJewel() when there is a selected Jewel.
 	 */
-	
 	@Test
 	public void hasSelectedJewelTrue(){
 		board.setSelectedJewel(new Coordinate(0,0));
@@ -137,9 +128,8 @@ public class BoardTest {
 	/**
 	 * Test to check whether the checkHorizontalMatches() method gives an empty list when there are no horizontal matches.
 	 */
-	
 	@Test 
-	public void checkHorizontalMatchesNoMatches(){
+	public void checkHorizontalMatchesNoMatches() {
 		List<Match> matched = new ArrayList<Match>();
 		board.checkHorizontalMatches(matched);
 		assertEquals(0, matched.size());
@@ -148,7 +138,6 @@ public class BoardTest {
 	/**
 	 * Test to check whether the checkHorizontalMatches() method gives a list with one match when there is 1 horizontal 4-match.
 	 */
-	
 	@Test
 	public void checkHorizontalMatchesOneFourMatch(){
 		Jewel[][] grid = {
@@ -175,7 +164,6 @@ public class BoardTest {
 	/**
 	 * Test to check whether the checkHorizontalMatches() method gives a list with one match when there is 1 horizontal 5-match.
 	 */
-	
 	@Test
 	public void checkHorizontalMatchesOneFiveMatch(){
 		Jewel[][] grid = {
@@ -202,7 +190,6 @@ public class BoardTest {
 	/**
 	 * Test to check whether the checkVerticalMatches() method gives a list with one match when there is 1 vertical 4-match.
 	 */
-	
 	@Test
 	public void checkVerticalMatchesOneFourMatch(){
 		Jewel[][] grid = {
@@ -229,9 +216,8 @@ public class BoardTest {
 	/**
 	 * Test to check whether the checkVerticalMatches() method gives a list with one match when there is 1 vertical 5-match.
 	 */
-	
 	@Test
-	public void checkVerticalMatchesOneFiveMatch(){
+	public void checkVerticalMatchesOneFiveMatch() {
 		Jewel[][] grid = {
 				{ new Jewel(Colour.Red), new Jewel(Colour.Red), new Jewel(Colour.Red), new Jewel(Colour.Red), new Jewel(Colour.Blue), new Jewel(Colour.Orange), new Jewel(Colour.Green), new Jewel(Colour.Blue)},
 				{ new Jewel(Colour.Red), new Jewel(Colour.Blue), new Jewel(Colour.Orange), new Jewel(Colour.Green), new Jewel(Colour.Blue), new Jewel(Colour.Orange), new Jewel(Colour.Green), new Jewel(Colour.Blue)},
@@ -256,7 +242,6 @@ public class BoardTest {
 	/**
 	 * Test to test the checkMatches() method when there are no matches.
 	 */
-	
 	@Test 
 	public void checkMatchesNoMatches(){
 		List<Match> result = board.checkMatches();
@@ -266,7 +251,6 @@ public class BoardTest {
 	/**
 	 * Test to test the checkMatches() method when there are multiple matches.
 	 */
-	
 	@Test
 	public void checkMatchesMultipleMatches(){
 		Jewel[][] grid = {
@@ -290,7 +274,6 @@ public class BoardTest {
 	/**
 	 * Test to test the processJewel() method when no jewel is selected.
 	 */
-	
 	@Test
 	public void processJewelNoSelectedJewel(){
 		Coordinate expected = new Coordinate(0,0);
@@ -301,7 +284,6 @@ public class BoardTest {
 	/**
 	 * Test to test the processJewel() method when a jewel is selected, and you process a non-adjacent jewel.
 	 */
-	
 	@Test
 	public void processJewelSelectedNotAdjacent(){
 		board.setSelectedJewel(new Coordinate(0,0));
@@ -313,7 +295,6 @@ public class BoardTest {
 	/**
 	 * Test to test the processJewel() method when you process the selected Jewel.
 	 */
-	
 	@Test
 	public void processJewelSelectedJewel(){
 		Coordinate expected = new Coordinate(0,0);
@@ -325,7 +306,6 @@ public class BoardTest {
 	/**
 	 * Test to test the processJewel() method when you process a jewel adjacent to the selected one and no match is made.
 	 */
-	
 	@Test
 	public void processJewelSelectedAdjacentNoMatch(){
 		Jewel expected = new Jewel(Colour.Orange);
@@ -339,7 +319,6 @@ public class BoardTest {
 	/**
 	 * Test to test the processJewel() method when you process a jewel adjacent to the selected one and a match is made.
 	 */
-	
 	@Test
 	public void processJewelSelectedAdjacentMatch(){
 		Jewel expected = board.getJewel(new Coordinate(2,4));
@@ -351,7 +330,6 @@ public class BoardTest {
 	/**
 	 * Test to test the processMatch() method with a vertical match.
 	 */
-	
 	@Test
 	public void processMatchVertical(){
 		Match m = new Match();
@@ -366,7 +344,6 @@ public class BoardTest {
 	/**
 	 * Test to test the processMatch() method with a horizontal match.
 	 */
-	
 	@Test
 	public void processMatchHorizontal(){
 		Match m = new Match();
@@ -377,5 +354,4 @@ public class BoardTest {
 		board.processMatch(m);
 		assertEquals(expected, board.getJewel(new Coordinate(0,7)));
 	}
-
 }
