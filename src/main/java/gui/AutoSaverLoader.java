@@ -31,7 +31,7 @@ public class AutoSaverLoader implements WindowListener {
 	public void windowClosing(WindowEvent e) {
 		XmlParser parser = new XmlParser();
 		try {
-			parser.writeGame("Temp File Name", game);
+			parser.writeGame("savegame/Temp File Name", game);
 		} catch (JAXBException e1) {
 			e1.printStackTrace();
 		}
