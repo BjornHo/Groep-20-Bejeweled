@@ -15,6 +15,7 @@ import game.Game;
 public class XmlParser {
 	
 <<<<<<< HEAD
+<<<<<<< HEAD
 	private JAXBContext context;
 	private Marshaller marshaller;
 	private Unmarshaller unmarshaller;
@@ -51,6 +52,8 @@ public class XmlParser {
 		}
 
 =======
+=======
+>>>>>>> f64a9fa6e675b77ae9b9d77a29176c9b97801b29
 	public void writeGame(String filename, Game game) throws JAXBException {
 		File file = new File(filename);
 		file.delete();
