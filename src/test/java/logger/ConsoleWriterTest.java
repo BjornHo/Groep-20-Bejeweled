@@ -10,7 +10,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
 public class ConsoleWriterTest {
-	
 	private ByteArrayOutputStream sysout = new ByteArrayOutputStream();
 	private Writer writer;
 	private String lorumipsum = "Lorum ipsum dolor sit amet.";

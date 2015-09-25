@@ -8,35 +8,42 @@ import logger.Priority;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+
 /**
  * @author Group 20
  *     Contains methods able to create and manipulate Bejeweled game boards. 
  *     Class that defines the game board.
  */
+@XmlRootElement(name = "board")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Board {
-	/** 2-Dimensional grid of spaces defining the board's playing field.
+	/** 
+	 * 2-Dimensional grid of spaces defining the board's playing field.
 	 */
+	@XmlElement(name = "row")
+	@XmlElementWrapper(name = "grid")
     private Jewel[][] jewelGrid = createGrid();
 	
 	/**
 	 * Coordinate object used to define the currently selected Coordinate.
 	 */
+	@XmlTransient
 	private Coordinate selectedPos = null;
 	
 	/**
 	 * List of Board Listeners, which will respond according to certain inputs from the user.
 	 */
+	@XmlTransient
 	private List<BoardListener> boardListeners;
-	private List<StatsListener> statsListeners;
 	
-	private int score = 0;
-	
-	/**
-	 * Board constructor method.
-	 */
 	public Board() {
 		this.boardListeners = new ArrayList<BoardListener>();
-		this.statsListeners = new ArrayList<StatsListener>();
 	}
 	
 	/**
@@ -51,30 +58,8 @@ public class Board {
 				+ " added to Board.");
 	}
 	
-	/**
-	 * Returns the list of all current BoardListeners.
-	 */
 	public List<BoardListener> getBoardListeners() {
 		return boardListeners;
-	}
-	
-	/**
-	 * Adds a StatsListener to the Board.
-	 * 
-	 * @param listener
-	 *     The StatsListener to be added.
-	 */
-	public void addStatsListener(StatsListener listener) {
-		this.statsListeners.add(listener);
-		Logger.log(Priority.INFO, "StatsListener " + listener.getClass().getSimpleName()
-				+ " added to Board.");
-	}
-	
-	/**
-	 * Returns the list of all current StatsListeners.
-	 */
-	public List<StatsListener> getStatsListeners() {
-		return statsListeners;
 	}
 	
 	/**
@@ -90,77 +75,20 @@ public class Board {
 		return jewelGrid;
 	}
 	
-	/**
-	 * Processes the selection of the Jewel at coordinate c, taking the previous
-	 * selection (if there is one) into account. If a jewel is selected that is
-	 * next to the previously selected jewel, swapJewels is called. Also
-	 * notifies all BoardListeners of the currently and previously selected
-	 * jewel.
-	 * 
-	 * @param coord
-	 *     Coordinate of the jewel to process.
-	 */
-	public void processJewel(Coordinate coord) {
-		if (!hasSelectedJewel() || (!Coordinate.areAdjacent(selectedPos, coord)
-				&& !coord.equals(selectedPos)) ) {
-			notifySelect(coord, selectedPos);
-			selectedPos = coord;
-			Logger.log(Priority.INFO, "Selected Position " + coord);
-			
-		} else if (Coordinate.areAdjacent(selectedPos, coord)) {
-			swapJewels(selectedPos,coord);
-			Logger.log(Priority.INFO, "Swapped Jewels " + selectedPos + ", " + coord);
-			List<Match> matches = checkMatches();
-			
-			if (matches.isEmpty()) {
-				swapJewels(selectedPos,coord);
-				Logger.log(Priority.INFO, "Swapped back Jewels "
-				+ selectedPos + ", " + coord);
-				selectedPos = null;
-				return;
-			}
-			while (!matches.isEmpty()) {
-				processMatch(matches.get(0));
-				matches = checkMatches();
-			}
-		}
+	public Coordinate getSelectedPos() {
+		return selectedPos;
 	}
 	
-	/**
-	 * Updates the score. Checks for completed sets. Refills the board. Updates the board.
-	 * @param match
-	 *     The Match to be processed.
-	 */
-	public void processMatch(Match match) {
-		score += match.getPoints();
-		notifyScoreChanged();
-		if (match.isHorizontal()) {
-			for (Coordinate c : match.getCoordinates()) {
-				while (c.hasNorth()) {
-					setJewel(getJewel(c.getNorth()), c);
-					c = c.getNorth();
-				}
-				setJewel(new Jewel(Colour.randomColour()), c);
-			}
-		} else if (match.isVertical()) {
-			//Nr. of elements above the group of jewels that form a vertical match
-			int aboveMatch = match.getYMin();  
-			
-			int xcoord = match.getX();
-			//Move all jewels above the cleared ones down.
-			for (int delta = 0; delta < aboveMatch; delta++) {
-				int temp = match.getYMax() - match.size() - delta;
-				setJewel(getJewel(new Coordinate(xcoord, temp)),
-						new Coordinate(xcoord, match.getYMax() - delta));
-			}
-			//Place new Jewels on the newly blanked spaces.
-			for (int y = match.getYMax() - aboveMatch; y >= 0; y--) {
-				setJewel(new Jewel(Colour.randomColour()),new Coordinate(xcoord,y));
-			}
-		}
+	public void setSelectedPos(Coordinate coord) {
+		selectedPos = coord;
+	}
+	
+	public void reset() {
+		jewelGrid = createGrid();
+		selectedPos = null;
 		notifyBoardChanged();
 	}
-	
+
 	/**
 	 * Swaps the jewels at the given coordinates with each other. Also notifies
 	 * all BoardListeners about the swap.
@@ -222,117 +150,16 @@ public class Board {
 		return grid;
 	}
 	
-	/**
-	 * Notifies all BoardListeners of the swap (c1,c2).
-	 * 
-	 * @param c1
-	 *     Coordinate of the first jewel.
-	 * @param c2
-	 *     Coordinate of the first jewel.
-	 */
-	public void notifySwap(Coordinate c1, Coordinate c2) {
-		for (BoardListener l : boardListeners) {
-			l.jewelsSwapped(c1, c2);
-		}
-	}
-	
-	/**
-	 * Notifies all BoardListeners of the selected Jewels.
-	 * 
-	 * @param c1
-	 *     Coordinate of the first jewel.
-	 * @param c2
-	 *     Coordinate of the first jewel.
-	 */
-	public void notifySelect(Coordinate c1, Coordinate c2) {
-		for (BoardListener l : boardListeners) {
-			l.jewelSelected(c1, c2);
-		}
-	}
-	
-	/**
-	 * Notifies all BoardListeners of Jewels on the board being removed/added/moved.
-	 */
-	public void notifyBoardChanged() {
-		for (BoardListener l : boardListeners) {
-			l.boardChanged();
-		}
-	}
-	
-	/**
-	 * Notifies the StatsListener that the score has been changed / needs updating.
-	 */
-	public void notifyScoreChanged() {
-		for (StatsListener l : statsListeners) {
-			l.scoreChanged(score);
-		}
-	}
-	
-	/**
-	 * Notifies the StatsListener that the level has been changed / needs updating.
-	 * 
-	 * @param level
-	 *     (int) The level to be updated to.
-	 */
-  public void notifyLevelChanged(int level) {
-		for (StatsListener l : statsListeners) {
-			l.levelChanged(level);
-		}
-	}
-	
-	
-	/**
-	 * Returns the jewel from the given coordinates.
-	 * 
-	 * @param coord
-	 *     Coordinate of the jewel you want.
-	 * @return Jewel
-	 *     The jewel from the given coordinates.
-	 */
 	public Jewel getJewel(Coordinate coord) {
 		return jewelGrid[coord.getY()][coord.getX()];
 	}
 	
-	/**
-	 * Returns whether there is a jewel currently selected.
-	 * 
-	 * @return boolean
-	 *     True/false if there is a selected jewel.
-	 */
 	public boolean hasSelectedJewel() {
 		return selectedPos != null;
 	}
 	
-	/**
-	 * Returns the coordinates of the currently selected jewel.
-	 * 
-	 * @return Coordinate
-	 *     Coordinate of the selected jewel.
-	 */
-	public Coordinate getSelectedJewel() {
-		return selectedPos;
-	}
-	
-	/**
-	 * Sets the jewel at the given coordinate to the given jewel.
-	 * 
-	 * @param jewel
-	 *     The jewel that the selected Jewel will become.
-	 * @param coord
-	 *     The coordinates of the selected jewel.
-	 */
 	public void setJewel(Jewel jewel, Coordinate coord) {
 		jewelGrid[coord.getY()][coord.getX()] = jewel;
-	}
-	
-	/**
-	 * Sets the jewel at the given coordinate as the selected jewel.
-	 * 
-	 * @param coord
-	 *     Coordinate of jewel to be selected.
-	 */
-	public void setSelectedJewel(Coordinate coord) {
-		selectedPos = coord;
 	}
 	
 	/**
@@ -371,9 +198,10 @@ public class Board {
 	
 	/**
 	 * Checks the game field for horizontally alligned matches (completed sets).
-	 * @param matched - the list of matches to be added to.
+	 * 
+	 * @param matched
+	 * 		The list of matches to be added to.
 	 */
-
 	public void checkHorizontalMatches(List<Match> matched) {
 		int matchcoord;
 		// First the y loop, then the x loop, because we're checking matches in rows.
@@ -413,5 +241,42 @@ public class Board {
 		checkHorizontalMatches(matched);
 		Logger.log(Priority.INFO, "checkMatches, " + matched.size() + " matches found.");
 		return matched;
+	}
+
+	/**
+	 * Notifies all BoardListeners of the swap (c1,c2).
+	 * 
+	 * @param c1
+	 *     Coordinate of the first jewel.
+	 * @param c2
+	 *     Coordinate of the first jewel.
+	 */
+	public void notifySwap(Coordinate c1, Coordinate c2) {
+		for (BoardListener l : boardListeners) {
+			l.jewelsSwapped(c1, c2);
+		}
+	}
+
+	/**
+	 * Notifies all BoardListeners of the selected Jewels.
+	 * 
+	 * @param c1
+	 *     Coordinate of the first jewel.
+	 * @param c2
+	 *     Coordinate of the first jewel.
+	 */
+	public void notifySelect(Coordinate c1, Coordinate c2) {
+		for (BoardListener l : boardListeners) {
+			l.jewelSelected(c1, c2);
+		}
+	}
+
+	/**
+	 * Notifies all BoardListeners of Jewels on the board being removed/added/moved.
+	 */
+	public void notifyBoardChanged() {
+		for (BoardListener l : boardListeners) {
+			l.boardChanged();
+		}
 	}
 }

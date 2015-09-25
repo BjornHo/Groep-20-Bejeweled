@@ -28,7 +28,6 @@ public class JewelTest {
 	/**
 	 * Testing the isSameColour method with a jewel of the same Colour.
 	 */
-	
 	@Test
 	public void isSameColourTrue() {
 		Jewel compared = new Jewel(Colour.Red);

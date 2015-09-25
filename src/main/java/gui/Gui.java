@@ -1,9 +1,10 @@
 package gui;
 
-import board.Board;
 import board.BoardListener;
 import board.Coordinate;
+import game.Game;
 import jewel.Colour;
+import xmlparser.XmlParser;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -42,11 +43,14 @@ public class Gui extends JFrame implements ActionListener, BoardListener {
 	private JButton[][] allButtons = new JButton[8][8];
 	private BackgroundPanel bgPanel;
 	private Image bgImage;
+	private static XmlParser xmlParser = new XmlParser();
 	
-	private Board board;
+	private Game game;
 	private static ImgLoader imgloader;
 	public static SoundLoader soundloader;
-	
+	public static String saveGamePath = (System.getProperty("user.dir")
+			+ File.separator + "savegame/Autosave.xml");
+
 	/**
 	 * Main method used to verify what the GUI looks like.
 	 * 
@@ -59,8 +63,10 @@ public class Gui extends JFrame implements ActionListener, BoardListener {
 	 */
 	public static void main(String[] args) throws IOException, LineUnavailableException,
 		UnsupportedAudioFileException {
-		Gui gui = new Gui(new Board());
+		Game game = loadGame();
+		Gui gui = new Gui(game);
 		gui.setVisible(true);
+		game.startTimer();
 	}
 	
 	/**
@@ -69,9 +75,10 @@ public class Gui extends JFrame implements ActionListener, BoardListener {
 	 * @param board
 	 *     Board Object the GUI will make a graphical interface for.
 	 */
-	public Gui(Board board) throws IOException, LineUnavailableException,
+	public Gui(Game game) throws IOException, LineUnavailableException,
 		UnsupportedAudioFileException {
-		this.board = board;
+		this.game = game;
+		this.addWindowListener(new Autosaver(this.game, saveGamePath));
 		imgloader = new ImgLoader();
 		soundloader = new SoundLoader();
 		setSize(800,800);
@@ -80,10 +87,13 @@ public class Gui extends JFrame implements ActionListener, BoardListener {
 		add(bgPanel, BorderLayout.CENTER);
 		createButtons();
 		createGridPane();
-		ScoreBoard sc = createScoreBoard();
+		StatsPanel sc = new StatsPanel(game.getLevel(), game.getScore(),
+				game.getTimeLeft(), game.goalScore());
+		sc.levelChanged(game.getLevel());
+		sc.scoreChanged(game.getScore());
 		bgPanel.add(sc, BorderLayout.NORTH);
-		this.board.addBoardListener(this);
-		this.board.addStatsListener(sc);
+		this.game.getBoard().addBoardListener(this);
+		this.game.addStatsListener(sc);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	
@@ -102,14 +112,6 @@ public class Gui extends JFrame implements ActionListener, BoardListener {
 			e.printStackTrace();
 		}
 		return bgImage;
-	}
-	
-	/**
-	 * Creates the score board for the GUI.
-	 * Has it's own method in case we make the ScoreBoard more complex.
-	 */
-	private ScoreBoard createScoreBoard() {
-		return new ScoreBoard();
 	}
 	
 	/**
@@ -160,7 +162,7 @@ public class Gui extends JFrame implements ActionListener, BoardListener {
 			for (int x = 0; x < 8; x++) {
 				if (event.getSource().equals(allButtons[y][x])) {
 					Coordinate coord = new Coordinate(x,y);
-					board.processJewel(coord);
+					game.processJewel(coord);
 					return;
 				}
 			}
@@ -177,7 +179,7 @@ public class Gui extends JFrame implements ActionListener, BoardListener {
 	 *     The y-coordinate of the jewel on the board.
 	 */
 	public void highLightJewel(int xvalue, int yvalue) {
-		Colour colour = board.getJewel(new Coordinate(xvalue, yvalue)).colour;
+		Colour colour = game.getBoard().getJewel(new Coordinate(xvalue, yvalue)).colour;
 		BufferedImage jewelImage = imgloader.getImage(colour);
 		BufferedImage selectedImage = imgloader.getImage(Colour.Selected);
 		
@@ -201,7 +203,7 @@ public class Gui extends JFrame implements ActionListener, BoardListener {
 	 *     The y-coordinate of the jewel on the board.
 	 */
 	public void setJewelImage(int xvalue, int yvalue) {
-		BufferedImage img = imgloader.getImage(board.getJewel(
+		BufferedImage img = imgloader.getImage(game.getBoard().getJewel(
 				new Coordinate(xvalue,yvalue)).colour);
 		ImageIcon icon = new ImageIcon(img);
 		allButtons[yvalue][xvalue].setIcon(icon);
@@ -232,5 +234,24 @@ public class Gui extends JFrame implements ActionListener, BoardListener {
 		if (old != null) {
 			setJewelImage(old.getX(), old.getY());
 		}
+	}
+	
+	/**
+	 * Returns the saved Game, if the file with path and name "saveGamePath"
+	 * exists and yields a valid game. Returns a new Game otherwise (in case the
+	 * file does not exist, or the game is not playable because there is no time
+	 * left).
+	 * 
+	 * @return
+	 */
+	private static Game loadGame() {
+		File file = new File(saveGamePath);
+		if (file.exists()) {
+			Game game =  xmlParser.readGame(saveGamePath);
+			if (!game.gameLost()) {
+				return game;
+			}
+		}
+		return new Game();
 	}
 }

@@ -6,7 +6,7 @@ import java.awt.GridLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class ScoreBoard extends JPanel implements StatsListener {
+public class StatsPanel extends JPanel implements StatsListener {
 
 	/**
 	 * Default serialization ID.
@@ -14,22 +14,28 @@ public class ScoreBoard extends JPanel implements StatsListener {
 	private static final long serialVersionUID = 1L;
 	private JLabel scoreLabel;
 	private JLabel levelLabel;
+	private JLabel timeLabel;
+	private JLabel nextScoreLabel;
 	
 	/**
 	 * The constructor for the ScoreBoard.
 	 */
-	public ScoreBoard() {
+	public StatsPanel(int level, int score, int time, int goalscore) {
 		super();
-		int score = 0;
-		int level = 1;
 		levelLabel = new JLabel("<html><font size=\"15\">Level " + level 
 				+ "</font></html>", JLabel.CENTER);
 		scoreLabel = new JLabel("<html><font size=\"15\">Score " + score
 				+ "</font></html>", JLabel.CENTER);
+		timeLabel = new JLabel("<html><font size=\"15\">Time " + time
+				+ "</font></html>", JLabel.CENTER);
+		nextScoreLabel = new JLabel("<html><font size=\"15\">Goal " + goalscore 
+				+ "</font></html>", JLabel.CENTER);
+		setLayout(new GridLayout(2,2));
 		
-		setLayout(new GridLayout(2,1));
 		add(levelLabel);
 		add(scoreLabel);
+		add(timeLabel);
+		add(nextScoreLabel);
 	}
 	
 	/**
@@ -68,6 +74,14 @@ public class ScoreBoard extends JPanel implements StatsListener {
 	 */
 	public void levelChanged(int level) {
 		levelLabel.setText("<html><font size=\"15\">Level " + level  + "</font></html>");
-		
+	}
+	
+	public void nextLevelChanged(int nextLevelPoints) {
+		nextScoreLabel.setText("<html><font size=\"12\">" + nextLevelPoints + "</font></html>");
+	}
+	
+	public void timeLeftChanged(int time) {
+		timeLabel.setText("<html><font size=\"15\">Time " + time
+				+ "</font></html>");
 	}
 }

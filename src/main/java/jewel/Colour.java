@@ -5,7 +5,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
+import javax.xml.bind.annotation.XmlEnum;
 
+@XmlEnum(String.class)
 public enum Colour { 
 	Blue, Green, Orange, Purple, Red, White, Yellow, Selected;
 	

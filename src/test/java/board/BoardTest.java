@@ -3,24 +3,14 @@ package board;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
-import board.Board;
-import board.BoardListener;
-import board.Coordinate;
-import board.Match;
-import board.StatsListener;
-import gui.ScoreBoard;
-import jewel.Colour;
-import jewel.Jewel;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
+import jewel.Colour;
+import jewel.Jewel;
 
 public class BoardTest {
 	
@@ -48,7 +38,7 @@ public class BoardTest {
 	 * Test to test the getJewel() and setJewel() methods.
 	 */
 	@Test
-	public void setGetJewel(){
+	public void setGetJewel() {
 		Jewel[][] grid = {
 				{null, null},
 				{null, null}
@@ -71,48 +61,24 @@ public class BoardTest {
 		};
 		board.setGrid(grid);
 		Coordinate expected = new Coordinate(0,0);
-		board.setSelectedJewel(expected);
-		assertEquals(expected, board.getSelectedJewel());
+		board.setSelectedPos(expected);
+		assertEquals(expected, board.getSelectedPos());
 	}
 	
 	/**
 	 * Test to test the getBoardListeners() method.
 	 */
 	@Test
-	public void getBoardListeners(){
+	public void getBoardListeners() {
 		List<BoardListener> result = board.getBoardListeners();
 		assertEquals(0, result.size());
-	}
-
-	/**
-	 * Test to test the getStatsListeners() method.
-	 */
-	@Test
-	public void getStatsListeners(){
-		List<StatsListener> result = board.getStatsListeners();
-		assertEquals(0, result.size());
-	}
-	
-	/**
-	 * Test to test the addStatsListener() method.
-	 * @throws IOException
-	 * @throws LineUnavailableException
-	 * @throws UnsupportedAudioFileException
-	 */
-	@Test
-	public void addStatsListener() throws IOException, LineUnavailableException, UnsupportedAudioFileException{
-		ScoreBoard s = new ScoreBoard();
-		assertEquals(0, board.getStatsListeners().size());
-		board.addStatsListener(s);
-		assertEquals(1, board.getStatsListeners().size());
-		assertEquals(s, board.getStatsListeners().get(0));
 	}
 	
 	/**
 	 * Test to test the hasSelectedJewel() when there is no selected Jewel.
 	 */
 	@Test
-	public void hasSelectedJewelFalse(){
+	public void hasSelectedJewelFalse() {
 		assertEquals(false, board.hasSelectedJewel());
 	}
 	
@@ -120,13 +86,14 @@ public class BoardTest {
 	 * Test to test the hasSelectedJewel() when there is a selected Jewel.
 	 */
 	@Test
-	public void hasSelectedJewelTrue(){
-		board.setSelectedJewel(new Coordinate(0,0));
+	public void hasSelectedJewelTrue() {
+		board.setSelectedPos(new Coordinate(0,0));
 		assertEquals(true, board.hasSelectedJewel());
 	}
 	
 	/**
-	 * Test to check whether the checkHorizontalMatches() method gives an empty list when there are no horizontal matches.
+	 * Test to check whether the checkHorizontalMatches() method gives 
+	 * an empty list when there are no horizontal matches.
 	 */
 	@Test 
 	public void checkHorizontalMatchesNoMatches() {
@@ -136,19 +103,37 @@ public class BoardTest {
 	}
 	
 	/**
-	 * Test to check whether the checkHorizontalMatches() method gives a list with one match when there is 1 horizontal 4-match.
+	 * Test to check whether the checkHorizontalMatches() method gives
+	 * a list with one match when there is 1 horizontal 4-match.
 	 */
 	@Test
-	public void checkHorizontalMatchesOneFourMatch(){
+	public void checkHorizontalMatchesOneFourMatch() {
 		Jewel[][] grid = {
-				{ new Jewel(Colour.Red), new Jewel(Colour.Red), new Jewel(Colour.Red), new Jewel(Colour.Red), new Jewel(Colour.Blue), new Jewel(Colour.Orange), new Jewel(Colour.Green), new Jewel(Colour.Blue)},
-				{ new Jewel(Colour.Red), new Jewel(Colour.Blue), new Jewel(Colour.Orange), new Jewel(Colour.Green), new Jewel(Colour.Blue), new Jewel(Colour.Orange), new Jewel(Colour.Green), new Jewel(Colour.Blue)},
-				{ new Jewel(Colour.Red), new Jewel(Colour.Orange), new Jewel(Colour.Green), new Jewel(Colour.Blue), new Jewel(Colour.Orange), new Jewel(Colour.Green), new Jewel(Colour.Blue), new Jewel(Colour.Orange)},
-				{ new Jewel(Colour.Red), new Jewel(Colour.Green), new Jewel(Colour.Blue), new Jewel(Colour.Orange), new Jewel(Colour.Green), new Jewel(Colour.Blue), new Jewel(Colour.Orange), new Jewel(Colour.Green)},
-				{ new Jewel(Colour.White), new Jewel(Colour.Orange), new Jewel(Colour.Red), new Jewel(Colour.White), new Jewel(Colour.Orange), new Jewel(Colour.Orange), new Jewel(Colour.Yellow), new Jewel(Colour.White) },
-				{ new Jewel(Colour.White), new Jewel(Colour.Red), new Jewel(Colour.Blue), new Jewel(Colour.Yellow), new Jewel(Colour.Yellow), new Jewel(Colour.Green), new Jewel(Colour.Red), new Jewel(Colour.Yellow) },
-				{ new Jewel(Colour.Orange), new Jewel(Colour.Yellow), new Jewel(Colour.Blue), new Jewel(Colour.Purple), new Jewel(Colour.Red), new Jewel(Colour.Red), new Jewel(Colour.Green), new Jewel(Colour.Yellow) },
-				{ new Jewel(Colour.White), new Jewel(Colour.Purple), new Jewel(Colour.Green), new Jewel(Colour.Blue), new Jewel(Colour.Yellow), new Jewel(Colour.Orange), new Jewel(Colour.Red), new Jewel(Colour.Green) }
+				{ new Jewel(Colour.Red), new Jewel(Colour.Red), new Jewel(Colour.Red),
+					new Jewel(Colour.Red), new Jewel(Colour.Blue), new Jewel(Colour.Orange),
+					new Jewel(Colour.Green), new Jewel(Colour.Blue) },
+				{ new Jewel(Colour.Red), new Jewel(Colour.Blue), new Jewel(Colour.Orange),
+					new Jewel(Colour.Green), new Jewel(Colour.Blue), new Jewel(Colour.Orange),
+					new Jewel(Colour.Green), new Jewel(Colour.Blue) },
+				{ new Jewel(Colour.Red), new Jewel(Colour.Orange), new Jewel(Colour.Green),
+					new Jewel(Colour.Blue), new Jewel(Colour.Orange), new Jewel(Colour.Green),
+					new Jewel(Colour.Blue), new Jewel(Colour.Orange) },
+				{ new Jewel(Colour.Red), new Jewel(Colour.Green), new Jewel(Colour.Blue),
+					new Jewel(Colour.Orange), new Jewel(Colour.Green), new Jewel(Colour.Blue),
+					new Jewel(Colour.Orange), new Jewel(Colour.Green)},
+				{ new Jewel(Colour.White), new Jewel(Colour.Orange), new Jewel(Colour.Red),
+					new Jewel(Colour.White), new Jewel(Colour.Orange),
+					new Jewel(Colour.Orange), new Jewel(Colour.Yellow),
+					new Jewel(Colour.White) },
+				{ new Jewel(Colour.White), new Jewel(Colour.Red), new Jewel(Colour.Blue),
+					new Jewel(Colour.Yellow), new Jewel(Colour.Yellow),
+					new Jewel(Colour.Green), new Jewel(Colour.Red), new Jewel(Colour.Yellow) },
+				{ new Jewel(Colour.Orange), new Jewel(Colour.Yellow), new Jewel(Colour.Blue),
+					new Jewel(Colour.Purple), new Jewel(Colour.Red), new Jewel(Colour.Red),
+					new Jewel(Colour.Green), new Jewel(Colour.Yellow) },
+				{ new Jewel(Colour.White), new Jewel(Colour.Purple), new Jewel(Colour.Green),
+					new Jewel(Colour.Blue), new Jewel(Colour.Yellow), new Jewel(Colour.Orange),
+					new Jewel(Colour.Red), new Jewel(Colour.Green) }
 		};
 		board.setGrid(grid);
 		
@@ -162,19 +147,37 @@ public class BoardTest {
 	}
 	
 	/**
-	 * Test to check whether the checkHorizontalMatches() method gives a list with one match when there is 1 horizontal 5-match.
+	 * Test to check whether the checkHorizontalMatches() method gives
+	 * a list with one match when there is 1 horizontal 5-match.
 	 */
 	@Test
-	public void checkHorizontalMatchesOneFiveMatch(){
+	public void checkHorizontalMatchesOneFiveMatch() {
 		Jewel[][] grid = {
-				{ new Jewel(Colour.Red), new Jewel(Colour.Red), new Jewel(Colour.Red), new Jewel(Colour.Red), new Jewel(Colour.Red), new Jewel(Colour.Orange), new Jewel(Colour.Green), new Jewel(Colour.Blue)},
-				{ new Jewel(Colour.Red), new Jewel(Colour.Blue), new Jewel(Colour.Orange), new Jewel(Colour.Green), new Jewel(Colour.Blue), new Jewel(Colour.Orange), new Jewel(Colour.Green), new Jewel(Colour.Blue)},
-				{ new Jewel(Colour.Red), new Jewel(Colour.Orange), new Jewel(Colour.Green), new Jewel(Colour.Blue), new Jewel(Colour.Orange), new Jewel(Colour.Green), new Jewel(Colour.Blue), new Jewel(Colour.Orange)},
-				{ new Jewel(Colour.Red), new Jewel(Colour.Green), new Jewel(Colour.Blue), new Jewel(Colour.Orange), new Jewel(Colour.Green), new Jewel(Colour.Blue), new Jewel(Colour.Orange), new Jewel(Colour.Green)},
-				{ new Jewel(Colour.White), new Jewel(Colour.Orange), new Jewel(Colour.Red), new Jewel(Colour.White), new Jewel(Colour.Orange), new Jewel(Colour.Orange), new Jewel(Colour.Yellow), new Jewel(Colour.White) },
-				{ new Jewel(Colour.White), new Jewel(Colour.Red), new Jewel(Colour.Blue), new Jewel(Colour.Yellow), new Jewel(Colour.Yellow), new Jewel(Colour.Green), new Jewel(Colour.Red), new Jewel(Colour.Yellow) },
-				{ new Jewel(Colour.Orange), new Jewel(Colour.Yellow), new Jewel(Colour.Blue), new Jewel(Colour.Purple), new Jewel(Colour.Red), new Jewel(Colour.Red), new Jewel(Colour.Green), new Jewel(Colour.Yellow) },
-				{ new Jewel(Colour.White), new Jewel(Colour.Purple), new Jewel(Colour.Green), new Jewel(Colour.Blue), new Jewel(Colour.Yellow), new Jewel(Colour.Orange), new Jewel(Colour.Red), new Jewel(Colour.Green) }
+				{ new Jewel(Colour.Red), new Jewel(Colour.Red), new Jewel(Colour.Red),
+					new Jewel(Colour.Red), new Jewel(Colour.Red), new Jewel(Colour.Orange),
+					new Jewel(Colour.Green), new Jewel(Colour.Blue) },
+				{ new Jewel(Colour.Red), new Jewel(Colour.Blue), new Jewel(Colour.Orange),
+					new Jewel(Colour.Green), new Jewel(Colour.Blue), new Jewel(Colour.Orange),
+					new Jewel(Colour.Green), new Jewel(Colour.Blue) },
+				{ new Jewel(Colour.Red), new Jewel(Colour.Orange), new Jewel(Colour.Green),
+					new Jewel(Colour.Blue), new Jewel(Colour.Orange), new Jewel(Colour.Green),
+					new Jewel(Colour.Blue), new Jewel(Colour.Orange) },
+				{ new Jewel(Colour.Red), new Jewel(Colour.Green), new Jewel(Colour.Blue),
+					new Jewel(Colour.Orange), new Jewel(Colour.Green), new Jewel(Colour.Blue),
+					new Jewel(Colour.Orange), new Jewel(Colour.Green) },
+				{ new Jewel(Colour.White), new Jewel(Colour.Orange), new Jewel(Colour.Red),
+					new Jewel(Colour.White), new Jewel(Colour.Orange),
+					new Jewel(Colour.Orange), new Jewel(Colour.Yellow),
+					new Jewel(Colour.White) },
+				{ new Jewel(Colour.White), new Jewel(Colour.Red), new Jewel(Colour.Blue),
+					new Jewel(Colour.Yellow), new Jewel(Colour.Yellow),
+					new Jewel(Colour.Green), new Jewel(Colour.Red), new Jewel(Colour.Yellow) },
+				{ new Jewel(Colour.Orange), new Jewel(Colour.Yellow), new Jewel(Colour.Blue),
+					new Jewel(Colour.Purple), new Jewel(Colour.Red), new Jewel(Colour.Red),
+					new Jewel(Colour.Green), new Jewel(Colour.Yellow) },
+				{ new Jewel(Colour.White), new Jewel(Colour.Purple), new Jewel(Colour.Green),
+					new Jewel(Colour.Blue), new Jewel(Colour.Yellow), new Jewel(Colour.Orange),
+					new Jewel(Colour.Red), new Jewel(Colour.Green) }
 		};
 		board.setGrid(grid);
 		
@@ -188,19 +191,37 @@ public class BoardTest {
 	}
 	
 	/**
-	 * Test to check whether the checkVerticalMatches() method gives a list with one match when there is 1 vertical 4-match.
+	 * Test to check whether the checkVerticalMatches() method gives
+	 * a list with one match when there is 1 vertical 4-match.
 	 */
 	@Test
-	public void checkVerticalMatchesOneFourMatch(){
+	public void checkVerticalMatchesOneFourMatch() {
 		Jewel[][] grid = {
-				{ new Jewel(Colour.Red), new Jewel(Colour.Red), new Jewel(Colour.Red), new Jewel(Colour.Red), new Jewel(Colour.Blue), new Jewel(Colour.Orange), new Jewel(Colour.Green), new Jewel(Colour.Blue)},
-				{ new Jewel(Colour.Red), new Jewel(Colour.Blue), new Jewel(Colour.Orange), new Jewel(Colour.Green), new Jewel(Colour.Blue), new Jewel(Colour.Orange), new Jewel(Colour.Green), new Jewel(Colour.Blue)},
-				{ new Jewel(Colour.Red), new Jewel(Colour.Orange), new Jewel(Colour.Green), new Jewel(Colour.Blue), new Jewel(Colour.Orange), new Jewel(Colour.Green), new Jewel(Colour.Blue), new Jewel(Colour.Orange)},
-				{ new Jewel(Colour.Red), new Jewel(Colour.Green), new Jewel(Colour.Blue), new Jewel(Colour.Orange), new Jewel(Colour.Green), new Jewel(Colour.Blue), new Jewel(Colour.Orange), new Jewel(Colour.Green)},
-				{ new Jewel(Colour.White), new Jewel(Colour.Orange), new Jewel(Colour.Red), new Jewel(Colour.White), new Jewel(Colour.Orange), new Jewel(Colour.Orange), new Jewel(Colour.Yellow), new Jewel(Colour.White) },
-				{ new Jewel(Colour.White), new Jewel(Colour.Red), new Jewel(Colour.Blue), new Jewel(Colour.Yellow), new Jewel(Colour.Yellow), new Jewel(Colour.Green), new Jewel(Colour.Red), new Jewel(Colour.Yellow) },
-				{ new Jewel(Colour.Orange), new Jewel(Colour.Yellow), new Jewel(Colour.Blue), new Jewel(Colour.Purple), new Jewel(Colour.Red), new Jewel(Colour.Red), new Jewel(Colour.Green), new Jewel(Colour.Yellow) },
-				{ new Jewel(Colour.White), new Jewel(Colour.Purple), new Jewel(Colour.Green), new Jewel(Colour.Blue), new Jewel(Colour.Yellow), new Jewel(Colour.Orange), new Jewel(Colour.Red), new Jewel(Colour.Green) }
+				{ new Jewel(Colour.Red), new Jewel(Colour.Red), new Jewel(Colour.Red),
+					new Jewel(Colour.Red), new Jewel(Colour.Blue), new Jewel(Colour.Orange),
+					new Jewel(Colour.Green), new Jewel(Colour.Blue)},
+				{ new Jewel(Colour.Red), new Jewel(Colour.Blue), new Jewel(Colour.Orange),
+					new Jewel(Colour.Green), new Jewel(Colour.Blue), new Jewel(Colour.Orange),
+					new Jewel(Colour.Green), new Jewel(Colour.Blue)},
+				{ new Jewel(Colour.Red), new Jewel(Colour.Orange), new Jewel(Colour.Green),
+					new Jewel(Colour.Blue), new Jewel(Colour.Orange), new Jewel(Colour.Green),
+					new Jewel(Colour.Blue), new Jewel(Colour.Orange)},
+				{ new Jewel(Colour.Red), new Jewel(Colour.Green), new Jewel(Colour.Blue),
+					new Jewel(Colour.Orange), new Jewel(Colour.Green), new Jewel(Colour.Blue),
+					new Jewel(Colour.Orange), new Jewel(Colour.Green)},
+				{ new Jewel(Colour.White), new Jewel(Colour.Orange), new Jewel(Colour.Red),
+					new Jewel(Colour.White), new Jewel(Colour.Orange),
+					new Jewel(Colour.Orange), new Jewel(Colour.Yellow),
+					new Jewel(Colour.White) },
+				{ new Jewel(Colour.White), new Jewel(Colour.Red), new Jewel(Colour.Blue),
+					new Jewel(Colour.Yellow), new Jewel(Colour.Yellow),
+					new Jewel(Colour.Green), new Jewel(Colour.Red), new Jewel(Colour.Yellow) },
+				{ new Jewel(Colour.Orange), new Jewel(Colour.Yellow), new Jewel(Colour.Blue),
+					new Jewel(Colour.Purple), new Jewel(Colour.Red), new Jewel(Colour.Red),
+					new Jewel(Colour.Green), new Jewel(Colour.Yellow) },
+				{ new Jewel(Colour.White), new Jewel(Colour.Purple), new Jewel(Colour.Green),
+					new Jewel(Colour.Blue), new Jewel(Colour.Yellow), new Jewel(Colour.Orange),
+					new Jewel(Colour.Red), new Jewel(Colour.Green) }
 		};
 		board.setGrid(grid);
 		
@@ -214,19 +235,37 @@ public class BoardTest {
 	}
 	
 	/**
-	 * Test to check whether the checkVerticalMatches() method gives a list with one match when there is 1 vertical 5-match.
+	 * Test to check whether the checkVerticalMatches() method gives
+	 * a list with one match when there is 1 vertical 5-match.
 	 */
 	@Test
 	public void checkVerticalMatchesOneFiveMatch() {
 		Jewel[][] grid = {
-				{ new Jewel(Colour.Red), new Jewel(Colour.Red), new Jewel(Colour.Red), new Jewel(Colour.Red), new Jewel(Colour.Blue), new Jewel(Colour.Orange), new Jewel(Colour.Green), new Jewel(Colour.Blue)},
-				{ new Jewel(Colour.Red), new Jewel(Colour.Blue), new Jewel(Colour.Orange), new Jewel(Colour.Green), new Jewel(Colour.Blue), new Jewel(Colour.Orange), new Jewel(Colour.Green), new Jewel(Colour.Blue)},
-				{ new Jewel(Colour.Red), new Jewel(Colour.Orange), new Jewel(Colour.Green), new Jewel(Colour.Blue), new Jewel(Colour.Orange), new Jewel(Colour.Green), new Jewel(Colour.Blue), new Jewel(Colour.Orange)},
-				{ new Jewel(Colour.Red), new Jewel(Colour.Green), new Jewel(Colour.Blue), new Jewel(Colour.Orange), new Jewel(Colour.Green), new Jewel(Colour.Blue), new Jewel(Colour.Orange), new Jewel(Colour.Green)},
-				{ new Jewel(Colour.Red), new Jewel(Colour.Orange), new Jewel(Colour.Red), new Jewel(Colour.White), new Jewel(Colour.Orange), new Jewel(Colour.Orange), new Jewel(Colour.Yellow), new Jewel(Colour.White) },
-				{ new Jewel(Colour.White), new Jewel(Colour.Red), new Jewel(Colour.Blue), new Jewel(Colour.Yellow), new Jewel(Colour.Yellow), new Jewel(Colour.Green), new Jewel(Colour.Red), new Jewel(Colour.Yellow) },
-				{ new Jewel(Colour.Orange), new Jewel(Colour.Yellow), new Jewel(Colour.Blue), new Jewel(Colour.Purple), new Jewel(Colour.Red), new Jewel(Colour.Red), new Jewel(Colour.Green), new Jewel(Colour.Yellow) },
-				{ new Jewel(Colour.White), new Jewel(Colour.Purple), new Jewel(Colour.Green), new Jewel(Colour.Blue), new Jewel(Colour.Yellow), new Jewel(Colour.Orange), new Jewel(Colour.Red), new Jewel(Colour.Green) }
+				{ new Jewel(Colour.Red), new Jewel(Colour.Red), new Jewel(Colour.Red),
+					new Jewel(Colour.Red), new Jewel(Colour.Blue), new Jewel(Colour.Orange),
+					new Jewel(Colour.Green), new Jewel(Colour.Blue)},
+				{ new Jewel(Colour.Red), new Jewel(Colour.Blue), new Jewel(Colour.Orange),
+					new Jewel(Colour.Green), new Jewel(Colour.Blue), new Jewel(Colour.Orange),
+					new Jewel(Colour.Green), new Jewel(Colour.Blue)},
+				{ new Jewel(Colour.Red), new Jewel(Colour.Orange), new Jewel(Colour.Green),
+					new Jewel(Colour.Blue), new Jewel(Colour.Orange), new Jewel(Colour.Green),
+					new Jewel(Colour.Blue), new Jewel(Colour.Orange)},
+				{ new Jewel(Colour.Red), new Jewel(Colour.Green), new Jewel(Colour.Blue),
+					new Jewel(Colour.Orange), new Jewel(Colour.Green), new Jewel(Colour.Blue),
+					new Jewel(Colour.Orange), new Jewel(Colour.Green)},
+				{ new Jewel(Colour.Red), new Jewel(Colour.Orange), new Jewel(Colour.Red),
+					new Jewel(Colour.White), new Jewel(Colour.Orange),
+					new Jewel(Colour.Orange), new Jewel(Colour.Yellow),
+					new Jewel(Colour.White) },
+				{ new Jewel(Colour.White), new Jewel(Colour.Red), new Jewel(Colour.Blue),
+					new Jewel(Colour.Yellow), new Jewel(Colour.Yellow),
+					new Jewel(Colour.Green), new Jewel(Colour.Red), new Jewel(Colour.Yellow) },
+				{ new Jewel(Colour.Orange), new Jewel(Colour.Yellow), new Jewel(Colour.Blue),
+					new Jewel(Colour.Purple), new Jewel(Colour.Red), new Jewel(Colour.Red),
+					new Jewel(Colour.Green), new Jewel(Colour.Yellow) },
+				{ new Jewel(Colour.White), new Jewel(Colour.Purple), new Jewel(Colour.Green),
+					new Jewel(Colour.Blue), new Jewel(Colour.Yellow), new Jewel(Colour.Orange),
+					new Jewel(Colour.Red), new Jewel(Colour.Green) }
 		};
 		board.setGrid(grid);
 		
@@ -243,7 +282,7 @@ public class BoardTest {
 	 * Test to test the checkMatches() method when there are no matches.
 	 */
 	@Test 
-	public void checkMatchesNoMatches(){
+	public void checkMatchesNoMatches() {
 		List<Match> result = board.checkMatches();
 		assertEquals(0, result.size());
 	}
@@ -252,16 +291,33 @@ public class BoardTest {
 	 * Test to test the checkMatches() method when there are multiple matches.
 	 */
 	@Test
-	public void checkMatchesMultipleMatches(){
+	public void checkMatchesMultipleMatches() {
 		Jewel[][] grid = {
-				{ new Jewel(Colour.Red), new Jewel(Colour.Red), new Jewel(Colour.Red), new Jewel(Colour.Yellow), new Jewel(Colour.Blue), new Jewel(Colour.Orange), new Jewel(Colour.Green), new Jewel(Colour.Blue)},
-				{ new Jewel(Colour.Red), new Jewel(Colour.Blue), new Jewel(Colour.Orange), new Jewel(Colour.Green), new Jewel(Colour.Blue), new Jewel(Colour.Orange), new Jewel(Colour.Green), new Jewel(Colour.Blue)},
-				{ new Jewel(Colour.Red), new Jewel(Colour.Orange), new Jewel(Colour.Green), new Jewel(Colour.Blue), new Jewel(Colour.Orange), new Jewel(Colour.Green), new Jewel(Colour.Blue), new Jewel(Colour.Orange)},
-				{ new Jewel(Colour.Blue), new Jewel(Colour.Green), new Jewel(Colour.Blue), new Jewel(Colour.Orange), new Jewel(Colour.Green), new Jewel(Colour.Blue), new Jewel(Colour.Orange), new Jewel(Colour.Green)},
-				{ new Jewel(Colour.White), new Jewel(Colour.Orange), new Jewel(Colour.Red), new Jewel(Colour.White), new Jewel(Colour.Orange), new Jewel(Colour.Orange), new Jewel(Colour.Yellow), new Jewel(Colour.White) },
-				{ new Jewel(Colour.White), new Jewel(Colour.Red), new Jewel(Colour.Blue), new Jewel(Colour.Yellow), new Jewel(Colour.Yellow), new Jewel(Colour.Green), new Jewel(Colour.Red), new Jewel(Colour.Yellow) },
-				{ new Jewel(Colour.Orange), new Jewel(Colour.Yellow), new Jewel(Colour.Blue), new Jewel(Colour.Purple), new Jewel(Colour.Red), new Jewel(Colour.Red), new Jewel(Colour.Green), new Jewel(Colour.Yellow) },
-				{ new Jewel(Colour.White), new Jewel(Colour.Purple), new Jewel(Colour.Green), new Jewel(Colour.Blue), new Jewel(Colour.Yellow), new Jewel(Colour.Orange), new Jewel(Colour.Red), new Jewel(Colour.Green) }
+				{ new Jewel(Colour.Red), new Jewel(Colour.Red), new Jewel(Colour.Red),
+					new Jewel(Colour.Yellow), new Jewel(Colour.Blue), new Jewel(Colour.Orange),
+					new Jewel(Colour.Green), new Jewel(Colour.Blue) },
+				{ new Jewel(Colour.Red), new Jewel(Colour.Blue), new Jewel(Colour.Orange),
+					new Jewel(Colour.Green), new Jewel(Colour.Blue), new Jewel(Colour.Orange),
+					new Jewel(Colour.Green), new Jewel(Colour.Blue) },
+				{ new Jewel(Colour.Red), new Jewel(Colour.Orange), new Jewel(Colour.Green),
+					new Jewel(Colour.Blue), new Jewel(Colour.Orange), new Jewel(Colour.Green),
+					new Jewel(Colour.Blue), new Jewel(Colour.Orange) },
+				{ new Jewel(Colour.Blue), new Jewel(Colour.Green), new Jewel(Colour.Blue),
+					new Jewel(Colour.Orange), new Jewel(Colour.Green), new Jewel(Colour.Blue),
+					new Jewel(Colour.Orange), new Jewel(Colour.Green)},
+				{ new Jewel(Colour.White), new Jewel(Colour.Orange), new Jewel(Colour.Red),
+					new Jewel(Colour.White), new Jewel(Colour.Orange),
+					new Jewel(Colour.Orange), new Jewel(Colour.Yellow),
+					new Jewel(Colour.White) },
+				{ new Jewel(Colour.White), new Jewel(Colour.Red), new Jewel(Colour.Blue),
+					new Jewel(Colour.Yellow), new Jewel(Colour.Yellow),
+					new Jewel(Colour.Green), new Jewel(Colour.Red), new Jewel(Colour.Yellow) },
+				{ new Jewel(Colour.Orange), new Jewel(Colour.Yellow), new Jewel(Colour.Blue),
+					new Jewel(Colour.Purple), new Jewel(Colour.Red), new Jewel(Colour.Red),
+					new Jewel(Colour.Green), new Jewel(Colour.Yellow) },
+				{ new Jewel(Colour.White), new Jewel(Colour.Purple), new Jewel(Colour.Green),
+					new Jewel(Colour.Blue), new Jewel(Colour.Yellow), new Jewel(Colour.Orange),
+					new Jewel(Colour.Red), new Jewel(Colour.Green) }
 		};
 		board.setGrid(grid);
 		List<Match> result = board.checkMatches();
@@ -271,87 +327,39 @@ public class BoardTest {
 		assertEquals(result.get(0).get(0), result.get(1).get(0));
 	}
 	
-	/**
-	 * Test to test the processJewel() method when no jewel is selected.
-	 */
 	@Test
-	public void processJewelNoSelectedJewel(){
-		Coordinate expected = new Coordinate(0,0);
-		board.processJewel(expected);
-		assertEquals(expected, board.getSelectedJewel());
-	}
-	
-	/**
-	 * Test to test the processJewel() method when a jewel is selected, and you process a non-adjacent jewel.
-	 */
-	@Test
-	public void processJewelSelectedNotAdjacent(){
-		board.setSelectedJewel(new Coordinate(0,0));
-		Coordinate expected = new Coordinate(1,1);
-		board.processJewel(expected);
-		assertEquals(expected, board.getSelectedJewel());
-	}
-	
-	/**
-	 * Test to test the processJewel() method when you process the selected Jewel.
-	 */
-	@Test
-	public void processJewelSelectedJewel(){
-		Coordinate expected = new Coordinate(0,0);
-		board.setSelectedJewel(expected);
-		board.processJewel(expected);
-		assertEquals(expected, board.getSelectedJewel());
-	}
-	
-	/**
-	 * Test to test the processJewel() method when you process a jewel adjacent to the selected one and no match is made.
-	 */
-	@Test
-	public void processJewelSelectedAdjacentNoMatch(){
-		Jewel expected = new Jewel(Colour.Orange);
-		board.setJewel(expected, new Coordinate(0,0));
-		board.setSelectedJewel(new Coordinate(0,0));
-		board.processJewel(new Coordinate(0,1));
-		assertEquals(false, board.hasSelectedJewel());
-		assertEquals(expected, board.getJewel(new Coordinate(0,0)));
-	}
-	
-	/**
-	 * Test to test the processJewel() method when you process a jewel adjacent to the selected one and a match is made.
-	 */
-	@Test
-	public void processJewelSelectedAdjacentMatch(){
-		Jewel expected = board.getJewel(new Coordinate(2,4));
-		board.setSelectedJewel(new Coordinate(3,7));
-		board.processJewel(new Coordinate(2,7));
-		assertEquals(expected, board.getJewel(new Coordinate(2,7)));
-	}
-	
-	/**
-	 * Test to test the processMatch() method with a vertical match.
-	 */
-	@Test
-	public void processMatchVertical(){
-		Match m = new Match();
-		Jewel expected = board.getJewel(new Coordinate(0,4));
-		m.add(new Coordinate(0,5));
-		m.add(new Coordinate(0,6));
-		m.add(new Coordinate(0,7));
-		board.processMatch(m);
-		assertEquals(expected, board.getJewel(new Coordinate(0,7)));
-	}
-	
-	/**
-	 * Test to test the processMatch() method with a horizontal match.
-	 */
-	@Test
-	public void processMatchHorizontal(){
-		Match m = new Match();
-		Jewel expected = board.getJewel(new Coordinate(0,6));
-		m.add(new Coordinate(0,7));
-		m.add(new Coordinate(1,7));
-		m.add(new Coordinate(2,7));
-		board.processMatch(m);
-		assertEquals(expected, board.getJewel(new Coordinate(0,7)));
+	public void testSwapJewels() {
+		Jewel jewel1 = new Jewel();
+		Jewel jewel2 = new Jewel();
+		Jewel[][] grid = {
+				{ jewel1, jewel2, new Jewel(Colour.Red), new Jewel(Colour.Yellow),
+					new Jewel(Colour.Blue), new Jewel(Colour.Orange), new Jewel(Colour.Green),
+					new Jewel(Colour.Blue) },
+				{ new Jewel(Colour.Red), new Jewel(Colour.Blue), new Jewel(Colour.Orange),
+					new Jewel(Colour.Green), new Jewel(Colour.Blue), new Jewel(Colour.Orange),
+					new Jewel(Colour.Green), new Jewel(Colour.Blue)},
+				{ new Jewel(Colour.Red), new Jewel(Colour.Orange), new Jewel(Colour.Green),
+					new Jewel(Colour.Blue), new Jewel(Colour.Orange), new Jewel(Colour.Green),
+					new Jewel(Colour.Blue), new Jewel(Colour.Orange)},
+				{ new Jewel(Colour.Blue), new Jewel(Colour.Green), new Jewel(Colour.Blue),
+					new Jewel(Colour.Orange), new Jewel(Colour.Green), new Jewel(Colour.Blue),
+					new Jewel(Colour.Orange), new Jewel(Colour.Green)},
+				{ new Jewel(Colour.White), new Jewel(Colour.Orange), new Jewel(Colour.Red),
+					new Jewel(Colour.White), new Jewel(Colour.Orange),
+					new Jewel(Colour.Orange), new Jewel(Colour.Yellow),
+					new Jewel(Colour.White) },
+				{ new Jewel(Colour.White), new Jewel(Colour.Red), new Jewel(Colour.Blue),
+					new Jewel(Colour.Yellow), new Jewel(Colour.Yellow),
+					new Jewel(Colour.Green), new Jewel(Colour.Red), new Jewel(Colour.Yellow) },
+				{ new Jewel(Colour.Orange), new Jewel(Colour.Yellow), new Jewel(Colour.Blue),
+					new Jewel(Colour.Purple), new Jewel(Colour.Red), new Jewel(Colour.Red),
+					new Jewel(Colour.Green), new Jewel(Colour.Yellow) },
+				{ new Jewel(Colour.White), new Jewel(Colour.Purple), new Jewel(Colour.Green),
+					new Jewel(Colour.Blue), new Jewel(Colour.Yellow), new Jewel(Colour.Orange),
+					new Jewel(Colour.Red), new Jewel(Colour.Green) }
+		};
+		board.setGrid(grid);
+		board.swapJewels(new Coordinate(0,0), new Coordinate(1,0));
+		assertEquals(jewel2, board.getJewel(new Coordinate(0,0)));
 	}
 }
