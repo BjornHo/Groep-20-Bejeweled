@@ -25,7 +25,7 @@ public class ReadGameTest {
 		xmlParser = new XmlParser();
 		xmlPath = (System.getProperty("user.dir") + File.separator + "src"
 				+ File.separator + "test" + File.separator
-				+ "java" + File.separator + "xmlparser" + File.separator + "saveGameTest.xml");
+				+ "java" + File.separator + "xmlparser" + File.separator + "LoadGameTest.xml");
 		loadGame = xmlParser.readGame(xmlPath);
 	}
 	
