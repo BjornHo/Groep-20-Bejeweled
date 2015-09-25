@@ -9,10 +9,12 @@ import java.awt.event.WindowListener;
 public class Autosaver implements WindowListener {
 
 	private Game game;
+	private String filename;
 	
-	public Autosaver(Game game) {
+	public Autosaver(Game game, String filename) {
 		super();
 		this.game = game;
+		this.filename = filename;
 	}
 	
 	@Override
@@ -28,7 +30,7 @@ public class Autosaver implements WindowListener {
 	@Override
 	public void windowClosing(WindowEvent event) {
 		XmlParser parser = new XmlParser();
-		parser.writeGame(game, "savegame/Autosave.xml");
+		parser.writeGame(game, filename);
 	}
 
 	@Override
