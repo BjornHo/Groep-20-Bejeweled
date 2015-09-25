@@ -1,8 +1,11 @@
 package game;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.Timer;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlElement;
@@ -21,10 +24,13 @@ import logger.Priority;
 
 @XmlRootElement(name = "game")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Game {
+public class Game implements ActionListener {
 	private Board board;
 	private int score = 0;
 	private int level = 1;
+	private int count = 60;
+	@XmlTransient
+	private Timer timer;
 	
 	@XmlTransient
 	private List<StatsListener> statsListeners;
@@ -129,6 +135,14 @@ public class Game {
 		board.notifyBoardChanged();
 	}
 	
+	public void setTimer(Timer timer) {
+		this.timer = timer;
+	}
+	
+	public Timer getTimer() {
+		return timer;
+	}
+	
 	/**
 	 * Notifies the StatsListener that the score has been changed / needs updating.
 	 */
@@ -152,7 +166,13 @@ public class Game {
 
 	public void notifyNextLevelChanged() {
 		for (StatsListener l : statsListeners) {
-			l.nextLevelChanged(scoreForNextLevel());;
+			l.nextLevelChanged(scoreForNextLevel());
+		}
+	}
+	
+	public void notifyTimeLeft() {
+		for (StatsListener l : statsListeners) {
+			l.timeLeftChanged(count);
 		}
 	}
 	
@@ -184,6 +204,22 @@ public class Game {
 	
 	public void setLevel(int newLevel) {
 		level = newLevel;
+	}
+	
+	public boolean gameLost(){
+		return count == 0 && score < scoreForNextLevel();
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		notifyTimeLeft();
+		if (count == 0) {
+			System.out.println("Game over!");
+			timer.stop();
+		}
+		else{
+			count--;
+		}
 	}
 
 

@@ -15,7 +15,6 @@ import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -27,6 +26,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.Timer;
 
 /**
  * This class handles the graphical representation of our Bejeweled game.
@@ -64,8 +64,11 @@ public class Gui extends JFrame implements ActionListener, BoardListener {
 	 */
 	public static void main(String[] args) throws IOException, LineUnavailableException,
 		UnsupportedAudioFileException {
-		Gui gui = new Gui(loadGame());
+		Game game = loadGame();
+		game.setTimer(new Timer(1000,game));
+		Gui gui = new Gui(game);
 		gui.setVisible(true);
+		game.getTimer().start();
 	}
 	
 	/**
@@ -243,14 +246,19 @@ public class Gui extends JFrame implements ActionListener, BoardListener {
 	}
 	
 	/**
-	 * Returns the saved Game, if file "saveGamePath" exists.
-	 * Returns a new Game otherwise.
+	 * Returns the saved Game, if the file "saveGamePath" exists and yields a
+	 * valid game. Returns a new Game otherwise (in case the file does not exist,
+	 * or the game is not playable because there is no time left).
+	 * 
 	 * @return
 	 */
 	private static Game loadGame() {
 		File file = new File(saveGamePath);
 		if (file.exists()) {
-			return xmlParser.readGame(saveGamePath);
+			Game game =  xmlParser.readGame(saveGamePath);
+			if (!game.gameLost()) {
+				return game;
+			}
 		}
 		return new Game();
 	}

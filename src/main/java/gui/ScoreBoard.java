@@ -86,4 +86,8 @@ public class ScoreBoard extends JPanel implements StatsListener {
 	public void nextLevelChanged(int nextLevelPoints) {
 		nextScoreLabel.setText("<html><font size=\"12\">" + nextLevelPoints + "</font></html>");
 	}
+	
+	public void timeLeftChanged(int time) {
+		System.out.println("Time: " + time);
+	}
 }
