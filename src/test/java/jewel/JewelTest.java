@@ -1,7 +1,5 @@
 package jewel;
 
-
-
 import static org.junit.Assert.assertEquals;
 import jewel.Colour;
 import jewel.Jewel;
