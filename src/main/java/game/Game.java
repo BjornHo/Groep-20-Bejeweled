@@ -8,8 +8,6 @@ import java.util.List;
 import javax.swing.Timer;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -148,6 +146,19 @@ public class Game implements ActionListener {
 		return count;
 	}
 	
+	public void restartGame() {
+		timer.stop();
+		score = 0;
+		level = 1;
+		count = 60;
+		board.reset();
+		notifyLevelChanged();
+		notifyScoreChanged();
+		notifyNextLevelChanged();
+		notifyTimeLeft();
+		timer.start();
+	}
+	
 	/**
 	 * Notifies the StatsListener that the score has been changed / needs updating.
 	 */
@@ -188,10 +199,12 @@ public class Game implements ActionListener {
 	public void nextLevelCheck() {
 		if (score >= goalScore()) {
 			level++;
+			count = 60;
 			score = 0;
 			notifyScoreChanged();
 			notifyLevelChanged();
 			notifyNextLevelChanged();
+			notifyTimeLeft();
 		}
 	}
 	
@@ -224,7 +237,7 @@ public class Game implements ActionListener {
 		notifyTimeLeft();
 		if (count == 0) {
 			System.out.println("Game over!");
-			timer.stop();
+			restartGame();
 		}
 		else{
 			count--;

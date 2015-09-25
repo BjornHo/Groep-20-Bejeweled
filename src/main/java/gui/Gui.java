@@ -26,7 +26,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.Timer;
 
 /**
  * This class handles the graphical representation of our Bejeweled game.
@@ -88,7 +87,8 @@ public class Gui extends JFrame implements ActionListener, BoardListener {
 		add(bgPanel, BorderLayout.CENTER);
 		createButtons();
 		createGridPane();
-		StatsPanel sc = new StatsPanel(game.getLevel(), game.getScore(), game.getTimeLeft(),game.goalScore());
+		StatsPanel sc = new StatsPanel(game.getLevel(), game.getScore(),
+				game.getTimeLeft(), game.goalScore());
 		sc.levelChanged(game.getLevel());
 		sc.scoreChanged(game.getScore());
 		bgPanel.add(sc, BorderLayout.NORTH);

@@ -83,6 +83,5 @@ public class StatsPanel extends JPanel implements StatsListener {
 	public void timeLeftChanged(int time) {
 		timeLabel.setText("<html><font size=\"15\">Time " + time
 				+ "</font></html>");
-		System.out.println("Time: " + time);
 	}
 }
