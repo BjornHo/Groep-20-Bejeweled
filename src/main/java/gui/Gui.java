@@ -15,7 +15,6 @@ import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -64,8 +63,10 @@ public class Gui extends JFrame implements ActionListener, BoardListener {
 	 */
 	public static void main(String[] args) throws IOException, LineUnavailableException,
 		UnsupportedAudioFileException {
-		Gui gui = new Gui(loadGame());
+		Game game = loadGame();
+		Gui gui = new Gui(game);
 		gui.setVisible(true);
+		game.startTimer();
 	}
 	
 	/**
@@ -86,7 +87,8 @@ public class Gui extends JFrame implements ActionListener, BoardListener {
 		add(bgPanel, BorderLayout.CENTER);
 		createButtons();
 		createGridPane();
-		ScoreBoard sc = createScoreBoard();
+		StatsPanel sc = new StatsPanel(game.getLevel(), game.getScore(),
+				game.getTimeLeft(), game.goalScore());
 		sc.levelChanged(game.getLevel());
 		sc.scoreChanged(game.getScore());
 		bgPanel.add(sc, BorderLayout.NORTH);
@@ -110,14 +112,6 @@ public class Gui extends JFrame implements ActionListener, BoardListener {
 			e.printStackTrace();
 		}
 		return bgImage;
-	}
-	
-	/**
-	 * Creates the score board for the GUI.
-	 * Has it's own method in case we make the ScoreBoard more complex.
-	 */
-	private ScoreBoard createScoreBoard() {
-		return new ScoreBoard();
 	}
 	
 	/**
@@ -243,14 +237,20 @@ public class Gui extends JFrame implements ActionListener, BoardListener {
 	}
 	
 	/**
-	 * Returns the saved Game, if file "saveGamePath" exists.
-	 * Returns a new Game otherwise.
+	 * Returns the saved Game, if the file with path and name "saveGamePath"
+	 * exists and yields a valid game. Returns a new Game otherwise (in case the
+	 * file does not exist, or the game is not playable because there is no time
+	 * left).
+	 * 
 	 * @return
 	 */
 	private static Game loadGame() {
 		File file = new File(saveGamePath);
 		if (file.exists()) {
-			return xmlParser.readGame(saveGamePath);
+			Game game =  xmlParser.readGame(saveGamePath);
+			if (!game.gameLost()) {
+				return game;
+			}
 		}
 		return new Game();
 	}

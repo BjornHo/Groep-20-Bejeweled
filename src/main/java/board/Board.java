@@ -94,6 +94,12 @@ public class Board {
 	public void setSelectedPos(Coordinate coord) {
 		selectedPos = coord;
 	}
+	
+	public void reset() {
+		jewelGrid = createGrid();
+		selectedPos = null;
+		notifyBoardChanged();
+	}
 
 	/**
 	 * Swaps the jewels at the given coordinates with each other. Also notifies

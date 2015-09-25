@@ -1,12 +1,13 @@
 package game;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.Timer;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -21,15 +22,19 @@ import logger.Priority;
 
 @XmlRootElement(name = "game")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Game {
+public class Game implements ActionListener {
 	private Board board;
 	private int score = 0;
 	private int level = 1;
+	private int count = 60;
+	@XmlTransient
+	private Timer timer;
 	
 	@XmlTransient
 	private List<StatsListener> statsListeners;
 	
 	public Game() {
+		timer = new Timer(1000,this);
 		board = new Board();
 		statsListeners = new ArrayList<StatsListener>();
 	}
@@ -129,6 +134,31 @@ public class Game {
 		board.notifyBoardChanged();
 	}
 	
+	public void setTimer(Timer timer) {
+		this.timer = timer;
+	}
+	
+	public Timer getTimer() {
+		return timer;
+	}
+	
+	public int getTimeLeft() {
+		return count;
+	}
+	
+	public void restartGame() {
+		timer.stop();
+		score = 0;
+		level = 1;
+		count = 60;
+		board.reset();
+		notifyLevelChanged();
+		notifyScoreChanged();
+		notifyNextLevelChanged();
+		notifyTimeLeft();
+		timer.start();
+	}
+	
 	/**
 	 * Notifies the StatsListener that the score has been changed / needs updating.
 	 */
@@ -152,21 +182,34 @@ public class Game {
 
 	public void notifyNextLevelChanged() {
 		for (StatsListener l : statsListeners) {
-			l.nextLevelChanged(scoreForNextLevel());;
+			l.nextLevelChanged(goalScore());
 		}
+	}
+	
+	public void notifyTimeLeft() {
+		for (StatsListener l : statsListeners) {
+			l.timeLeftChanged(count);
+		}
+	}
+	
+	public void startTimer() {
+		timer.start();
 	}
 	
 	public void nextLevelCheck() {
-		if (score >= scoreForNextLevel()) {
+		if (score >= goalScore()) {
 			level++;
+			count = 60;
 			score = 0;
+			board.reset();
 			notifyScoreChanged();
 			notifyLevelChanged();
 			notifyNextLevelChanged();
+			notifyTimeLeft();
 		}
 	}
 	
-	public int scoreForNextLevel() {
+	public int goalScore() {
 		return 750 + 250 * level;
 	}
 	
@@ -184,6 +227,21 @@ public class Game {
 	
 	public void setLevel(int newLevel) {
 		level = newLevel;
+	}
+	
+	public boolean gameLost() {
+		return count == 0 && score < goalScore();
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent event) {
+		notifyTimeLeft();
+		if (count == 0) {
+			System.out.println("Game over!");
+			restartGame();
+		} else {
+			count--;
+		}
 	}
 
 
