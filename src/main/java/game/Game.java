@@ -201,6 +201,7 @@ public class Game implements ActionListener {
 			level++;
 			count = 60;
 			score = 0;
+			board.reset();
 			notifyScoreChanged();
 			notifyLevelChanged();
 			notifyNextLevelChanged();
