@@ -44,12 +44,14 @@ public class Gui extends JFrame implements ActionListener, BoardListener {
 	private JButton[][] allButtons = new JButton[8][8];
 	private BackgroundPanel bgPanel;
 	private Image bgImage;
+	private static XmlParser xmlParser = new XmlParser();
 	
 	private Game game;
 	private static ImgLoader imgloader;
 	public static SoundLoader soundloader;
-	public static String saveGamePath;
-	
+	public static String saveGamePath = (System.getProperty("user.dir")
+			+ File.separator + "savegame/Autosave.xml");
+
 	/**
 	 * Main method used to verify what the GUI looks like.
 	 * 
@@ -62,9 +64,7 @@ public class Gui extends JFrame implements ActionListener, BoardListener {
 	 */
 	public static void main(String[] args) throws IOException, LineUnavailableException,
 		UnsupportedAudioFileException {
-		XmlParser xmlParser = new XmlParser();
-		initSaveGamePath(directoryFiles());
-		Gui gui = new Gui(xmlParser.readGame(saveGamePath));
+		Gui gui = new Gui(loadGame());
 		gui.setVisible(true);
 	}
 	
@@ -77,7 +77,7 @@ public class Gui extends JFrame implements ActionListener, BoardListener {
 	public Gui(Game game) throws IOException, LineUnavailableException,
 		UnsupportedAudioFileException {
 		this.game = game;
-		this.addWindowListener(new Autosaver(this.game));
+		this.addWindowListener(new Autosaver(this.game, saveGamePath));
 		imgloader = new ImgLoader();
 		soundloader = new SoundLoader();
 		setSize(800,800);
@@ -243,34 +243,15 @@ public class Gui extends JFrame implements ActionListener, BoardListener {
 	}
 	
 	/**
-	 * Sets the saveGamePath variable which is the absolute path to the savegame file.
-	 * @param allFiles is an array containing all the files in a directory.
+	 * Returns the saved Game, if file "saveGamePath" exists.
+	 * Returns a new Game otherwise.
+	 * @return
 	 */
-	public static void initSaveGamePath(File[] allFiles) {
-		String extension = "";
-		for (File file : allFiles) {
-			int index = file.getName().lastIndexOf('.');
-			if (index > 0) {
-			    extension = file.getName().substring(index + 1);
-			}
-			if (extension.equals("xml")) {
-				saveGamePath = file.getAbsolutePath();		
-			}
-		}	
+	private static Game loadGame() {
+		File file = new File(saveGamePath);
+		if (file.exists()) {
+			return xmlParser.readGame(saveGamePath);
+		}
+		return new Game();
 	}
-	
-	/**
-	 * Gets all the files in the savegame directory.
-	 * @return it returns an array containing all the files.
-	 */
-	public static File[] directoryFiles() {
-		String directory = (System.getProperty("user.dir") + File.separator + "savegame");
-		File folder = new File(directory);
-		File[] allFiles = folder.listFiles();
-		return allFiles;
-	}
-	
-
-	
-
 }
