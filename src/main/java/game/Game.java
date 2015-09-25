@@ -110,7 +110,7 @@ public class Game {
 				}
 				board.setJewel(new Jewel(Colour.randomColour()), c);
 			}
-		} else if (match.isVertical()) {
+		} else {
 			//Nr. of elements above the group of jewels that form a vertical match
 			int aboveMatch = match.getYMin();  
 			
@@ -177,5 +177,14 @@ public class Game {
 	public int getLevel() {
 		return level;
 	}
+
+	public void setScore(int newScore) {
+		score = newScore;
+	}
+	
+	public void setLevel(int newLevel) {
+		level = newLevel;
+	}
+
 
 }
