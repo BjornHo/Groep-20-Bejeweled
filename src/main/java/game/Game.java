@@ -228,18 +228,17 @@ public class Game implements ActionListener {
 		level = newLevel;
 	}
 	
-	public boolean gameLost(){
+	public boolean gameLost() {
 		return count == 0 && score < goalScore();
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent e) {
+	public void actionPerformed(ActionEvent event) {
 		notifyTimeLeft();
 		if (count == 0) {
 			System.out.println("Game over!");
 			restartGame();
-		}
-		else{
+		} else {
 			count--;
 		}
 	}
