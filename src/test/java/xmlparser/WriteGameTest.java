@@ -2,25 +2,22 @@ package xmlparser;
 
 import static org.junit.Assert.assertEquals;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.mockito.Mock;
-
 import board.Board;
 import board.Coordinate;
 import game.Game;
 import jewel.Colour;
 import jewel.Jewel;
-import xmlparser.XmlParser;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.Mock;
 
 import java.io.BufferedReader;
 import java.io.File;
-
 import java.io.FileReader;
 import java.io.IOException;
 
 public class WriteGameTest {
-	
 	@Mock private Board board;
 	@Mock private Game game;
 	@Mock private Game savedgame;

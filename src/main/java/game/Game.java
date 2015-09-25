@@ -1,16 +1,5 @@
 package game;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.swing.Timer;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
-
 import board.Board;
 import board.Coordinate;
 import board.Match;
@@ -20,13 +9,26 @@ import jewel.Jewel;
 import logger.Logger;
 import logger.Priority;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.Timer;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
+
 @XmlRootElement(name = "game")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Game implements ActionListener {
+	
 	private Board board;
 	private int score = 0;
 	private int level = 1;
 	private int count = 60;
+	
 	@XmlTransient
 	private Timer timer;
 	
@@ -179,7 +181,7 @@ public class Game implements ActionListener {
 			l.levelChanged(level);
 		}
 	}
-
+	
 	public void notifyNextLevelChanged() {
 		for (StatsListener l : statsListeners) {
 			l.nextLevelChanged(goalScore());
@@ -196,6 +198,9 @@ public class Game implements ActionListener {
 		timer.start();
 	}
 	
+	/**
+	 * If score limit has been reached, progress to the next level.
+	 */
 	public void nextLevelCheck() {
 		if (score >= goalScore()) {
 			level++;
@@ -243,6 +248,4 @@ public class Game implements ActionListener {
 			count--;
 		}
 	}
-
-
 }

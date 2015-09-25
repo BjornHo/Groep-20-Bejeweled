@@ -1,35 +1,33 @@
 package logger;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 
 public class ConsoleWriterTest {
-	
 	private ByteArrayOutputStream sysout = new ByteArrayOutputStream();
-	private Writer w;
-	private String s = "Lorum ipsum dolor sit amet.";
+	private Writer writer;
+	private String string = "Lorum ipsum dolor sit amet.";
 
 	@Before
 	public void before() {
 	    System.setOut(new PrintStream(sysout));
-	    w = new ConsoleWriter();
+	    writer = new ConsoleWriter();
 	}
 	
 	@Test
 	public void testWrite() {
-		w.write(s);
-		assertEquals(s, sysout.toString().trim());
+		writer.write(string);
+		assertEquals(string, sysout.toString().trim());
 	}
 
 	@After
 	public void after() {
 	    System.setOut(null);
 	}
-
 }

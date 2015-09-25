@@ -1,21 +1,18 @@
 package xmlparser;
 
-import static org.junit.Assert.*;
-
-import java.io.File;
-
-
-import org.junit.Before;
-import org.junit.Test;
-
+import static org.junit.Assert.assertEquals;
 
 import board.Board;
 import board.Coordinate;
 import game.Game;
 import jewel.Colour;
 
+import org.junit.Before;
+import org.junit.Test;
+
+import java.io.File;
+
 public class ReadGameTest {
-	
 	XmlParser xmlParser;
 	String xmlPath;
 	Game loadGame;
@@ -73,11 +70,7 @@ public class ReadGameTest {
 		for (int x = 0; x < 8; x++) {
 			for (int y = 0; y < 8; y++) {
 				assertEquals(board.getJewel(new Coordinate(x, y)).colour, Colour.Blue);
-				
 			}
 		}
 	}
-	
-	
-
 }

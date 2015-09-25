@@ -1,5 +1,10 @@
 package board;
 
+import jewel.Colour;
+import jewel.Jewel;
+import logger.Logger;
+import logger.Priority;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,11 +14,6 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
-
-import jewel.Colour;
-import jewel.Jewel;
-import logger.Logger;
-import logger.Priority;
 
 /**
  * @author Group 20
@@ -42,9 +42,6 @@ public class Board {
 	@XmlTransient
 	private List<BoardListener> boardListeners;
 	
-	/**
-	 * Board constructor method.
-	 */
 	public Board() {
 		this.boardListeners = new ArrayList<BoardListener>();
 	}
@@ -61,9 +58,6 @@ public class Board {
 				+ " added to Board.");
 	}
 	
-	/**
-	 * Returns the list of all current BoardListeners.
-	 */
 	public List<BoardListener> getBoardListeners() {
 		return boardListeners;
 	}
@@ -85,12 +79,6 @@ public class Board {
 		return selectedPos;
 	}
 	
-	/**
-	 * Sets coordinate coord as the selected position.
-	 * 
-	 * @param coord
-	 *     Coordinate (of jewel) to be selected.
-	 */
 	public void setSelectedPos(Coordinate coord) {
 		selectedPos = coord;
 	}
@@ -162,36 +150,14 @@ public class Board {
 		return grid;
 	}
 	
-	/**
-	 * Returns the jewel from the given coordinates.
-	 * 
-	 * @param coord
-	 *     Coordinate of the jewel you want.
-	 * @return Jewel
-	 *     The jewel from the given coordinates.
-	 */
 	public Jewel getJewel(Coordinate coord) {
 		return jewelGrid[coord.getY()][coord.getX()];
 	}
 	
-	/**
-	 * Returns whether there is a jewel currently selected.
-	 * 
-	 * @return boolean
-	 *     True/false if there is a selected jewel.
-	 */
 	public boolean hasSelectedJewel() {
 		return selectedPos != null;
 	}
 	
-	/**
-	 * Sets the jewel at the given coordinate to the given jewel.
-	 * 
-	 * @param jewel
-	 *     The jewel that the selected Jewel will become.
-	 * @param coord
-	 *     The coordinates of the selected jewel.
-	 */
 	public void setJewel(Jewel jewel, Coordinate coord) {
 		jewelGrid[coord.getY()][coord.getX()] = jewel;
 	}
@@ -232,9 +198,10 @@ public class Board {
 	
 	/**
 	 * Checks the game field for horizontally alligned matches (completed sets).
-	 * @param matched - the list of matches to be added to.
+	 * 
+	 * @param matched
+	 * 		The list of matches to be added to.
 	 */
-
 	public void checkHorizontalMatches(List<Match> matched) {
 		int matchcoord;
 		// First the y loop, then the x loop, because we're checking matches in rows.

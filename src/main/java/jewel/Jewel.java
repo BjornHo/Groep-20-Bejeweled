@@ -1,25 +1,16 @@
 package jewel;
 
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 @XmlRootElement(name = "jewel")
 public class Jewel {
-
 	public Colour colour;
 	
-	/**
-	 * Jewel Constructor
-	 * 
-	 * @param colour 
-	 *     Colour of the jewel.
-	 */
 	public Jewel(Colour colour) {
 		this.colour = colour;
 	}
 	
 	public Jewel() {
-		
 	}
 	
 	/**
@@ -38,12 +29,6 @@ public class Jewel {
 		}
 	}
 	
-	/**
-	 * Getter method for acquiring a Colour of designated Jewel.
-	 * 
-	 * @return Colour
-	 *     Colour of the designated Jewel.
-	 */
 	public Colour getColour() {
 		return this.colour;
 	}

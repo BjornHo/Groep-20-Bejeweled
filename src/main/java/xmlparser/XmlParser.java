@@ -16,6 +16,9 @@ public class XmlParser {
 	private Marshaller marshaller;
 	private Unmarshaller unmarshaller;
 	
+	/**
+	 * XmlParser constructor.
+	 */
 	public XmlParser() {
 		try {
 			context = JAXBContext.newInstance(Game.class);
@@ -26,7 +29,6 @@ public class XmlParser {
 		} catch (JAXBException e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	/**
