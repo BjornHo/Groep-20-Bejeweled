@@ -36,6 +36,7 @@ public class Game implements ActionListener {
 	private List<StatsListener> statsListeners;
 	
 	public Game() {
+		timer = new Timer(1000,this);
 		board = new Board();
 		statsListeners = new ArrayList<StatsListener>();
 	}
@@ -143,6 +144,10 @@ public class Game implements ActionListener {
 		return timer;
 	}
 	
+	public int getTimeLeft() {
+		return count;
+	}
+	
 	/**
 	 * Notifies the StatsListener that the score has been changed / needs updating.
 	 */
@@ -166,7 +171,7 @@ public class Game implements ActionListener {
 
 	public void notifyNextLevelChanged() {
 		for (StatsListener l : statsListeners) {
-			l.nextLevelChanged(scoreForNextLevel());
+			l.nextLevelChanged(goalScore());
 		}
 	}
 	
@@ -176,8 +181,12 @@ public class Game implements ActionListener {
 		}
 	}
 	
+	public void startTimer() {
+		timer.start();
+	}
+	
 	public void nextLevelCheck() {
-		if (score >= scoreForNextLevel()) {
+		if (score >= goalScore()) {
 			level++;
 			score = 0;
 			notifyScoreChanged();
@@ -186,7 +195,7 @@ public class Game implements ActionListener {
 		}
 	}
 	
-	public int scoreForNextLevel() {
+	public int goalScore() {
 		return 750 + 250 * level;
 	}
 	
@@ -207,7 +216,7 @@ public class Game implements ActionListener {
 	}
 	
 	public boolean gameLost(){
-		return count == 0 && score < scoreForNextLevel();
+		return count == 0 && score < goalScore();
 	}
 
 	@Override

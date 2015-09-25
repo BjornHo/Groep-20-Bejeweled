@@ -117,7 +117,7 @@ public class GameTest {
 	@Test
 	public void scoreNextLevel() {
 		game.setLevel(10);
-		assertEquals(3250, game.scoreForNextLevel());
+		assertEquals(3250, game.goalScore());
 	}
 	
 	@Test

@@ -17,7 +17,7 @@ import board.BoardListener;
 import board.Coordinate;
 import board.Match;
 import board.StatsListener;
-import gui.ScoreBoard;
+import gui.StatsPanel;
 import jewel.Colour;
 import jewel.Jewel;
 
