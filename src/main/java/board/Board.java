@@ -30,6 +30,8 @@ public class Board {
 	@XmlElementWrapper(name = "grid")
     private Jewel[][] jewelGrid = createGrid();
 	
+	private int width = 8;
+	private int height = 8;
 	/**
 	 * Coordinate object used to define the currently selected Coordinate.
 	 */
@@ -73,6 +75,14 @@ public class Board {
 	
 	public Jewel[][] getGrid() {
 		return jewelGrid;
+	}
+	
+	public int getWidth() {
+		return width;
+	}
+	
+	public int getHeight() {
+		return height;
 	}
 	
 	public Coordinate getSelectedPos() {
@@ -160,6 +170,77 @@ public class Board {
 	
 	public void setJewel(Jewel jewel, Coordinate coord) {
 		jewelGrid[coord.getY()][coord.getX()] = jewel;
+	}
+	
+	public void clearMatch(Match match) {
+		for (Coordinate coord : match.getCoordinates()) {
+			setJewel(null, coord);
+		}
+	}
+	
+	/**
+	 * Makes the existing jewels above empty spaces drop down.
+	 */
+	public void applyGravity() {
+		for (int row = height - 1; row >= 1; row--) {
+			List<Coordinate> holes = getHolesInRow(row);
+			for (Coordinate coord : holes) {
+				applyGravityCoordinate(coord);
+			}
+		}
+	}
+	
+	private void applyGravityCoordinate(Coordinate coord) {
+		if (!coordinateExists(coord) || coord.getY() < 1) {
+			return;
+		}
+		Coordinate above = new Coordinate(coord.getX(),coord.getY() - 1);
+		while (above.getY() > -1 && getJewel(above) == null ) {
+			above.setY(above.getY() - 1);
+		}
+		if(coordinateExists(above)){
+			setJewel(getJewel(above), coord);
+			setJewel(null, above);			
+		}
+
+	}
+	
+	public boolean coordinateExists(Coordinate coord) {
+		return coord.getX() > -1 && coord.getX() < width 
+				&& coord.getY() > -1 && coord.getY() < height;
+	}
+
+	/**
+	 * Returns an array of coordinates from the given row where no jewel is located. 
+	 * @param row
+	 * @return
+	 */
+	public List<Coordinate> getHolesInRow(int row) {
+		if (row >= height - 1 && row <= 0) {
+			return null;
+		}
+		List<Coordinate> list = new ArrayList<>();
+		for (int column = 0; column < width; column++) {
+			Coordinate coord = new Coordinate(column, row);
+			if (getJewel(coord) == null) {
+				list.add(coord);
+			}
+		}
+		return list;
+	}
+	
+	/**
+	 * Places new jewels in the empty spaces in the top rows.
+	 */
+	public void refillGrid() {
+		int row = 0;
+		List<Coordinate> holes = getHolesInRow(row);
+		while (!holes.isEmpty()) {
+			for (Coordinate coord : holes) {
+				setJewel(new Jewel(Colour.randomColour()), coord);
+			}
+			holes = getHolesInRow(++row);
+		}
 	}
 	
 	/**

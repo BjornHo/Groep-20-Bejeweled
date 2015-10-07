@@ -92,10 +92,14 @@ public class Game implements ActionListener {
 				board.setSelectedPos(null);
 				return;
 			}
-			while (!matches.isEmpty()) {
-				processMatch(matches.get(0));
-				matches = board.checkMatches();
+			for (Match match : matches) {
+				board.clearMatch(match);
+				score += match.getPoints();
+				notifyScoreChanged();
 			}
+			board.applyGravity();
+			board.refillGrid();
+			board.notifyBoardChanged();
 			board.setSelectedPos(null);
 			nextLevelCheck();
 		}
@@ -106,35 +110,35 @@ public class Game implements ActionListener {
 	 * @param match
 	 *     The Match to be processed.
 	 */
-	public void processMatch(Match match) {
-		score += match.getPoints();
-		notifyScoreChanged();
-		if (match.isHorizontal()) {
-			for (Coordinate c : match.getCoordinates()) {
-				while (c.hasNorth()) {
-					board.setJewel(board.getJewel(c.getNorth()), c);
-					c = c.getNorth();
-				}
-				board.setJewel(new Jewel(Colour.randomColour()), c);
-			}
-		} else {
-			//Nr. of elements above the group of jewels that form a vertical match
-			int aboveMatch = match.getYMin();  
-			
-			int xcoord = match.getX();
-			//Move all jewels above the cleared ones down.
-			for (int delta = 0; delta < aboveMatch; delta++) {
-				int temp = match.getYMax() - match.size() - delta;
-				board.setJewel(board.getJewel(new Coordinate(xcoord, temp)),
-						new Coordinate(xcoord, match.getYMax() - delta));
-			}
-			//Place new Jewels on the newly blanked spaces.
-			for (int y = match.getYMax() - aboveMatch; y >= 0; y--) {
-				board.setJewel(new Jewel(Colour.randomColour()),new Coordinate(xcoord,y));
-			}
-		}
-		board.notifyBoardChanged();
-	}
+//	public void processMatch(Match match) {
+//		score += match.getPoints();
+//		notifyScoreChanged();
+//		if (match.isHorizontal()) {
+//			for (Coordinate c : match.getCoordinates()) {
+//				while (c.hasNorth()) {
+//					board.setJewel(board.getJewel(c.getNorth()), c);
+//					c = c.getNorth();
+//				}
+//				board.setJewel(new Jewel(Colour.randomColour()), c);
+//			}
+//		} else {
+//			//Nr. of elements above the group of jewels that form a vertical match
+//			int aboveMatch = match.getYMin();  
+//			
+//			int xcoord = match.getX();
+//			//Move all jewels above the cleared ones down.
+//			for (int delta = 0; delta < aboveMatch; delta++) {
+//				int temp = match.getYMax() - match.size() - delta;
+//				board.setJewel(board.getJewel(new Coordinate(xcoord, temp)),
+//						new Coordinate(xcoord, match.getYMax() - delta));
+//			}
+//			//Place new Jewels on the newly blanked spaces.
+//			for (int y = match.getYMax() - aboveMatch; y >= 0; y--) {
+//				board.setJewel(new Jewel(Colour.randomColour()),new Coordinate(xcoord,y));
+//			}
+//		}
+//		board.notifyBoardChanged();
+//	}
 	
 	public void setTimer(Timer timer) {
 		this.timer = timer;
