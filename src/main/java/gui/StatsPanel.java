@@ -80,10 +80,6 @@ public class StatsPanel extends JPanel implements StatsListener {
 		levelLabel.setText("<html><font size=\"15\">Level " + level  + "</font></html>");
 	}
 	
-	public void nextLevelChanged(int nextLevelPoints) {
-		nextScoreLabel.setText("<html><font size=\"12\">" + nextLevelPoints + "</font></html>");
-	}
-	
 	public void timeLeftChanged(int time) {
 		timeLabel.setText("<html><font size=\"15\">Time " + time
 				+ "</font></html>");

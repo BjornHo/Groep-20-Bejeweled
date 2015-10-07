@@ -6,8 +6,6 @@ public interface StatsListener {
 	
 	public void levelChanged(int level);
 	
-	public void nextLevelChanged(int nextLevelPoints);
-	
 	public void timeLeftChanged(int time);
 	
 	public void goalScoreChanged(int goalScore);

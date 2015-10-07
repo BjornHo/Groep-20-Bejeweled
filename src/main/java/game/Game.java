@@ -157,7 +157,6 @@ public class Game implements ActionListener {
 		board.reset();
 		notifyLevelChanged();
 		notifyScoreChanged();
-		notifyNextLevelChanged();
 		notifyTimeLeft();
 		goalScore = goalScore();
 		notifyGoalScoreChanged();
@@ -191,12 +190,6 @@ public class Game implements ActionListener {
 		}
 	}
 	
-	public void notifyNextLevelChanged() {
-		for (StatsListener l : statsListeners) {
-			l.nextLevelChanged(goalScore());
-		}
-	}
-	
 	public void notifyTimeLeft() {
 		for (StatsListener l : statsListeners) {
 			l.timeLeftChanged(count);
@@ -219,7 +212,6 @@ public class Game implements ActionListener {
 			board.reset();
 			notifyScoreChanged();
 			notifyLevelChanged();
-			notifyNextLevelChanged();
 			notifyGoalScoreChanged();
 			notifyTimeLeft();
 		}
