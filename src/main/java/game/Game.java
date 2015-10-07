@@ -215,10 +215,12 @@ public class Game implements ActionListener {
 			level++;
 			count = 60;
 			score = 0;
+			goalScore = goalScore();
 			board.reset();
 			notifyScoreChanged();
 			notifyLevelChanged();
 			notifyNextLevelChanged();
+			notifyGoalScoreChanged();
 			notifyTimeLeft();
 		}
 	}
@@ -236,7 +238,7 @@ public class Game implements ActionListener {
 	}
 	
 	public void setGoalScore(int goalScore) {
-		goalScore = goalScore;
+		this.goalScore = goalScore;
 	}
 
 	public void setScore(int newScore) {
