@@ -4,8 +4,6 @@ import board.Board;
 import board.Coordinate;
 import board.Match;
 import board.StatsListener;
-import jewel.Colour;
-import jewel.Jewel;
 import logger.Logger;
 import logger.Priority;
 
@@ -92,53 +90,32 @@ public class Game implements ActionListener {
 				board.setSelectedPos(null);
 				return;
 			}
-			for (Match match : matches) {
-				board.clearMatch(match);
-				score += match.getPoints();
-				notifyScoreChanged();
+			while (!matches.isEmpty()) {
+				processMatches(matches);
+				matches = board.checkMatches();
 			}
-			board.applyGravity();
-			board.refillGrid();
-			board.notifyBoardChanged();
 			board.setSelectedPos(null);
 			nextLevelCheck();
 		}
 	}
 	
 	/**
-	 * Updates the score. Checks for completed sets. Refills the board. Updates the board.
-	 * @param match
-	 *     The Match to be processed.
+	 * Removes all matches from the board, updates the score and refills the board.
+	 * @param matches List of matches to process.
 	 */
-//	public void processMatch(Match match) {
-//		score += match.getPoints();
-//		notifyScoreChanged();
-//		if (match.isHorizontal()) {
-//			for (Coordinate c : match.getCoordinates()) {
-//				while (c.hasNorth()) {
-//					board.setJewel(board.getJewel(c.getNorth()), c);
-//					c = c.getNorth();
-//				}
-//				board.setJewel(new Jewel(Colour.randomColour()), c);
-//			}
-//		} else {
-//			//Nr. of elements above the group of jewels that form a vertical match
-//			int aboveMatch = match.getYMin();  
-//			
-//			int xcoord = match.getX();
-//			//Move all jewels above the cleared ones down.
-//			for (int delta = 0; delta < aboveMatch; delta++) {
-//				int temp = match.getYMax() - match.size() - delta;
-//				board.setJewel(board.getJewel(new Coordinate(xcoord, temp)),
-//						new Coordinate(xcoord, match.getYMax() - delta));
-//			}
-//			//Place new Jewels on the newly blanked spaces.
-//			for (int y = match.getYMax() - aboveMatch; y >= 0; y--) {
-//				board.setJewel(new Jewel(Colour.randomColour()),new Coordinate(xcoord,y));
-//			}
-//		}
-//		board.notifyBoardChanged();
-//	}
+	public void processMatches(List<Match> matches) {
+		if (matches.isEmpty()) {
+			return;
+		}
+		for (Match match : matches) {
+			board.clearMatch(match);
+			score += match.getPoints();
+			notifyScoreChanged();
+		}
+		board.applyGravity();
+		board.refillGrid();
+		board.notifyBoardChanged();
+	}
 	
 	public void setTimer(Timer timer) {
 		this.timer = timer;

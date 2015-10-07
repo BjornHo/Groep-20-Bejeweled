@@ -172,6 +172,10 @@ public class Board {
 		jewelGrid[coord.getY()][coord.getX()] = jewel;
 	}
 	
+	/**
+	 * Removes the given match from the board (replaces all jewels of the match by 'null')
+	 * @param match The match to remove from the board.
+	 */
 	public void clearMatch(Match match) {
 		for (Coordinate coord : match.getCoordinates()) {
 			setJewel(null, coord);
@@ -190,28 +194,43 @@ public class Board {
 		}
 	}
 	
+	/**
+	 * Fills the empty space at the given coordinate with the nearest jewel
+	 * above it, iff the space at the given coordinate is actually empty.
+	 * 
+	 * @param coord
+	 */
 	private void applyGravityCoordinate(Coordinate coord) {
-		if (!coordinateExists(coord) || coord.getY() < 1) {
+		if (!coordinateExists(coord) || coord.getY() < 1 || getJewel(coord) != null) {
 			return;
 		}
 		Coordinate above = new Coordinate(coord.getX(),coord.getY() - 1);
 		while (above.getY() > -1 && getJewel(above) == null ) {
 			above.setY(above.getY() - 1);
 		}
-		if(coordinateExists(above)){
+		if (coordinateExists(above)) {
 			setJewel(getJewel(above), coord);
 			setJewel(null, above);			
 		}
 
 	}
 	
+	/**
+	 * Returns true iff Coordinate coord is within the bounds of the board.
+	 * Returns false otherwise.
+	 * 
+	 * @param coord
+	 * @return
+	 */
 	public boolean coordinateExists(Coordinate coord) {
 		return coord.getX() > -1 && coord.getX() < width 
 				&& coord.getY() > -1 && coord.getY() < height;
 	}
 
 	/**
-	 * Returns an array of coordinates from the given row where no jewel is located. 
+	 * Returns an array with all coordinates from the given row where no jewel
+	 * is located.
+	 * 
 	 * @param row
 	 * @return
 	 */
@@ -278,7 +297,7 @@ public class Board {
 	}
 	
 	/**
-	 * Checks the game field for horizontally alligned matches (completed sets).
+	 * Checks the game field for horizontally aligned matches (completed sets).
 	 * 
 	 * @param matched
 	 * 		The list of matches to be added to.
