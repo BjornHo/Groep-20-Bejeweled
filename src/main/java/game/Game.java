@@ -23,6 +23,7 @@ import javax.xml.bind.annotation.XmlTransient;
 public class Game implements ActionListener {
 	
 	private Board board;
+	private int goalScore;
 	private int score = 0;
 	private int level = 1;
 	private int count = 60;
@@ -137,8 +138,9 @@ public class Game implements ActionListener {
 		board.reset();
 		notifyLevelChanged();
 		notifyScoreChanged();
-		notifyNextLevelChanged();
 		notifyTimeLeft();
+		goalScore = goalScore();
+		notifyGoalScoreChanged();
 		timer.start();
 	}
 	
@@ -151,6 +153,12 @@ public class Game implements ActionListener {
 		}
 	}
 	
+	public void notifyGoalScoreChanged() {
+		for (StatsListener l : statsListeners) {
+			l.goalScoreChanged(goalScore);
+		}
+	}
+	
 	/**
 	 * Notifies the StatsListener that the level has been changed / needs updating.
 	 * 
@@ -160,12 +168,6 @@ public class Game implements ActionListener {
 	public void notifyLevelChanged() {
 		for (StatsListener l : statsListeners) {
 			l.levelChanged(level);
-		}
-	}
-	
-	public void notifyNextLevelChanged() {
-		for (StatsListener l : statsListeners) {
-			l.nextLevelChanged(goalScore());
 		}
 	}
 	
@@ -187,10 +189,11 @@ public class Game implements ActionListener {
 			level++;
 			count = 60;
 			score = 0;
+			goalScore = goalScore();
 			board.reset();
 			notifyScoreChanged();
 			notifyLevelChanged();
-			notifyNextLevelChanged();
+			notifyGoalScoreChanged();
 			notifyTimeLeft();
 		}
 	}
@@ -205,6 +208,10 @@ public class Game implements ActionListener {
 	
 	public int getLevel() {
 		return level;
+	}
+	
+	public void setGoalScore(int goalScore) {
+		this.goalScore = goalScore;
 	}
 
 	public void setScore(int newScore) {

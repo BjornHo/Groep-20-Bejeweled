@@ -65,6 +65,10 @@ public class StatsPanel extends JPanel implements StatsListener {
 	public void scoreChanged(int score) {
 		scoreLabel.setText("<html><font size=\"15\">Score " + score + "</font></html>");
 	}
+	
+	public void goalScoreChanged(int goalscore) {
+		nextScoreLabel.setText("<html><font size=\"15\">Goal " + goalscore + "</font></html>");
+	}
 
 	/**
 	 * Updates the level.
@@ -74,10 +78,6 @@ public class StatsPanel extends JPanel implements StatsListener {
 	 */
 	public void levelChanged(int level) {
 		levelLabel.setText("<html><font size=\"15\">Level " + level  + "</font></html>");
-	}
-	
-	public void nextLevelChanged(int nextLevelPoints) {
-		nextScoreLabel.setText("<html><font size=\"12\">" + nextLevelPoints + "</font></html>");
 	}
 	
 	public void timeLeftChanged(int time) {

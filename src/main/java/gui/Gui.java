@@ -41,11 +41,13 @@ public class Gui extends JFrame implements ActionListener, BoardListener {
 	private GridBagLayout gbl = new GridBagLayout();
 	private JPanel pane = new JPanel(gbl);
 	private JButton[][] allButtons = new JButton[8][8];
+	private JButton newGameButton = new JButton("New Game");
 	private BackgroundPanel bgPanel;
 	private Image bgImage;
 	private static XmlParser xmlParser = new XmlParser();
 	
 	private Game game;
+	private static Gui gui;
 	private static ImgLoader imgloader;
 	public static SoundLoader soundloader;
 	public static String saveGamePath = (System.getProperty("user.dir")
@@ -64,7 +66,7 @@ public class Gui extends JFrame implements ActionListener, BoardListener {
 	public static void main(String[] args) throws IOException, LineUnavailableException,
 		UnsupportedAudioFileException {
 		Game game = loadGame();
-		Gui gui = new Gui(game);
+		gui = new Gui(game);
 		gui.setVisible(true);
 		game.startTimer();
 	}
@@ -130,9 +132,15 @@ public class Gui extends JFrame implements ActionListener, BoardListener {
 				allButtons[y][x].setPreferredSize(new Dimension(70,70));
 				setJewelImage(x,y);
 				pane.add(allButtons[y][x], constraint);
-				
 			}
 		}
+		newGameButton.addActionListener(new ActionListener() { 
+			  public void actionPerformed(ActionEvent event) { 
+			    Gui.gui.game.restartGame();
+			    
+			  } 
+			} );
+		pane.add(newGameButton);
 		bgPanel.add(pane);
 	}
 	
