@@ -18,6 +18,11 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 import javax.imageio.ImageIO;
 import javax.sound.sampled.LineUnavailableException;
@@ -53,6 +58,14 @@ public class Gui extends JFrame implements ActionListener, BoardListener {
 	public static String saveGamePath = (System.getProperty("user.dir")
 			+ File.separator + "savegame/Autosave.xml");
 
+	private ExecutorService excecutor = new ThreadPoolExecutor(
+            1,
+            1,
+            1000,
+            TimeUnit.MILLISECONDS,
+            new LinkedBlockingQueue<Runnable>()
+            );
+	
 	/**
 	 * Main method used to verify what the GUI looks like.
 	 * 
@@ -218,8 +231,34 @@ public class Gui extends JFrame implements ActionListener, BoardListener {
 	}
 
 	public void jewelsSwapped(Coordinate acoord, Coordinate bcoord) {
-		setJewelImage(acoord.getX(), acoord.getY());
-		setJewelImage(bcoord.getX(), bcoord.getY());
+//		setJewelImage();
+//		setJewelImage();
+		SwapJewelAction a = new SwapJewelAction(acoord.getX(), acoord.getY(), bcoord.getX(), bcoord.getY());
+		excecutor.submit(a);
+	}
+	
+	private class SwapJewelAction implements Runnable {
+		
+		int x1, y1, x2, y2;
+		
+		public SwapJewelAction(int x1, int y1, int x2, int y2) {
+			this.x1 = x1;
+			this.y1 = y1;
+			this.x2 = x2;
+			this.y2 = y2;
+		}
+
+		@Override
+		public void run() {
+			setJewelImage(x1, y1);
+			setJewelImage(x2, y2);
+			try {
+				Thread.sleep(500);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 
 	public void boardChanged() {
