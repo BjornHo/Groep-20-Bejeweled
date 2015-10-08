@@ -12,27 +12,28 @@ public class Match extends MatchComponent {
 	/**
 	 * -1 to show there is no max y-value yet.
 	 */
-	private int ymax = -1;
 	
 	public Match() {
 		matchComponents = new ArrayList<MatchComponent>();
 	}
 	
 	/**
-	 * Adds a Coordinate to a Match object.
+	 * Adds a MatchComponent to a Match object.
 	 * 
-	 * @param coord
-	 *     Coordinate to be added.
+	 * @param matchComponent
+	 *     matchComponent to be added.
 	 */
-	public void add(Coordinate coord) {
-		matchComponents.add(coord);
-		if (ymax == -1 || coord.getY() > ymax) {
-			ymax = coord.getY();
-		}
+	
+	public void add(MatchComponent matchComponent) {
+		matchComponents.add(matchComponent);
 	}
 	
-	public MatchComponent get(int component) {
-		return matchComponents.get(component);
+	public void remove(MatchComponent matchComponent) {
+		matchComponents.remove(matchComponent);
+	}
+	
+	public MatchComponent getChild(int location) {
+		return matchComponents.get(location);
 	}
 	
 	public void set(MatchComponent comp, int location) {
@@ -55,11 +56,20 @@ public class Match extends MatchComponent {
 	 */
 	public int getPoints() {
 		int score = baseScore();
+		if (score < 0) {
+			return score;
+		}
 		for (MatchComponent component : matchComponents) {
 			score += component.getPoints();
 		}
 		return score;
 	}
+	
+	/**
+	 * Gets the score linked to the size of the match.
+	 * 
+	 * @return
+	 */
 	
 	public int baseScore() {
 		int size = size();
@@ -75,63 +85,17 @@ public class Match extends MatchComponent {
 		}
 	}
 	
+	/**
+	 * Clears the current Match from a Board.
+	 * 
+	 * @param board
+	 * 	the board to remove the Match from
+	 */
+	
 	public void clear(Board board) {
 		for (MatchComponent comp : matchComponents) {
 			comp.clear(board);
 		}
-	}
-	
-	/**
-	 * Checks if a match is vertical.
-	 * 
-	 * @return boolean
-	 *     True if match is vertical.
-	 */
-//	public boolean isVertical() {
-//		int xcoord = -1;
-//		for (MatchComponent m : matchComponents) {
-//			if (xcoord == -1) {
-//				xcoord = m.getX();
-//			} else if (xcoord != c.getX()) {
-//				return false;
-//			}
-//		}
-//		return true;
-//	}
-	
-	/**
-	 * Checks if a match is horizontal.
-	 * 
-	 * @return boolean
-	 *     True if match is horizontal.
-	 */
-//	public boolean isHorizontal() {
-//		int ycoord = -1;
-//		for (Coordinate c : matchComponents) {
-//			if (ycoord == -1) {
-//				ycoord = c.getY();
-//			} else if (ycoord != c.getY()) {
-//				return false;
-//			}
-//		}
-//		return true;
-//	}
-	
-	/**
-	 * Returns minimum y-value of the matchComponents of a Match object.
-	 * 
-	 * @return int
-	 *     Minimum y-value.
-	 */
-	public int getYMin() {
-		if (ymax == -1) {
-			return -1;
-		}
-		return ymax - size() + 1;
-	}
-	
-	public int getYMax() {
-		return ymax;
 	}
 	
 	public void setMatchValue(Board board, int location) {
@@ -144,31 +108,6 @@ public class Match extends MatchComponent {
 		return matchComponents.get(0).getMatchValue(board);
 	}
 	
-	/**
-	 * Returns x-value of a Match, if vertical.
-	 * 
-	 * @return int
-	 *     x-value.
-	 */
-//	public int getX() {
-//		if (isVertical()) {
-//			return matchComponents.get(0).getX();
-//		}
-//		return -1;
-//	}
-	
-	/**
-	 * Returns y-value of a Match, if Horizontal.
-	 * 
-	 * @return int
-	 *     y-value.
-	 */
-//	public int getY() {
-//		if (isHorizontal()) {
-//			return matchComponents.get(0).getY();
-//		}
-//		return -1;
-//	}
 	
 	@Override
 	public boolean equals(Object other) {
@@ -189,7 +128,7 @@ public class Match extends MatchComponent {
 	
 	@Override
 	public int hashCode() {
-		return ((matchComponents.size() + 1) * ymax);
+		return ((matchComponents.size() + 1) * 5);
 	}
 
 }
