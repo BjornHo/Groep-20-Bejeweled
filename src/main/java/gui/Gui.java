@@ -287,4 +287,11 @@ public class Gui extends JFrame implements ActionListener, BoardListener {
 		executor.submit(clearAction);
 		
 	}
+
+	@Override
+	public void jewelDropped(Coordinate from, Coordinate to) {
+		DropDownAction dropDownAction = new DropDownAction(this,from,to);
+		executor.submit(dropDownAction);
+		
+	}
 }

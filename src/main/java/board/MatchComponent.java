@@ -1,5 +1,7 @@
 package board;
 
+import java.util.List;
+
 public abstract class MatchComponent {
 	
 	public void add(MatchComponent matchComponent) {
@@ -29,4 +31,6 @@ public abstract class MatchComponent {
 	public int getMatchValue(Board board) {
 		throw new UnsupportedOperationException();
 	}
+	
+	public abstract void getCoordinates(List<Coordinate> coordinates);
 }

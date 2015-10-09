@@ -131,4 +131,11 @@ public class Match extends MatchComponent {
 		return ((matchComponents.size() + 1) * 5);
 	}
 
+	@Override
+	public void getCoordinates(List<Coordinate> coordinates) {
+		for (MatchComponent comp : matchComponents) {
+			comp.getCoordinates(coordinates);
+		}
+	}
+
 }

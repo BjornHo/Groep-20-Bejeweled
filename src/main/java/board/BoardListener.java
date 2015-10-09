@@ -38,6 +38,13 @@ public interface BoardListener {
 	public void jewelsCleared(List<Coordinate> coordinates);
 	
 	/**
+	 * Coordinate from is dropped down to Coordinate to.
+	 * @param from
+	 * @param to
+	 */
+	public void jewelDropped(Coordinate from, Coordinate to);
+	
+	/**
 	 * Jewels are either removed from or placed on the board this listener
 	 * belongs to.
 	 */

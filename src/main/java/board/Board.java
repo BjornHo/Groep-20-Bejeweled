@@ -178,10 +178,19 @@ public class Board {
 	 * Removes the given match from the board (replaces all jewels of the match by 'null')
 	 * @param match The match to remove from the board.
 	 */
-	public void clearMatch(Match match) {
+	private void clearMatch(Match match) {
 		for (MatchComponent comp : match.getMatchComponents()) {
 			comp.clear(this);
 		}
+	}
+	
+	public void clearMatches(List<Match> matches) {
+		List<Coordinate> coordinates = new ArrayList<>();
+		for (Match match : matches) {
+			clearMatch(match);
+			match.getCoordinates(coordinates);
+		}
+		notifyClear(coordinates);
 	}
 	
 	public void setMatchValue(Coordinate coord, int location) {
@@ -228,7 +237,8 @@ public class Board {
 		}
 		if (coordinateExists(above)) {
 			setJewel(getJewel(above), coord);
-			setJewel(null, above);			
+			setJewel(null, above);
+			notifyDropped(above,coord);
 		}
 
 	}
@@ -406,6 +416,18 @@ public class Board {
 		}
 	}
 
+	public void notifyClear(List<Coordinate> coordinates) {
+		for (BoardListener l : boardListeners) {
+			l.jewelsCleared(coordinates);
+		}
+	}
+	
+	public void notifyDropped(Coordinate from, Coordinate to) {
+		for (BoardListener l : boardListeners) {
+			l.jewelDropped(from, to);
+		}		
+	}
+	
 	/**
 	 * Notifies all BoardListeners of Jewels on the board being removed/added/moved.
 	 */

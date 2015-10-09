@@ -108,14 +108,10 @@ public class Game implements ActionListener {
 		if (matches.isEmpty()) {
 			return;
 		}
-		for (Match match : matches) {
-			board.clearMatch(match);
-			score += match.getPoints();
-			notifyScoreChanged();
-		}
+		board.clearMatches(matches);
 		board.applyGravity();
 		board.refillGrid();
-		board.notifyBoardChanged();
+		//board.notifyBoardChanged();
 	}
 	
 	public void setTimer(Timer timer) {
