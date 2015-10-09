@@ -184,13 +184,16 @@ public class Board {
 		}
 	}
 	
-	public void clearMatches(List<Match> matches) {
+	public int clearMatches(List<Match> matches) {
 		List<Coordinate> coordinates = new ArrayList<>();
+		int totalPoints = 0;
 		for (Match match : matches) {
 			clearMatch(match);
 			match.getCoordinates(coordinates);
+			totalPoints += match.getPoints();
 		}
 		notifyClear(coordinates);
+		return totalPoints;
 	}
 	
 	public void setMatchValue(Coordinate coord, int location) {

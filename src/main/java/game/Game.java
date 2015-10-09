@@ -108,7 +108,8 @@ public class Game implements ActionListener {
 		if (matches.isEmpty()) {
 			return;
 		}
-		board.clearMatches(matches);
+		score += board.clearMatches(matches);
+		notifyScoreChanged();
 		board.applyGravity();
 		board.refillGrid();
 		//board.notifyBoardChanged();
