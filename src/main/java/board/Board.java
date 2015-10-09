@@ -4,6 +4,8 @@ import jewel.Colour;
 import jewel.Jewel;
 import logger.Logger;
 import logger.Priority;
+import observers.BoardObservable;
+import observers.BoardObserver;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +24,7 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @XmlRootElement(name = "board")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Board {
+public class Board implements BoardObservable{
 	/** 
 	 * 2-Dimensional grid of spaces defining the board's playing field.
 	 */
@@ -44,26 +46,21 @@ public class Board {
 	 * List of Board Listeners, which will respond according to certain inputs from the user.
 	 */
 	@XmlTransient
-	private List<BoardListener> boardListeners;
+	private List<BoardObserver> boardObservers;
 	
 	public Board() {
-		this.boardListeners = new ArrayList<BoardListener>();
+		this.boardObservers = new ArrayList<BoardObserver>();
 	}
 	
-	/**
-	 * Adds a BoardListener to the Board.
-	 * 
-	 * @param listener
-	 *     The BoardListener to be added.
-	 */
-	public void addBoardListener(BoardListener listener) {
-		this.boardListeners.add(listener);
-		Logger.log(Priority.INFO, "BoardListener " + listener.getClass().getSimpleName()
+	@Override
+	public void addBoardObserver(BoardObserver listener) {
+		this.boardObservers.add(listener);
+		Logger.log(Priority.INFO, "BoardObserver " + listener.getClass().getSimpleName()
 				+ " added to Board.");
 	}
 	
-	public List<BoardListener> getBoardListeners() {
-		return boardListeners;
+	public List<BoardObserver> getboardObservers() {
+		return boardObservers;
 	}
 	
 	/**
@@ -103,7 +100,7 @@ public class Board {
 
 	/**
 	 * Swaps the jewels at the given coordinates with each other. Also notifies
-	 * all BoardListeners about the swap.
+	 * all boardObservers about the swap.
 	 * 
 	 * @param c1
 	 *     Coordinate of the first jewel.
@@ -342,7 +339,8 @@ public class Board {
 				}
 				if (match.size() >= 3) {
 					boolean partOfAnotherMatch = false;
-					for (int i = 0; i < match.getMatchComponents().size() && !partOfAnotherMatch; i++) {
+					for (int i = 0; i < match.getMatchComponents().size() 
+						&& !partOfAnotherMatch; i++) {
 						MatchComponent comp = match.getMatchComponents().get(i);
 						int matchValue = comp.getMatchValue(this);
 						if (matchValue > 0) {
@@ -378,39 +376,23 @@ public class Board {
 		return matched;
 	}
 
-	/**
-	 * Notifies all BoardListeners of the swap (c1,c2).
-	 * 
-	 * @param c1
-	 *     Coordinate of the first jewel.
-	 * @param c2
-	 *     Coordinate of the first jewel.
-	 */
+	@Override
 	public void notifySwap(Coordinate c1, Coordinate c2) {
-		for (BoardListener l : boardListeners) {
+		for (BoardObserver l : boardObservers) {
 			l.jewelsSwapped(c1, c2);
 		}
 	}
 
-	/**
-	 * Notifies all BoardListeners of the selected Jewels.
-	 * 
-	 * @param c1
-	 *     Coordinate of the first jewel.
-	 * @param c2
-	 *     Coordinate of the first jewel.
-	 */
+	@Override
 	public void notifySelect(Coordinate c1, Coordinate c2) {
-		for (BoardListener l : boardListeners) {
+		for (BoardObserver l : boardObservers) {
 			l.jewelSelected(c1, c2);
 		}
 	}
 
-	/**
-	 * Notifies all BoardListeners of Jewels on the board being removed/added/moved.
-	 */
+	@Override
 	public void notifyBoardChanged() {
-		for (BoardListener l : boardListeners) {
+		for (BoardObserver l : boardObservers) {
 			l.boardChanged();
 		}
 	}

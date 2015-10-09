@@ -1,11 +1,13 @@
-package board;
+package observers;
+
+import board.Coordinate;
 
 /**
  * Listener for the Board class.
  * 
  * @author Group 20
  */
-public interface BoardListener {
+public interface BoardObserver {
 	
 	/**
 	 * The Jewels with coordinates a and b are swapped.

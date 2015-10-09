@@ -1,12 +1,12 @@
 package gui;
 
-import board.StatsListener;
+import observers.StatsObserver;
 
 import java.awt.GridLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class StatsPanel extends JPanel implements StatsListener {
+public class StatsPanel extends JPanel implements StatsObserver {
 
 	/**
 	 * Default serialization ID.
@@ -56,30 +56,22 @@ public class StatsPanel extends JPanel implements StatsListener {
 		return levelLabel;
 	}
 
-	/**
-	 * Updates the score.
-	 * 
-	 * @param score
-	 *     (int) New score.
-	 */
+	@Override
 	public void scoreChanged(int score) {
 		scoreLabel.setText("<html><font size=\"15\">Score " + score + "</font></html>");
 	}
 	
+	@Override
 	public void goalScoreChanged(int goalscore) {
 		nextScoreLabel.setText("<html><font size=\"15\">Goal " + goalscore + "</font></html>");
 	}
 
-	/**
-	 * Updates the level.
-	 * 
-	 * @param level
-	 *     (int) New level
-	 */
+	@Override
 	public void levelChanged(int level) {
 		levelLabel.setText("<html><font size=\"15\">Level " + level  + "</font></html>");
 	}
 	
+	@Override
 	public void timeLeftChanged(int time) {
 		timeLabel.setText("<html><font size=\"15\">Time " + time
 				+ "</font></html>");
