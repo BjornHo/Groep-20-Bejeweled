@@ -1,5 +1,7 @@
 package observers;
 
+import java.util.List;
+
 import board.Coordinate;
 
 public interface BoardObservable {
@@ -23,6 +25,26 @@ public interface BoardObservable {
 	 *     Coordinate of the first jewel.
 	 */
 	public void notifySelect(Coordinate c1, Coordinate c2);
+	
+	
+	/**
+	 * Notifies all BoardObservers of cleared Jewels
+	 * @param coordinates
+	 */
+	public void notifyClear(List<Coordinate> coordinates);
+	
+	/**
+	 * Notifies all BoardObservers of jewels that have dropped down.
+	 * @param from Starting position of the dropped jewel.
+	 * @param to Destination of the dropped jewel.
+	 */
+	public void notifyDropped(Coordinate from, Coordinate to);
+	
+	/**
+	 * Notifies all BoardObservers of newly added jewels.
+	 * @param coordinate
+	 */
+	public void notifyFill(Coordinate coordinate);
 	
 	/**
 	 * Notifies all boardObservers of Jewels on the board being removed/added/moved.

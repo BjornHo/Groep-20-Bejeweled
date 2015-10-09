@@ -175,10 +175,22 @@ public class Board implements BoardObservable{
 	 * Removes the given match from the board (replaces all jewels of the match by 'null')
 	 * @param match The match to remove from the board.
 	 */
-	public void clearMatch(Match match) {
+	private void clearMatch(Match match) {
 		for (MatchComponent comp : match.getMatchComponents()) {
 			comp.clear(this);
 		}
+	}
+	
+	public int clearMatches(List<Match> matches) {
+		List<Coordinate> coordinates = new ArrayList<>();
+		int totalPoints = 0;
+		for (Match match : matches) {
+			clearMatch(match);
+			match.getCoordinates(coordinates);
+			totalPoints += match.getPoints();
+		}
+		notifyClear(coordinates);
+		return totalPoints;
 	}
 	
 	public void setMatchValue(Coordinate coord, int location) {
@@ -225,7 +237,8 @@ public class Board implements BoardObservable{
 		}
 		if (coordinateExists(above)) {
 			setJewel(getJewel(above), coord);
-			setJewel(null, above);			
+			setJewel(null, above);
+			notifyDropped(above,coord);
 		}
 
 	}
@@ -272,6 +285,7 @@ public class Board implements BoardObservable{
 		while (!holes.isEmpty()) {
 			for (Coordinate coord : holes) {
 				setJewel(new Jewel(Colour.randomColour()), coord);
+				notifyFill(coord);
 			}
 			holes = getHolesInRow(++row);
 		}
@@ -390,6 +404,31 @@ public class Board implements BoardObservable{
 		}
 	}
 
+
+	@Override
+	public void notifyClear(List<Coordinate> coordinates) {
+		for (BoardObserver l : boardObservers) {
+			l.jewelsCleared(coordinates);
+		}
+	}
+	
+	@Override
+	public void notifyDropped(Coordinate from, Coordinate to) {
+		for (BoardObserver l : boardObservers) {
+			l.jewelDropped(from, to);
+		}		
+	}
+	
+	@Override
+	public void notifyFill(Coordinate coordinate) {
+		for (BoardObserver l : boardObservers) {
+			l.coordinateFilled(coordinate);
+		}			
+	}
+	
+	/**
+	 * Notifies all BoardListeners of Jewels on the board being removed/added/moved.
+	 */
 	@Override
 	public void notifyBoardChanged() {
 		for (BoardObserver l : boardObservers) {

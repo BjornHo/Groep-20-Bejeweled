@@ -1,5 +1,7 @@
 package board;
 
+import java.util.List;
+
 /**
  * Class for constructing Coordinate objects, required to identify each spot on the game board.
  * 
@@ -209,5 +211,10 @@ public class Coordinate extends MatchComponent{
 	@Override
 	public int hashCode() {
 		return (5 * xcoord + xcoord * (xcoord + ycoord));
+	}
+
+	@Override
+	public void getCoordinates(List<Coordinate> coordinates) {
+		coordinates.add(this);
 	}
 }

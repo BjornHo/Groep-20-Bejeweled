@@ -102,14 +102,11 @@ public class Game implements ActionListener, StatsObservable {
 		if (matches.isEmpty()) {
 			return;
 		}
-		for (Match match : matches) {
-			board.clearMatch(match);
-			score += match.getPoints();
-			notifyScoreChanged();
-		}
+		score += board.clearMatches(matches);
+		notifyScoreChanged();
 		board.applyGravity();
 		board.refillGrid();
-		board.notifyBoardChanged();
+		//board.notifyBoardChanged();
 	}
 	
 	public void setTimer(Timer timer) {
