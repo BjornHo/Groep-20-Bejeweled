@@ -3,6 +3,9 @@ package game;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import board.Board;
 import board.Coordinate;
 import board.Match;
@@ -85,17 +88,19 @@ public class GameTest {
 	}
 	
 	/**
-	 * Test to test the processMatch() method with a vertical match.
+	 * Test to test the processMatches() method with a vertical match.
 	 */
 	@Test
-	public void processMatchVertical() {
+	public void processMatchesVertical() {
 		Match match = new Match();
 		match.add(new Coordinate(0,5));
 		match.add(new Coordinate(0,6));
 		match.add(new Coordinate(0,7));
+		List<Match> list = new ArrayList<>();
+		list.add(match);
 		Board board = game.getBoard();
 		Jewel expected = board.getJewel(new Coordinate(0,4));
-		game.processMatch(match);
+		game.processMatches(list);
 		assertEquals(expected, board.getJewel(new Coordinate(0,7)));
 	}
 	
@@ -108,9 +113,11 @@ public class GameTest {
 		match.add(new Coordinate(0,7));
 		match.add(new Coordinate(1,7));
 		match.add(new Coordinate(2,7));
+		List<Match> list = new ArrayList<>();
+		list.add(match);
 		Board board = game.getBoard();
 		Jewel expected = board.getJewel(new Coordinate(0,6));
-		game.processMatch(match);
+		game.processMatches(list);
 		assertEquals(expected, board.getJewel(new Coordinate(0,7)));
 	}
 	

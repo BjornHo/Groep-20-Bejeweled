@@ -3,11 +3,10 @@ package game;
 import board.Board;
 import board.Coordinate;
 import board.Match;
-import board.StatsListener;
-import jewel.Colour;
-import jewel.Jewel;
 import logger.Logger;
 import logger.Priority;
+import observers.StatsObservable;
+import observers.StatsObserver;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -22,9 +21,10 @@ import javax.xml.bind.annotation.XmlTransient;
 
 @XmlRootElement(name = "game")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Game implements ActionListener {
+public class Game implements ActionListener, StatsObservable {
 	
 	private Board board;
+	private int goalScore;
 	private int score = 0;
 	private int level = 1;
 	private int count = 60;
@@ -33,35 +33,28 @@ public class Game implements ActionListener {
 	private Timer timer;
 	
 	@XmlTransient
-	private List<StatsListener> statsListeners;
+	private List<StatsObserver> statsObservers;
 	
 	public Game() {
 		timer = new Timer(1000,this);
 		board = new Board();
-		statsListeners = new ArrayList<StatsListener>();
+		statsObservers = new ArrayList<StatsObserver>();
 	}
 	
 	public Board getBoard() {
 		return board;
 	}
 	
-	/**
-	 * Adds a StatsListener to the Board.
-	 * 
-	 * @param listener
-	 *     The StatsListener to be added.
-	 */
-	public void addStatsListener(StatsListener listener) {
-		this.statsListeners.add(listener);
-		Logger.log(Priority.INFO, "StatsListener " + listener.getClass().getSimpleName()
+	@Override
+	public void addStatsObserver(StatsObserver listener) {
+		this.statsObservers.add(listener);
+		Logger.log(Priority.INFO, "StatsObserver " + listener.getClass().getSimpleName()
 				+ " added to Board.");
 	}
 	
-	/**
-	 * Returns the list of all current StatsListeners.
-	 */
-	public List<StatsListener> getStatsListeners() {
-		return statsListeners;
+	@Override
+	public List<StatsObserver> getstatsObservers() {
+		return statsObservers;
 	}
 	
 	/**
@@ -93,7 +86,7 @@ public class Game implements ActionListener {
 				return;
 			}
 			while (!matches.isEmpty()) {
-				processMatch(matches.get(0));
+				processMatches(matches);
 				matches = board.checkMatches();
 			}
 			board.setSelectedPos(null);
@@ -102,38 +95,18 @@ public class Game implements ActionListener {
 	}
 	
 	/**
-	 * Updates the score. Checks for completed sets. Refills the board. Updates the board.
-	 * @param match
-	 *     The Match to be processed.
+	 * Removes all matches from the board, updates the score and refills the board.
+	 * @param matches List of matches to process.
 	 */
-	public void processMatch(Match match) {
-		score += match.getPoints();
-		notifyScoreChanged();
-		if (match.isHorizontal()) {
-			for (Coordinate c : match.getCoordinates()) {
-				while (c.hasNorth()) {
-					board.setJewel(board.getJewel(c.getNorth()), c);
-					c = c.getNorth();
-				}
-				board.setJewel(new Jewel(Colour.randomColour()), c);
-			}
-		} else {
-			//Nr. of elements above the group of jewels that form a vertical match
-			int aboveMatch = match.getYMin();  
-			
-			int xcoord = match.getX();
-			//Move all jewels above the cleared ones down.
-			for (int delta = 0; delta < aboveMatch; delta++) {
-				int temp = match.getYMax() - match.size() - delta;
-				board.setJewel(board.getJewel(new Coordinate(xcoord, temp)),
-						new Coordinate(xcoord, match.getYMax() - delta));
-			}
-			//Place new Jewels on the newly blanked spaces.
-			for (int y = match.getYMax() - aboveMatch; y >= 0; y--) {
-				board.setJewel(new Jewel(Colour.randomColour()),new Coordinate(xcoord,y));
-			}
+	public void processMatches(List<Match> matches) {
+		if (matches.isEmpty()) {
+			return;
 		}
-		board.notifyBoardChanged();
+		score += board.clearMatches(matches);
+		notifyScoreChanged();
+		board.applyGravity();
+		board.refillGrid();
+		//board.notifyBoardChanged();
 	}
 	
 	public void setTimer(Timer timer) {
@@ -156,40 +129,40 @@ public class Game implements ActionListener {
 		board.reset();
 		notifyLevelChanged();
 		notifyScoreChanged();
-		notifyNextLevelChanged();
 		notifyTimeLeft();
+		goalScore = goalScore();
+		notifyGoalScoreChanged();
 		timer.start();
 	}
 	
-	/**
-	 * Notifies the StatsListener that the score has been changed / needs updating.
-	 */
+	@Override
 	public void notifyScoreChanged() {
-		for (StatsListener l : statsListeners) {
+		for (StatsObserver l : statsObservers) {
 			l.scoreChanged(score);
 		}
 	}
 	
+	@Override
+	public void notifyGoalScoreChanged() {
+		for (StatsObserver l : statsObservers) {
+			l.goalScoreChanged(goalScore);
+		}
+	}
+	
 	/**
-	 * Notifies the StatsListener that the level has been changed / needs updating.
+	 * Notifies the StatsObserver that the level has been changed / needs updating.
 	 * 
 	 * @param level
 	 *     (int) The level to be updated to.
 	 */
 	public void notifyLevelChanged() {
-		for (StatsListener l : statsListeners) {
+		for (StatsObserver l : statsObservers) {
 			l.levelChanged(level);
 		}
 	}
 	
-	public void notifyNextLevelChanged() {
-		for (StatsListener l : statsListeners) {
-			l.nextLevelChanged(goalScore());
-		}
-	}
-	
 	public void notifyTimeLeft() {
-		for (StatsListener l : statsListeners) {
+		for (StatsObserver l : statsObservers) {
 			l.timeLeftChanged(count);
 		}
 	}
@@ -206,10 +179,11 @@ public class Game implements ActionListener {
 			level++;
 			count = 60;
 			score = 0;
+			goalScore = goalScore();
 			board.reset();
 			notifyScoreChanged();
 			notifyLevelChanged();
-			notifyNextLevelChanged();
+			notifyGoalScoreChanged();
 			notifyTimeLeft();
 		}
 	}
@@ -224,6 +198,10 @@ public class Game implements ActionListener {
 	
 	public int getLevel() {
 		return level;
+	}
+	
+	public void setGoalScore(int goalScore) {
+		this.goalScore = goalScore;
 	}
 
 	public void setScore(int newScore) {

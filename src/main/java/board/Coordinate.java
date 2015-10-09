@@ -1,11 +1,13 @@
 package board;
 
+import java.util.List;
+
 /**
  * Class for constructing Coordinate objects, required to identify each spot on the game board.
  * 
  * @author Group 20
  */
-public class Coordinate {
+public class Coordinate extends MatchComponent{
 	private int xcoord;
 	private int ycoord;
 	
@@ -171,6 +173,22 @@ public class Coordinate {
 		this.ycoord = ycoord;
 	}
 	
+	public int getPoints() {
+		return -50;
+	}
+	
+	public void clear(Board board) {
+		board.setJewel(null, this);
+	}
+	
+	public void setMatchValue(Board board, int location) {
+		board.setMatchValue(this, location);
+	}
+	
+	public int getMatchValue(Board board) {
+		return board.getMatchValue(this);
+	}
+	
 	/**
 	 * Turns a Coordinate Object's information into a String.
 	 * 
@@ -193,5 +211,10 @@ public class Coordinate {
 	@Override
 	public int hashCode() {
 		return (5 * xcoord + xcoord * (xcoord + ycoord));
+	}
+
+	@Override
+	public void getCoordinates(List<Coordinate> coordinates) {
+		coordinates.add(this);
 	}
 }
