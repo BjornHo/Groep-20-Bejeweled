@@ -4,9 +4,9 @@ import java.awt.GridLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import observers.StatsListener;
+import observers.StatsObserver;
 
-public class StatsPanel extends JPanel implements StatsListener {
+public class StatsPanel extends JPanel implements StatsObserver {
 
 	/**
 	 * Default serialization ID.

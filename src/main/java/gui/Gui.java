@@ -95,7 +95,7 @@ public class Gui extends JFrame implements ActionListener, BoardObserver {
 		sc.scoreChanged(game.getScore());
 		bgPanel.add(sc, BorderLayout.NORTH);
 		this.game.getBoard().addBoardObserver(this);
-		this.game.addStatsListener(sc);
+		this.game.addStatsObserver(sc);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	

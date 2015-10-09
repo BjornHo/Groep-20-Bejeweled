@@ -5,7 +5,7 @@ import board.Coordinate;
 import board.Match;
 import logger.Logger;
 import logger.Priority;
-import observers.StatsListener;
+import observers.StatsObserver;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -32,12 +32,12 @@ public class Game implements ActionListener {
 	private Timer timer;
 	
 	@XmlTransient
-	private List<StatsListener> statsListeners;
+	private List<StatsObserver> StatsObservers;
 	
 	public Game() {
 		timer = new Timer(1000,this);
 		board = new Board();
-		statsListeners = new ArrayList<StatsListener>();
+		StatsObservers = new ArrayList<StatsObserver>();
 	}
 	
 	public Board getBoard() {
@@ -45,22 +45,22 @@ public class Game implements ActionListener {
 	}
 	
 	/**
-	 * Adds a StatsListener to the Board.
+	 * Adds a StatsObserver to the Board.
 	 * 
 	 * @param listener
-	 *     The StatsListener to be added.
+	 *     The StatsObserver to be added.
 	 */
-	public void addStatsListener(StatsListener listener) {
-		this.statsListeners.add(listener);
-		Logger.log(Priority.INFO, "StatsListener " + listener.getClass().getSimpleName()
+	public void addStatsObserver(StatsObserver listener) {
+		this.StatsObservers.add(listener);
+		Logger.log(Priority.INFO, "StatsObserver " + listener.getClass().getSimpleName()
 				+ " added to Board.");
 	}
 	
 	/**
-	 * Returns the list of all current StatsListeners.
+	 * Returns the list of all current StatsObservers.
 	 */
-	public List<StatsListener> getStatsListeners() {
-		return statsListeners;
+	public List<StatsObserver> getStatsObservers() {
+		return StatsObservers;
 	}
 	
 	/**
@@ -145,34 +145,34 @@ public class Game implements ActionListener {
 	}
 	
 	/**
-	 * Notifies the StatsListener that the score has been changed / needs updating.
+	 * Notifies the StatsObserver that the score has been changed / needs updating.
 	 */
 	public void notifyScoreChanged() {
-		for (StatsListener l : statsListeners) {
+		for (StatsObserver l : StatsObservers) {
 			l.scoreChanged(score);
 		}
 	}
 	
 	public void notifyGoalScoreChanged() {
-		for (StatsListener l : statsListeners) {
+		for (StatsObserver l : StatsObservers) {
 			l.goalScoreChanged(goalScore);
 		}
 	}
 	
 	/**
-	 * Notifies the StatsListener that the level has been changed / needs updating.
+	 * Notifies the StatsObserver that the level has been changed / needs updating.
 	 * 
 	 * @param level
 	 *     (int) The level to be updated to.
 	 */
 	public void notifyLevelChanged() {
-		for (StatsListener l : statsListeners) {
+		for (StatsObserver l : StatsObservers) {
 			l.levelChanged(level);
 		}
 	}
 	
 	public void notifyTimeLeft() {
-		for (StatsListener l : statsListeners) {
+		for (StatsObserver l : StatsObservers) {
 			l.timeLeftChanged(count);
 		}
 	}

@@ -1,6 +1,6 @@
 package observers;
 
-public interface StatsListener {
+public interface StatsObserver {
 	
 	public void scoreChanged(int score);
 	
