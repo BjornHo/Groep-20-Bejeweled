@@ -22,7 +22,7 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @XmlRootElement(name = "board")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Board {
+public class Board implements Observable{
 	/** 
 	 * 2-Dimensional grid of spaces defining the board's playing field.
 	 */
@@ -46,8 +46,11 @@ public class Board {
 	@XmlTransient
 	private List<BoardListener> boardListeners;
 	
+	private ArrayList<Observer> observers;
+	
 	public Board() {
 		this.boardListeners = new ArrayList<BoardListener>();
+		this.observers = new ArrayList<Observer>();
 	}
 	
 	/**
@@ -116,6 +119,7 @@ public class Board {
 		setJewel(jewel1, c2);
 		setJewel(jewel2, c1);
 		notifySwap(c1, c2);
+		notifyObservers();
 	}
 	
 	/**
@@ -412,6 +416,25 @@ public class Board {
 	public void notifyBoardChanged() {
 		for (BoardListener l : boardListeners) {
 			l.boardChanged();
+		}
+	}
+
+	@Override
+	public void registerObserver(Observer observer) {
+		this.observers.add(observer);
+	}
+
+	@Override
+	public void removeObserver(Observer observer) {
+		if (this.observers.contains(observer)) {
+			this.observers.remove(observer);
+		}
+	}
+
+	@Override
+	public void notifyObservers() {
+		for (Observer observer : this.observers) {
+			observer.update("Board state has changed.");
 		}
 	}
 }
