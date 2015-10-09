@@ -9,12 +9,12 @@ import javax.xml.bind.annotation.XmlEnum;
 
 @XmlEnum(String.class)
 public enum Colour { 
-	Blue, Green, Orange, Purple, Red, White, Yellow, Selected;
+	Blue, Green, Orange, Purple, Red, White, Yellow, Empty, Selected;
 	
 	private static final List<Colour> COLOURS = 
 			Collections.unmodifiableList(Arrays.asList(values()));
 	
-	private static final int SIZE = COLOURS.size() - 1;
+	private static final int SIZE = COLOURS.size() - 2;
 	
 	private static final Random RANDOM = new Random();
 	

@@ -1,5 +1,7 @@
 package board;
 
+import java.util.List;
+
 /**
  * Listener for the Board class.
  * 
@@ -27,6 +29,13 @@ public interface BoardListener {
 	 *     Coordinates of the previously selected jewel.
 	 */
 	public void jewelSelected(Coordinate jewel, Coordinate old);
+	
+	/**
+	 * All jewels in the list 'coordinates' are cleared from the board,
+	 * because they were part of a match.
+	 * @param coordinates
+	 */
+	public void jewelsCleared(List<Coordinate> coordinates);
 	
 	/**
 	 * Jewels are either removed from or placed on the board this listener
