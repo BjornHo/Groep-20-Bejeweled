@@ -5,6 +5,7 @@ import board.Coordinate;
 import board.Match;
 import logger.Logger;
 import logger.Priority;
+import observers.StatsObservable;
 import observers.StatsObserver;
 
 import java.awt.event.ActionEvent;
@@ -20,7 +21,7 @@ import javax.xml.bind.annotation.XmlTransient;
 
 @XmlRootElement(name = "game")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Game implements ActionListener {
+public class Game implements ActionListener, StatsObservable {
 	
 	private Board board;
 	private int goalScore;
@@ -44,21 +45,14 @@ public class Game implements ActionListener {
 		return board;
 	}
 	
-	/**
-	 * Adds a StatsObserver to the Board.
-	 * 
-	 * @param listener
-	 *     The StatsObserver to be added.
-	 */
+	@Override
 	public void addStatsObserver(StatsObserver listener) {
 		this.statsObservers.add(listener);
 		Logger.log(Priority.INFO, "StatsObserver " + listener.getClass().getSimpleName()
 				+ " added to Board.");
 	}
 	
-	/**
-	 * Returns the list of all current statsObservers.
-	 */
+	@Override
 	public List<StatsObserver> getstatsObservers() {
 		return statsObservers;
 	}
@@ -144,15 +138,14 @@ public class Game implements ActionListener {
 		timer.start();
 	}
 	
-	/**
-	 * Notifies the StatsObserver that the score has been changed / needs updating.
-	 */
+	@Override
 	public void notifyScoreChanged() {
 		for (StatsObserver l : statsObservers) {
 			l.scoreChanged(score);
 		}
 	}
 	
+	@Override
 	public void notifyGoalScoreChanged() {
 		for (StatsObserver l : statsObservers) {
 			l.goalScoreChanged(goalScore);

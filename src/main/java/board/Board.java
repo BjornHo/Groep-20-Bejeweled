@@ -4,8 +4,8 @@ import jewel.Colour;
 import jewel.Jewel;
 import logger.Logger;
 import logger.Priority;
+import observers.BoardObservable;
 import observers.BoardObserver;
-import observers.Observable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +24,7 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @XmlRootElement(name = "board")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Board implements Observable{
+public class Board implements BoardObservable{
 	/** 
 	 * 2-Dimensional grid of spaces defining the board's playing field.
 	 */

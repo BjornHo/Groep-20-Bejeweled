@@ -2,7 +2,7 @@ package observers;
 
 import board.Coordinate;
 
-public interface Observable {
+public interface BoardObservable {
 
 	/**
 	 * Notifies all boardObservers of the swap (c1,c2).
