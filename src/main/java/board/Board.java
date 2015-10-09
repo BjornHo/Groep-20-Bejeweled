@@ -4,6 +4,8 @@ import jewel.Colour;
 import jewel.Jewel;
 import logger.Logger;
 import logger.Priority;
+import observers.Observable;
+import observers.Observer;
 
 import java.util.ArrayList;
 import java.util.List;

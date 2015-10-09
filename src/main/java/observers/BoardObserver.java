@@ -1,20 +1,20 @@
-package board;
+package observers;
 
 import java.util.ArrayList;
 
 public class BoardObserver implements Observer {
 
-	private ArrayList<String> observations;
+	private ArrayList<String> pastStates;
 	private String currentState;
 
 	public BoardObserver() {
-		observations = new ArrayList<String>();
+		pastStates = new ArrayList<String>();
 	}
 	
 	@Override
-	public void update(String observation) {
-		observations.add(observation);
-		this.currentState = observation;
+	public void update(String state) {
+		pastStates.add(this.currentState);
+		this.currentState = state;
 	}
 
 	@Override
