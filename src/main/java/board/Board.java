@@ -4,8 +4,8 @@ import jewel.Colour;
 import jewel.Jewel;
 import logger.Logger;
 import logger.Priority;
+import observers.BoardObserver;
 import observers.Observable;
-import observers.Observer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,29 +46,26 @@ public class Board implements Observable{
 	 * List of Board Listeners, which will respond according to certain inputs from the user.
 	 */
 	@XmlTransient
-	private List<BoardListener> boardListeners;
-	
-	private ArrayList<Observer> observers;
+	private List<BoardObserver> boardObservers;
 	
 	public Board() {
-		this.boardListeners = new ArrayList<BoardListener>();
-		this.observers = new ArrayList<Observer>();
+		this.boardObservers = new ArrayList<BoardObserver>();
 	}
 	
 	/**
-	 * Adds a BoardListener to the Board.
+	 * Adds a BoardObserver to the Board.
 	 * 
 	 * @param listener
-	 *     The BoardListener to be added.
+	 *     The BoardObserver to be added.
 	 */
-	public void addBoardListener(BoardListener listener) {
-		this.boardListeners.add(listener);
-		Logger.log(Priority.INFO, "BoardListener " + listener.getClass().getSimpleName()
+	public void addBoardObserver(BoardObserver listener) {
+		this.boardObservers.add(listener);
+		Logger.log(Priority.INFO, "BoardObserver " + listener.getClass().getSimpleName()
 				+ " added to Board.");
 	}
 	
-	public List<BoardListener> getBoardListeners() {
-		return boardListeners;
+	public List<BoardObserver> getboardObservers() {
+		return boardObservers;
 	}
 	
 	/**
@@ -108,7 +105,7 @@ public class Board implements Observable{
 
 	/**
 	 * Swaps the jewels at the given coordinates with each other. Also notifies
-	 * all BoardListeners about the swap.
+	 * all boardObservers about the swap.
 	 * 
 	 * @param c1
 	 *     Coordinate of the first jewel.
@@ -121,7 +118,6 @@ public class Board implements Observable{
 		setJewel(jewel1, c2);
 		setJewel(jewel2, c1);
 		notifySwap(c1, c2);
-		notifyObservers();
 	}
 	
 	/**
@@ -348,7 +344,8 @@ public class Board implements Observable{
 				}
 				if (match.size() >= 3) {
 					boolean partOfAnotherMatch = false;
-					for (int i = 0; i < match.getMatchComponents().size() && !partOfAnotherMatch; i++) {
+					for (int i = 0; i < match.getMatchComponents().size() 
+						&& !partOfAnotherMatch; i++) {
 						MatchComponent comp = match.getMatchComponents().get(i);
 						int matchValue = comp.getMatchValue(this);
 						if (matchValue > 0) {
@@ -384,59 +381,24 @@ public class Board implements Observable{
 		return matched;
 	}
 
-	/**
-	 * Notifies all BoardListeners of the swap (c1,c2).
-	 * 
-	 * @param c1
-	 *     Coordinate of the first jewel.
-	 * @param c2
-	 *     Coordinate of the first jewel.
-	 */
+	@Override
 	public void notifySwap(Coordinate c1, Coordinate c2) {
-		for (BoardListener l : boardListeners) {
+		for (BoardObserver l : boardObservers) {
 			l.jewelsSwapped(c1, c2);
 		}
 	}
 
-	/**
-	 * Notifies all BoardListeners of the selected Jewels.
-	 * 
-	 * @param c1
-	 *     Coordinate of the first jewel.
-	 * @param c2
-	 *     Coordinate of the first jewel.
-	 */
+	@Override
 	public void notifySelect(Coordinate c1, Coordinate c2) {
-		for (BoardListener l : boardListeners) {
+		for (BoardObserver l : boardObservers) {
 			l.jewelSelected(c1, c2);
 		}
 	}
 
-	/**
-	 * Notifies all BoardListeners of Jewels on the board being removed/added/moved.
-	 */
+	@Override
 	public void notifyBoardChanged() {
-		for (BoardListener l : boardListeners) {
+		for (BoardObserver l : boardObservers) {
 			l.boardChanged();
-		}
-	}
-
-	@Override
-	public void registerObserver(Observer observer) {
-		this.observers.add(observer);
-	}
-
-	@Override
-	public void removeObserver(Observer observer) {
-		if (this.observers.contains(observer)) {
-			this.observers.remove(observer);
-		}
-	}
-
-	@Override
-	public void notifyObservers() {
-		for (Observer observer : this.observers) {
-			observer.update("Board state has changed.");
 		}
 	}
 }

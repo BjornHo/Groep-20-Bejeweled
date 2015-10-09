@@ -1,9 +1,9 @@
 package gui;
 
-import board.BoardListener;
 import board.Coordinate;
 import game.Game;
 import jewel.Colour;
+import observers.BoardObserver;
 import xmlparser.XmlParser;
 
 import java.awt.BorderLayout;
@@ -32,7 +32,7 @@ import javax.swing.JPanel;
  * 
  * @author Group 20
  */
-public class Gui extends JFrame implements ActionListener, BoardListener {
+public class Gui extends JFrame implements ActionListener, BoardObserver {
 	
 	/**
 	 * Default serialization ID.
@@ -94,7 +94,7 @@ public class Gui extends JFrame implements ActionListener, BoardListener {
 		sc.levelChanged(game.getLevel());
 		sc.scoreChanged(game.getScore());
 		bgPanel.add(sc, BorderLayout.NORTH);
-		this.game.getBoard().addBoardListener(this);
+		this.game.getBoard().addBoardObserver(this);
 		this.game.addStatsListener(sc);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}

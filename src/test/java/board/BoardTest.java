@@ -11,6 +11,7 @@ import org.junit.Test;
 
 import jewel.Colour;
 import jewel.Jewel;
+import observers.BoardListener;
 
 public class BoardTest {
 	

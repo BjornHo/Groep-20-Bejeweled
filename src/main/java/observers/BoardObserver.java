@@ -1,27 +1,38 @@
 package observers;
 
-import java.util.ArrayList;
+import board.Coordinate;
 
-public class BoardObserver implements Observer {
-
-	private ArrayList<String> pastStates;
-	private String currentState;
-
-	public BoardObserver() {
-		pastStates = new ArrayList<String>();
-	}
+/**
+ * Listener for the Board class.
+ * 
+ * @author Group 20
+ */
+public interface BoardObserver {
 	
-	@Override
-	public void update(String state) {
-		pastStates.add(this.currentState);
-		this.currentState = state;
-	}
-
-	@Override
-	public String getState() {
-		return currentState;
-	}
+	/**
+	 * The Jewels with coordinates a and b are swapped.
+	 * 
+	 * @param c1
+	 *     Coordinate of the first jewel.
+	 * @param c2
+	 *     Coordinate of the second jewel.
+	 */
+	public void jewelsSwapped(Coordinate c1, Coordinate c2);
 	
+	/**
+	 * The jewel at coordinates jewel is currently selected, the jewel with
+	 * coordinates old was selected previously.
+	 * 
+	 * @param jewel
+	 *     Coordinates of the currently selected jewel.
+	 * @param old
+	 *     Coordinates of the previously selected jewel.
+	 */
+	public void jewelSelected(Coordinate jewel, Coordinate old);
 	
-	
+	/**
+	 * Jewels are either removed from or placed on the board this listener
+	 * belongs to.
+	 */
+	public void boardChanged();
 }

@@ -1,11 +1,32 @@
 package observers;
 
+import board.Coordinate;
+
 public interface Observable {
 
-	public void registerObserver(Observer observer);
+	/**
+	 * Notifies all boardObservers of the swap (c1,c2).
+	 * 
+	 * @param c1
+	 *     Coordinate of the first jewel.
+	 * @param c2
+	 *     Coordinate of the first jewel.
+	 */
+	public void notifySwap(Coordinate c1, Coordinate c2);
 	
-	public void removeObserver(Observer observer);
+	/**
+	 * Notifies all boardObservers of the selected Jewels.
+	 * 
+	 * @param c1
+	 *     Coordinate of the first jewel.
+	 * @param c2
+	 *     Coordinate of the first jewel.
+	 */
+	public void notifySelect(Coordinate c1, Coordinate c2);
 	
-	public void notifyObservers();
+	/**
+	 * Notifies all boardObservers of Jewels on the board being removed/added/moved.
+	 */
+	public void notifyBoardChanged();
 	
 }

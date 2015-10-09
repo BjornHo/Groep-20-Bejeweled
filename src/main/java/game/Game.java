@@ -3,9 +3,9 @@ package game;
 import board.Board;
 import board.Coordinate;
 import board.Match;
-import board.StatsListener;
 import logger.Logger;
 import logger.Priority;
+import observers.StatsListener;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

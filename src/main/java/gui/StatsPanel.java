@@ -1,10 +1,10 @@
 package gui;
 
-import board.StatsListener;
-
 import java.awt.GridLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import observers.StatsListener;
 
 public class StatsPanel extends JPanel implements StatsListener {
 
