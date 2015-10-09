@@ -29,4 +29,12 @@ public interface Observable {
 	 */
 	public void notifyBoardChanged();
 	
+	/**
+	 * Adds a BoardObserver to the Board.
+	 * 
+	 * @param listener
+	 *     The BoardObserver to be added.
+	 */
+	public void addBoardObserver(BoardObserver listener);
+	
 }

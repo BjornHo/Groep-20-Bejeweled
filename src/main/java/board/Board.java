@@ -52,12 +52,7 @@ public class Board implements Observable{
 		this.boardObservers = new ArrayList<BoardObserver>();
 	}
 	
-	/**
-	 * Adds a BoardObserver to the Board.
-	 * 
-	 * @param listener
-	 *     The BoardObserver to be added.
-	 */
+	@Override
 	public void addBoardObserver(BoardObserver listener) {
 		this.boardObservers.add(listener);
 		Logger.log(Priority.INFO, "BoardObserver " + listener.getClass().getSimpleName()
