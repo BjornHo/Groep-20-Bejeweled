@@ -22,7 +22,7 @@ public class ClearJewelAction implements Runnable {
 			gui.clearJewelImage(coord);
 		}
 		try {
-			Thread.sleep(400);
+			Thread.sleep(150);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}

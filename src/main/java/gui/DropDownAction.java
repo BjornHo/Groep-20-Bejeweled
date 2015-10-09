@@ -23,7 +23,7 @@ public class DropDownAction implements Runnable {
 		gui.setJewelImage(to);
 		gui.clearJewelImage(from);
 		try {
-			Thread.sleep(50);
+			Thread.sleep(20);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}

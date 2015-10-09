@@ -15,11 +15,6 @@ public class FillJewelAction implements Runnable {
 	@Override
 	public void run() {
 		gui.setJewelImage(toFill);
-		try {
-			Thread.sleep(50);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
 	}
 
 }
