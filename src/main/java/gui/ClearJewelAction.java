@@ -16,12 +16,13 @@ public class ClearJewelAction implements Runnable {
 	
 	@Override
 	public void run() {
+		gui.playMatchSound();
+
 		for (Coordinate coord : toClear) {
 			gui.clearJewelImage(coord);
 		}
-		gui.playMatchSound();
 		try {
-			Thread.sleep(500);
+			Thread.sleep(400);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}

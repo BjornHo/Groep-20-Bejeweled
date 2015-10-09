@@ -22,11 +22,11 @@ public class DropDownAction implements Runnable {
 	public void run() {
 		gui.setJewelImage(to);
 		gui.clearJewelImage(from);
-//		try {
-//			Thread.sleep(100);
-//		} catch (InterruptedException e) {
-//			e.printStackTrace();
-//		}
+		try {
+			Thread.sleep(50);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

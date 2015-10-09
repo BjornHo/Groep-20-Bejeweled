@@ -20,9 +20,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.Executors;
 
 import javax.imageio.ImageIO;
 import javax.sound.sampled.LineUnavailableException;
@@ -58,13 +56,7 @@ public class Gui extends JFrame implements ActionListener, BoardListener {
 	public static String saveGamePath = (System.getProperty("user.dir")
 			+ File.separator + "savegame/Autosave.xml");
 
-	private ExecutorService executor = new ThreadPoolExecutor(
-            1,
-            1,
-            1000,
-            TimeUnit.MILLISECONDS,
-            new LinkedBlockingQueue<Runnable>()
-            );
+	private ExecutorService executor = Executors.newSingleThreadExecutor();
 	
 	/**
 	 * Main method used to verify what the GUI looks like.

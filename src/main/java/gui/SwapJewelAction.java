@@ -20,7 +20,7 @@ public class SwapJewelAction implements Runnable {
 		gui.setJewelImage(acoord);
 		gui.setJewelImage(bcoord);
 		try {
-			Thread.sleep(500);
+			Thread.sleep(200);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
