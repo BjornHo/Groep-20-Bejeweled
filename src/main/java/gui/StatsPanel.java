@@ -1,10 +1,10 @@
 package gui;
 
+import observers.StatsObserver;
+
 import java.awt.GridLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-
-import observers.StatsObserver;
 
 public class StatsPanel extends JPanel implements StatsObserver {
 

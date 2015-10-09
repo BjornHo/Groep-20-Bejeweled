@@ -32,12 +32,12 @@ public class Game implements ActionListener {
 	private Timer timer;
 	
 	@XmlTransient
-	private List<StatsObserver> StatsObservers;
+	private List<StatsObserver> statsObservers;
 	
 	public Game() {
 		timer = new Timer(1000,this);
 		board = new Board();
-		StatsObservers = new ArrayList<StatsObserver>();
+		statsObservers = new ArrayList<StatsObserver>();
 	}
 	
 	public Board getBoard() {
@@ -51,16 +51,16 @@ public class Game implements ActionListener {
 	 *     The StatsObserver to be added.
 	 */
 	public void addStatsObserver(StatsObserver listener) {
-		this.StatsObservers.add(listener);
+		this.statsObservers.add(listener);
 		Logger.log(Priority.INFO, "StatsObserver " + listener.getClass().getSimpleName()
 				+ " added to Board.");
 	}
 	
 	/**
-	 * Returns the list of all current StatsObservers.
+	 * Returns the list of all current statsObservers.
 	 */
-	public List<StatsObserver> getStatsObservers() {
-		return StatsObservers;
+	public List<StatsObserver> getstatsObservers() {
+		return statsObservers;
 	}
 	
 	/**
@@ -148,13 +148,13 @@ public class Game implements ActionListener {
 	 * Notifies the StatsObserver that the score has been changed / needs updating.
 	 */
 	public void notifyScoreChanged() {
-		for (StatsObserver l : StatsObservers) {
+		for (StatsObserver l : statsObservers) {
 			l.scoreChanged(score);
 		}
 	}
 	
 	public void notifyGoalScoreChanged() {
-		for (StatsObserver l : StatsObservers) {
+		for (StatsObserver l : statsObservers) {
 			l.goalScoreChanged(goalScore);
 		}
 	}
@@ -166,13 +166,13 @@ public class Game implements ActionListener {
 	 *     (int) The level to be updated to.
 	 */
 	public void notifyLevelChanged() {
-		for (StatsObserver l : StatsObservers) {
+		for (StatsObserver l : statsObservers) {
 			l.levelChanged(level);
 		}
 	}
 	
 	public void notifyTimeLeft() {
-		for (StatsObserver l : StatsObservers) {
+		for (StatsObserver l : statsObservers) {
 			l.timeLeftChanged(count);
 		}
 	}
