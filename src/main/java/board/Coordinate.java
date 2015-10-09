@@ -5,7 +5,7 @@ package board;
  * 
  * @author Group 20
  */
-public class Coordinate {
+public class Coordinate extends MatchComponent{
 	private int xcoord;
 	private int ycoord;
 	
@@ -169,6 +169,22 @@ public class Coordinate {
 	 */
 	public void setY(int ycoord) {
 		this.ycoord = ycoord;
+	}
+	
+	public int getPoints() {
+		return -50;
+	}
+	
+	public void clear(Board board) {
+		board.setJewel(null, this);
+	}
+	
+	public void setMatchValue(Board board, int location) {
+		board.setMatchValue(this, location);
+	}
+	
+	public int getMatchValue(Board board) {
+		return board.getMatchValue(this);
 	}
 	
 	/**

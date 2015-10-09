@@ -32,6 +32,8 @@ public class Board {
 	
 	private int width = 8;
 	private int height = 8;
+	
+	private int[][] matchLocations = new int[width][height];
 	/**
 	 * Coordinate object used to define the currently selected Coordinate.
 	 */
@@ -177,8 +179,24 @@ public class Board {
 	 * @param match The match to remove from the board.
 	 */
 	public void clearMatch(Match match) {
-		for (Coordinate coord : match.getCoordinates()) {
-			setJewel(null, coord);
+		for (MatchComponent comp : match.getMatchComponents()) {
+			comp.clear(this);
+		}
+	}
+	
+	public void setMatchValue(Coordinate coord, int location) {
+		matchLocations[coord.getY()][coord.getX()] = location;
+	}
+	
+	public int getMatchValue(Coordinate coord) {
+		return matchLocations[coord.getY()][coord.getX()];
+	}
+	
+	public void resetMatchLocations() {
+		for (int x = 0; x < width; x++) {
+			for (int y = 0; y < height; y++ ) {
+				matchLocations[y][x] = 0;
+			}
 		}
 	}
 	
@@ -286,10 +304,13 @@ public class Board {
 					}
 				}
 				if (match.size() >= 3) {
+					for (MatchComponent comp : match.getMatchComponents()) {
+						comp.setMatchValue(this, matched.size() + 1);
+					}
 					matched.add(match);
-					Logger.log(Priority.INFO, match.size()
-						+ "-match found (vertical): "
-						+ match.getCoordinates());
+//					Logger.log(Priority.INFO, match.size()
+//						+ "-match found (vertical): "
+//						+ match.getCoordinates());
 				}
 				y = matchcoord - 1;
 			}
@@ -320,10 +341,23 @@ public class Board {
 					}
 				}
 				if (match.size() >= 3) {
-					matched.add(match);
-					Logger.log(Priority.INFO, match.size()
-						+ "-match found (horizontal): "
-						+ match.getCoordinates());
+					boolean partOfAnotherMatch = false;
+					for (int i = 0; i < match.getMatchComponents().size() && !partOfAnotherMatch; i++) {
+						MatchComponent comp = match.getMatchComponents().get(i);
+						int matchValue = comp.getMatchValue(this);
+						if (matchValue > 0) {
+							match.set(matched.get(matchValue - 1), i);
+							matched.set(matchValue - 1, match);
+							match.setMatchValue(this, matchValue);
+							partOfAnotherMatch = true;
+						}
+					}
+					if (!partOfAnotherMatch) {
+						matched.add(match);
+					}
+//					Logger.log(Priority.INFO, match.size()
+//						+ "-match found (horizontal): "
+//						+ match.getCoordinates());
 				}
 				x = matchcoord - 1;
 			}
@@ -336,6 +370,7 @@ public class Board {
 	 *     (List parameterized with Match) The list of matches found.
 	 */
 	public List<Match> checkMatches() {
+		resetMatchLocations();
 		List<Match> matched = new ArrayList<Match>();
 		checkVerticalMatches(matched);
 		checkHorizontalMatches(matched);
