@@ -38,15 +38,20 @@ public interface BoardListener {
 	public void jewelsCleared(List<Coordinate> coordinates);
 	
 	/**
-	 * Coordinate from is dropped down to Coordinate to.
+	 * Coordinate 'from' is dropped down to Coordinate 'to'.
 	 * @param from
 	 * @param to
 	 */
 	public void jewelDropped(Coordinate from, Coordinate to);
 	
 	/**
-	 * Jewels are either removed from or placed on the board this listener
-	 * belongs to.
+	 * A new Jewel is placed on Coordinate 'coordinate'
+	 * @param coordinate
+	 */
+	public void coordinateFilled(Coordinate coordinate);
+	
+	/**
+	 * The grid of the board is replaced by a new one.
 	 */
 	public void boardChanged();
 }

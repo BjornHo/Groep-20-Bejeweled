@@ -246,19 +246,22 @@ public class Gui extends JFrame implements ActionListener, BoardListener {
 				setJewelImage(new Coordinate(x, y));
 			}
 		}
-			try {
-				Gui.soundloader.playSound(Sounds.Match);
-			} catch (IOException e) {
-				e.printStackTrace();
-			} catch (LineUnavailableException e) {
-				e.printStackTrace();
-			}
 	}
 
 	public void jewelSelected(Coordinate coord, Coordinate old) {
 		highLightJewel(coord);
 		if (old != null) {
 			setJewelImage(old);
+		}
+	}
+	
+	public void playMatchSound() {
+		try {
+			Gui.soundloader.playSound(Sounds.Match);
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (LineUnavailableException e) {
+			e.printStackTrace();
 		}
 	}
 	
@@ -285,7 +288,6 @@ public class Gui extends JFrame implements ActionListener, BoardListener {
 	public void jewelsCleared(List<Coordinate> coordinates) {
 		ClearJewelAction clearAction = new ClearJewelAction(this, coordinates);
 		executor.submit(clearAction);
-		
 	}
 
 	@Override
@@ -293,5 +295,11 @@ public class Gui extends JFrame implements ActionListener, BoardListener {
 		DropDownAction dropDownAction = new DropDownAction(this,from,to);
 		executor.submit(dropDownAction);
 		
+	}
+
+	@Override
+	public void coordinateFilled(Coordinate coordinate) {
+		FillJewelAction fillAction = new FillJewelAction(this, coordinate);
+		executor.submit(fillAction);	
 	}
 }

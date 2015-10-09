@@ -19,6 +19,7 @@ public class ClearJewelAction implements Runnable {
 		for (Coordinate coord : toClear) {
 			gui.clearJewelImage(coord);
 		}
+		gui.playMatchSound();
 		try {
 			Thread.sleep(500);
 		} catch (InterruptedException e) {

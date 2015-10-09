@@ -285,6 +285,7 @@ public class Board {
 		while (!holes.isEmpty()) {
 			for (Coordinate coord : holes) {
 				setJewel(new Jewel(Colour.randomColour()), coord);
+				notifyFill(coord);
 			}
 			holes = getHolesInRow(++row);
 		}
@@ -426,6 +427,12 @@ public class Board {
 		for (BoardListener l : boardListeners) {
 			l.jewelDropped(from, to);
 		}		
+	}
+	
+	public void notifyFill(Coordinate coordinate) {
+		for (BoardListener l : boardListeners) {
+			l.coordinateFilled(coordinate);
+		}			
 	}
 	
 	/**
