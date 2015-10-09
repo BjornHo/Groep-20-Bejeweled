@@ -56,30 +56,22 @@ public class StatsPanel extends JPanel implements StatsObserver {
 		return levelLabel;
 	}
 
-	/**
-	 * Updates the score.
-	 * 
-	 * @param score
-	 *     (int) New score.
-	 */
+	@Override
 	public void scoreChanged(int score) {
 		scoreLabel.setText("<html><font size=\"15\">Score " + score + "</font></html>");
 	}
 	
+	@Override
 	public void goalScoreChanged(int goalscore) {
 		nextScoreLabel.setText("<html><font size=\"15\">Goal " + goalscore + "</font></html>");
 	}
 
-	/**
-	 * Updates the level.
-	 * 
-	 * @param level
-	 *     (int) New level
-	 */
+	@Override
 	public void levelChanged(int level) {
 		levelLabel.setText("<html><font size=\"15\">Level " + level  + "</font></html>");
 	}
 	
+	@Override
 	public void timeLeftChanged(int time) {
 		timeLabel.setText("<html><font size=\"15\">Time " + time
 				+ "</font></html>");
