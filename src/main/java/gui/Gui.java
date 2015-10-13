@@ -1,9 +1,9 @@
 package gui;
 
-import board.BoardListener;
 import board.Coordinate;
 import game.Game;
 import jewel.Colour;
+import observers.BoardObserver;
 import xmlparser.XmlParser;
 
 import java.awt.BorderLayout;
@@ -18,6 +18,9 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import javax.imageio.ImageIO;
 import javax.sound.sampled.LineUnavailableException;
@@ -32,7 +35,7 @@ import javax.swing.JPanel;
  * 
  * @author Group 20
  */
-public class Gui extends JFrame implements ActionListener, BoardListener {
+public class Gui extends JFrame implements ActionListener, BoardObserver {
 	
 	/**
 	 * Default serialization ID.
@@ -41,16 +44,20 @@ public class Gui extends JFrame implements ActionListener, BoardListener {
 	private GridBagLayout gbl = new GridBagLayout();
 	private JPanel pane = new JPanel(gbl);
 	private JButton[][] allButtons = new JButton[8][8];
+	private JButton newGameButton = new JButton("New Game");
 	private BackgroundPanel bgPanel;
 	private Image bgImage;
 	private static XmlParser xmlParser = new XmlParser();
 	
 	private Game game;
+	private static Gui gui;
 	private static ImgLoader imgloader;
 	public static SoundLoader soundloader;
 	public static String saveGamePath = (System.getProperty("user.dir")
 			+ File.separator + "savegame/Autosave.xml");
 
+	private ExecutorService executor = Executors.newSingleThreadExecutor();
+	
 	/**
 	 * Main method used to verify what the GUI looks like.
 	 * 
@@ -64,7 +71,7 @@ public class Gui extends JFrame implements ActionListener, BoardListener {
 	public static void main(String[] args) throws IOException, LineUnavailableException,
 		UnsupportedAudioFileException {
 		Game game = loadGame();
-		Gui gui = new Gui(game);
+		gui = new Gui(game);
 		gui.setVisible(true);
 		game.startTimer();
 	}
@@ -92,8 +99,8 @@ public class Gui extends JFrame implements ActionListener, BoardListener {
 		sc.levelChanged(game.getLevel());
 		sc.scoreChanged(game.getScore());
 		bgPanel.add(sc, BorderLayout.NORTH);
-		this.game.getBoard().addBoardListener(this);
-		this.game.addStatsListener(sc);
+		this.game.getBoard().addBoardObserver(this);
+		this.game.addStatsObserver(sc);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	
@@ -128,11 +135,17 @@ public class Gui extends JFrame implements ActionListener, BoardListener {
 			for (int x = 0; x < 8; x++) {
 				constraint.gridx = x;
 				allButtons[y][x].setPreferredSize(new Dimension(70,70));
-				setJewelImage(x,y);
+				setJewelImage(new Coordinate(x,y));
 				pane.add(allButtons[y][x], constraint);
-				
 			}
 		}
+		newGameButton.addActionListener(new ActionListener() { 
+			  public void actionPerformed(ActionEvent event) { 
+			    Gui.gui.game.restartGame();
+			    
+			  } 
+			} );
+		pane.add(newGameButton);
 		bgPanel.add(pane);
 	}
 	
@@ -178,8 +191,8 @@ public class Gui extends JFrame implements ActionListener, BoardListener {
 	 * @param yvalue t
 	 *     The y-coordinate of the jewel on the board.
 	 */
-	public void highLightJewel(int xvalue, int yvalue) {
-		Colour colour = game.getBoard().getJewel(new Coordinate(xvalue, yvalue)).colour;
+	public void highLightJewel(Coordinate coord) {
+		Colour colour = game.getBoard().getJewel(coord).colour;
 		BufferedImage jewelImage = imgloader.getImage(colour);
 		BufferedImage selectedImage = imgloader.getImage(Colour.Selected);
 		
@@ -191,7 +204,7 @@ public class Gui extends JFrame implements ActionListener, BoardListener {
 		graphics.drawImage(jewelImage, 0, 0, null);
 		graphics.drawImage(selectedImage, 0, 0, null);
 		ImageIcon combinedIcon = new ImageIcon(combImage);
-		allButtons[yvalue][xvalue].setIcon(combinedIcon);
+		allButtons[coord.getY()][coord.getX()].setIcon(combinedIcon);
 	}
 	
 	/**
@@ -202,37 +215,45 @@ public class Gui extends JFrame implements ActionListener, BoardListener {
 	 * @param yvalue
 	 *     The y-coordinate of the jewel on the board.
 	 */
-	public void setJewelImage(int xvalue, int yvalue) {
-		BufferedImage img = imgloader.getImage(game.getBoard().getJewel(
-				new Coordinate(xvalue,yvalue)).colour);
+	public void setJewelImage(Coordinate coord) {
+		BufferedImage img = imgloader.getImage(game.getBoard().getJewel(coord).colour);
 		ImageIcon icon = new ImageIcon(img);
-		allButtons[yvalue][xvalue].setIcon(icon);
+		allButtons[coord.getY()][coord.getX()].setIcon(icon);
+	}
+	
+	public void clearJewelImage(Coordinate coord) {
+		BufferedImage img = imgloader.getImage(Colour.Empty);
+		ImageIcon icon = new ImageIcon(img);
+		allButtons[coord.getY()][coord.getX()].setIcon(icon);
 	}
 
 	public void jewelsSwapped(Coordinate acoord, Coordinate bcoord) {
-		setJewelImage(acoord.getX(), acoord.getY());
-		setJewelImage(bcoord.getX(), bcoord.getY());
+		SwapJewelAction swapAction = new SwapJewelAction(this, acoord, bcoord);
+		executor.submit(swapAction);
 	}
 
 	public void boardChanged() {
 		for (int y = 0; y < 8; y++) {
 			for (int x = 0; x < 8; x++) {
-				setJewelImage(x, y);
+				setJewelImage(new Coordinate(x, y));
 			}
 		}
-			try {
-				Gui.soundloader.playSound(Sounds.Match);
-			} catch (IOException e) {
-				e.printStackTrace();
-			} catch (LineUnavailableException e) {
-				e.printStackTrace();
-			}
 	}
 
 	public void jewelSelected(Coordinate coord, Coordinate old) {
-		highLightJewel(coord.getX(), coord.getY());
+		highLightJewel(coord);
 		if (old != null) {
-			setJewelImage(old.getX(), old.getY());
+			setJewelImage(old);
+		}
+	}
+	
+	public void playMatchSound() {
+		try {
+			Gui.soundloader.playSound(Sounds.Match);
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (LineUnavailableException e) {
+			e.printStackTrace();
 		}
 	}
 	
@@ -253,5 +274,24 @@ public class Gui extends JFrame implements ActionListener, BoardListener {
 			}
 		}
 		return new Game();
+	}
+
+	@Override
+	public void jewelsCleared(List<Coordinate> coordinates) {
+		ClearJewelAction clearAction = new ClearJewelAction(this, coordinates);
+		executor.submit(clearAction);
+	}
+
+	@Override
+	public void jewelDropped(Coordinate from, Coordinate to) {
+		DropDownAction dropDownAction = new DropDownAction(this,from,to);
+		executor.submit(dropDownAction);
+		
+	}
+
+	@Override
+	public void coordinateFilled(Coordinate coordinate) {
+		FillJewelAction fillAction = new FillJewelAction(this, coordinate);
+		executor.submit(fillAction);	
 	}
 }

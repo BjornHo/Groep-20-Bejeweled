@@ -1,11 +1,15 @@
-package board;
+package observers;
+
+import board.Coordinate;
+
+import java.util.List;
 
 /**
  * Listener for the Board class.
  * 
  * @author Group 20
  */
-public interface BoardListener {
+public interface BoardObserver {
 	
 	/**
 	 * The Jewels with coordinates a and b are swapped.
@@ -29,8 +33,27 @@ public interface BoardListener {
 	public void jewelSelected(Coordinate jewel, Coordinate old);
 	
 	/**
-	 * Jewels are either removed from or placed on the board this listener
-	 * belongs to.
+	 * All jewels in the list 'coordinates' are cleared from the board,
+	 * because they were part of a match.
+	 * @param coordinates
+	 */
+	public void jewelsCleared(List<Coordinate> coordinates);
+	
+	/**
+	 * Coordinate 'from' is dropped down to Coordinate 'to'.
+	 * @param from
+	 * @param to
+	 */
+	public void jewelDropped(Coordinate from, Coordinate to);
+	
+	/**
+	 * A new Jewel is placed on Coordinate 'coordinate'
+	 * @param coordinate
+	 */
+	public void coordinateFilled(Coordinate coordinate);
+	
+	/**
+	 * The grid of the board is replaced by a new one.
 	 */
 	public void boardChanged();
 }

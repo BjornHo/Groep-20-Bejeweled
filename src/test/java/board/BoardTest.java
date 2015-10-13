@@ -3,14 +3,17 @@ package board;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
-import java.util.ArrayList;
-import java.util.List;
+import jewel.Colour;
+import jewel.Jewel;
+import observers.BoardObserver;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import jewel.Colour;
-import jewel.Jewel;
+import java.util.ArrayList;
+import java.util.List;
+
+
 
 public class BoardTest {
 	
@@ -66,11 +69,11 @@ public class BoardTest {
 	}
 	
 	/**
-	 * Test to test the getBoardListeners() method.
+	 * Test to test the getBoardObservers() method.
 	 */
 	@Test
-	public void getBoardListeners() {
-		List<BoardListener> result = board.getBoardListeners();
+	public void getBoardObservers() {
+		List<BoardObserver> result = board.getboardObservers();
 		assertEquals(0, result.size());
 	}
 	
@@ -143,7 +146,7 @@ public class BoardTest {
 		
 		assertEquals(1, matched.size());
 		assertEquals(4, matched.get(0).size());
-		assertEquals(expected, matched.get(0).get(3));
+		assertEquals(expected, matched.get(0).getChild(3));
 	}
 	
 	/**
@@ -187,7 +190,7 @@ public class BoardTest {
 		
 		assertEquals(1, matched.size());
 		assertEquals(5, matched.get(0).size());
-		assertEquals(expected, matched.get(0).get(3));
+		assertEquals(expected, matched.get(0).getChild(3));
 	}
 	
 	/**
@@ -231,7 +234,7 @@ public class BoardTest {
 		
 		assertEquals(1, matched.size());
 		assertEquals(4, matched.get(0).size());
-		assertEquals(expected, matched.get(0).get(3));
+		assertEquals(expected, matched.get(0).getChild(3));
 	}
 	
 	/**
@@ -275,7 +278,7 @@ public class BoardTest {
 		
 		assertEquals(1, matched.size());
 		assertEquals(5, matched.get(0).size());
-		assertEquals(expected, matched.get(0).get(4));
+		assertEquals(expected, matched.get(0).getChild(4));
 	}
 	
 	/**
@@ -296,16 +299,16 @@ public class BoardTest {
 				{ new Jewel(Colour.Red), new Jewel(Colour.Red), new Jewel(Colour.Red),
 					new Jewel(Colour.Yellow), new Jewel(Colour.Blue), new Jewel(Colour.Orange),
 					new Jewel(Colour.Green), new Jewel(Colour.Blue) },
-				{ new Jewel(Colour.Red), new Jewel(Colour.Blue), new Jewel(Colour.Orange),
+				{ new Jewel(Colour.White), new Jewel(Colour.Blue), new Jewel(Colour.Orange),
 					new Jewel(Colour.Green), new Jewel(Colour.Blue), new Jewel(Colour.Orange),
 					new Jewel(Colour.Green), new Jewel(Colour.Blue) },
 				{ new Jewel(Colour.Red), new Jewel(Colour.Orange), new Jewel(Colour.Green),
 					new Jewel(Colour.Blue), new Jewel(Colour.Orange), new Jewel(Colour.Green),
 					new Jewel(Colour.Blue), new Jewel(Colour.Orange) },
-				{ new Jewel(Colour.Blue), new Jewel(Colour.Green), new Jewel(Colour.Blue),
+				{ new Jewel(Colour.Red), new Jewel(Colour.Green), new Jewel(Colour.Blue),
 					new Jewel(Colour.Orange), new Jewel(Colour.Green), new Jewel(Colour.Blue),
 					new Jewel(Colour.Orange), new Jewel(Colour.Green)},
-				{ new Jewel(Colour.White), new Jewel(Colour.Orange), new Jewel(Colour.Red),
+				{ new Jewel(Colour.Red), new Jewel(Colour.Orange), new Jewel(Colour.Red),
 					new Jewel(Colour.White), new Jewel(Colour.Orange),
 					new Jewel(Colour.Orange), new Jewel(Colour.Yellow),
 					new Jewel(Colour.White) },
@@ -324,7 +327,6 @@ public class BoardTest {
 		assertEquals(2, result.size());
 		assertEquals(3, result.get(0).size());
 		assertEquals(3, result.get(1).size());
-		assertEquals(result.get(0).get(0), result.get(1).get(0));
 	}
 	
 	@Test
