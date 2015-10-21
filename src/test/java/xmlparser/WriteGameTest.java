@@ -64,13 +64,13 @@ public class WriteGameTest {
 		assertEquals(reader.readLine(), "    <board>");
 		assertEquals(reader.readLine(), "        <grid>");
 		assertEquals(reader.readLine(), "            <row>");
-		assertEquals(reader.readLine(), "                <item>");
+		assertEquals(reader.readLine(), "                <item xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:type=\"normalJewel\">");
 		assertEquals(reader.readLine(), "                    <colour>Red</colour>");
 		assertEquals(reader.readLine(), "                </item>");
-		assertEquals(reader.readLine(), "                <item>");
+		assertEquals(reader.readLine(), "                <item xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:type=\"normalJewel\">");
 		assertEquals(reader.readLine(), "                    <colour>White</colour>");
 		assertEquals(reader.readLine(), "                </item>");
-		assertEquals(reader.readLine(), "                <item>");
+		assertEquals(reader.readLine(), "                <item xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:type=\"normalJewel\">");
 		assertEquals(reader.readLine(), "                    <colour>Blue</colour>");
 		assertEquals(reader.readLine(), "                </item>");
 		reader.close();

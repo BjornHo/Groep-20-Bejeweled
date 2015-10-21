@@ -3,210 +3,210 @@
     <board>
         <grid>
             <row>
-                <item>
+                <item xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="normalJewel">
                     <colour>Blue</colour>
                 </item>
-                <item>
+                <item xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="normalJewel">
                     <colour>Blue</colour>
                 </item>
-                <item>
+                <item xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="normalJewel">
                     <colour>Blue</colour>
                 </item>
-                <item>
+                <item xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="normalJewel">
                     <colour>Blue</colour>
                 </item>
-                <item>
+                <item xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="normalJewel">
                     <colour>Blue</colour>
                 </item>
-                <item>
+                <item xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="normalJewel">
                     <colour>Blue</colour>
                 </item>
-                <item>
+                <item xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="normalJewel">
                     <colour>Blue</colour>
                 </item>
-                <item>
-                    <colour>Blue</colour>
-                </item>
-            </row>
-            <row>
-                <item>
-                    <colour>Blue</colour>
-                </item>
-                <item>
-                    <colour>Blue</colour>
-                </item>
-                <item>
-                    <colour>Blue</colour>
-                </item>
-                <item>
-                    <colour>Blue</colour>
-                </item>
-                <item>
-                    <colour>Blue</colour>
-                </item>
-                <item>
-                    <colour>Blue</colour>
-                </item>
-                <item>
-                    <colour>Blue</colour>
-                </item>
-                <item>
+                <item xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="normalJewel">
                     <colour>Blue</colour>
                 </item>
             </row>
             <row>
-                <item>
+                <item xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="normalJewel">
                     <colour>Blue</colour>
                 </item>
-                <item>
+                <item xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="normalJewel">
                     <colour>Blue</colour>
                 </item>
-                <item>
+                <item xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="normalJewel">
                     <colour>Blue</colour>
                 </item>
-                <item>
+                <item xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="normalJewel">
                     <colour>Blue</colour>
                 </item>
-                <item>
+                <item xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="normalJewel">
                     <colour>Blue</colour>
                 </item>
-                <item>
+                <item xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="normalJewel">
                     <colour>Blue</colour>
                 </item>
-                <item>
+                <item xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="normalJewel">
                     <colour>Blue</colour>
                 </item>
-                <item>
-                    <colour>Blue</colour>
-                </item>
-            </row>
-            <row>
-                <item>
-                    <colour>Blue</colour>
-                </item>
-                <item>
-                    <colour>Blue</colour>
-                </item>
-                <item>
-                    <colour>Blue</colour>
-                </item>
-                <item>
-                    <colour>Blue</colour>
-                </item>
-                <item>
-                    <colour>Blue</colour>
-                </item>
-                <item>
-                    <colour>Blue</colour>
-                </item>
-                <item>
-                    <colour>Blue</colour>
-                </item>
-                <item>
+                <item xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="normalJewel">
                     <colour>Blue</colour>
                 </item>
             </row>
             <row>
-                <item>
+                <item xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="normalJewel">
                     <colour>Blue</colour>
                 </item>
-                <item>
+                <item xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="normalJewel">
                     <colour>Blue</colour>
                 </item>
-                <item>
+                <item xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="normalJewel">
                     <colour>Blue</colour>
                 </item>
-                <item>
+                <item xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="normalJewel">
                     <colour>Blue</colour>
                 </item>
-                <item>
+                <item xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="normalJewel">
                     <colour>Blue</colour>
                 </item>
-                <item>
+                <item xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="normalJewel">
                     <colour>Blue</colour>
                 </item>
-                <item>
+                <item xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="normalJewel">
                     <colour>Blue</colour>
                 </item>
-                <item>
-                    <colour>Blue</colour>
-                </item>
-            </row>
-            <row>
-                <item>
-                    <colour>Blue</colour>
-                </item>
-                <item>
-                    <colour>Blue</colour>
-                </item>
-                <item>
-                    <colour>Blue</colour>
-                </item>
-                <item>
-                    <colour>Blue</colour>
-                </item>
-                <item>
-                    <colour>Blue</colour>
-                </item>
-                <item>
-                    <colour>Blue</colour>
-                </item>
-                <item>
-                    <colour>Blue</colour>
-                </item>
-                <item>
+                <item xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="normalJewel">
                     <colour>Blue</colour>
                 </item>
             </row>
             <row>
-                <item>
+                <item xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="normalJewel">
                     <colour>Blue</colour>
                 </item>
-                <item>
+                <item xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="normalJewel">
                     <colour>Blue</colour>
                 </item>
-                <item>
+                <item xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="normalJewel">
                     <colour>Blue</colour>
                 </item>
-                <item>
+                <item xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="normalJewel">
                     <colour>Blue</colour>
                 </item>
-                <item>
+                <item xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="normalJewel">
                     <colour>Blue</colour>
                 </item>
-                <item>
+                <item xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="normalJewel">
                     <colour>Blue</colour>
                 </item>
-                <item>
+                <item xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="normalJewel">
                     <colour>Blue</colour>
                 </item>
-                <item>
+                <item xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="normalJewel">
                     <colour>Blue</colour>
                 </item>
             </row>
             <row>
-                <item>
+                <item xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="normalJewel">
                     <colour>Blue</colour>
                 </item>
-                <item>
+                <item xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="normalJewel">
                     <colour>Blue</colour>
                 </item>
-                <item>
+                <item xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="normalJewel">
                     <colour>Blue</colour>
                 </item>
-                <item>
+                <item xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="normalJewel">
                     <colour>Blue</colour>
                 </item>
-                <item>
+                <item xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="normalJewel">
                     <colour>Blue</colour>
                 </item>
-                <item>
+                <item xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="normalJewel">
                     <colour>Blue</colour>
                 </item>
-                <item>
+                <item xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="normalJewel">
                     <colour>Blue</colour>
                 </item>
-                <item>
+                <item xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="normalJewel">
+                    <colour>Blue</colour>
+                </item>
+            </row>
+            <row>
+                <item xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="normalJewel">
+                    <colour>Blue</colour>
+                </item>
+                <item xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="normalJewel">
+                    <colour>Blue</colour>
+                </item>
+                <item xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="normalJewel">
+                    <colour>Blue</colour>
+                </item>
+                <item xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="normalJewel">
+                    <colour>Blue</colour>
+                </item>
+                <item xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="normalJewel">
+                    <colour>Blue</colour>
+                </item>
+                <item xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="normalJewel">
+                    <colour>Blue</colour>
+                </item>
+                <item xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="normalJewel">
+                    <colour>Blue</colour>
+                </item>
+                <item xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="normalJewel">
+                    <colour>Blue</colour>
+                </item>
+            </row>
+            <row>
+                <item xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="normalJewel">
+                    <colour>Blue</colour>
+                </item>
+                <item xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="normalJewel">
+                    <colour>Blue</colour>
+                </item>
+                <item xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="normalJewel">
+                    <colour>Blue</colour>
+                </item>
+                <item xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="normalJewel">
+                    <colour>Blue</colour>
+                </item>
+                <item xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="normalJewel">
+                    <colour>Blue</colour>
+                </item>
+                <item xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="normalJewel">
+                    <colour>Blue</colour>
+                </item>
+                <item xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="normalJewel">
+                    <colour>Blue</colour>
+                </item>
+                <item xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="normalJewel">
+                    <colour>Blue</colour>
+                </item>
+            </row>
+            <row>
+                <item xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="normalJewel">
+                    <colour>Blue</colour>
+                </item>
+                <item xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="normalJewel">
+                    <colour>Blue</colour>
+                </item>
+                <item xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="normalJewel">
+                    <colour>Blue</colour>
+                </item>
+                <item xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="normalJewel">
+                    <colour>Blue</colour>
+                </item>
+                <item xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="normalJewel">
+                    <colour>Blue</colour>
+                </item>
+                <item xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="normalJewel">
+                    <colour>Blue</colour>
+                </item>
+                <item xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="normalJewel">
+                    <colour>Blue</colour>
+                </item>
+                <item xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="normalJewel">
                     <colour>Blue</colour>
                 </item>
             </row>
