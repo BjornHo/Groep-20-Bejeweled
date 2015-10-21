@@ -8,14 +8,12 @@ import xmlparser.XmlParser;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -182,30 +180,7 @@ public class Gui extends JFrame implements ActionListener, BoardObserver {
 		}
 	}
 	
-	/**
-	 * Draws 2 images on top of each other; the colour of the jewel and
-	 * the selectedImage border.
-	 * 
-	 * @param xvalue 
-	 *     The x-coordinate of the jewel on the board.
-	 * @param yvalue t
-	 *     The y-coordinate of the jewel on the board.
-	 */
-	public void highLightJewel(Coordinate coord) {
-		Colour colour = game.getBoard().getJewel(coord).colour;
-		BufferedImage jewelImage = imgloader.getImage(colour);
-		BufferedImage selectedImage = imgloader.getImage(Colour.Selected);
-		
-		int width = Math.max(jewelImage.getWidth(), selectedImage.getWidth());
-		int height = Math.max(jewelImage.getHeight(), selectedImage.getHeight());
-		
-		BufferedImage combImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
-		Graphics graphics = combImage.getGraphics();
-		graphics.drawImage(jewelImage, 0, 0, null);
-		graphics.drawImage(selectedImage, 0, 0, null);
-		ImageIcon combinedIcon = new ImageIcon(combImage);
-		allButtons[coord.getY()][coord.getX()].setIcon(combinedIcon);
-	}
+
 	
 	/**
 	 * setJewelImage sets the icon on coordinate (x,y) to the current jewel on that coordinate
@@ -216,14 +191,12 @@ public class Gui extends JFrame implements ActionListener, BoardObserver {
 	 *     The y-coordinate of the jewel on the board.
 	 */
 	public void setJewelImage(Coordinate coord) {
-		BufferedImage img = imgloader.getImage(game.getBoard().getJewel(coord).colour);
-		ImageIcon icon = new ImageIcon(img);
+		ImageIcon icon = imgloader.getImage(game.getBoard().getJewel(coord).colour);
 		allButtons[coord.getY()][coord.getX()].setIcon(icon);
 	}
 	
 	public void clearJewelImage(Coordinate coord) {
-		BufferedImage img = imgloader.getImage(Colour.Empty);
-		ImageIcon icon = new ImageIcon(img);
+		ImageIcon icon = imgloader.getImage(Colour.Empty);
 		allButtons[coord.getY()][coord.getX()].setIcon(icon);
 	}
 
@@ -241,7 +214,7 @@ public class Gui extends JFrame implements ActionListener, BoardObserver {
 	}
 
 	public void jewelSelected(Coordinate coord, Coordinate old) {
-		highLightJewel(coord);
+		
 		if (old != null) {
 			setJewelImage(old);
 		}
