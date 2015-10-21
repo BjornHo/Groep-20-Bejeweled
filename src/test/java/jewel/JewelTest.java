@@ -14,7 +14,7 @@ public class JewelTest {
 	
 	@Before
 	public void before() {	
-		jewel = new Jewel(Colour.Red);
+		jewel = new NormalJewel(Colour.Red);
 	}
 	
 	/**
@@ -30,7 +30,7 @@ public class JewelTest {
 	 */
 	@Test
 	public void isSameColourTrue() {
-		Jewel compared = new Jewel(Colour.Red);
+		Jewel compared = new NormalJewel(Colour.Red);
 		assertEquals(true, jewel.isSameColour(compared));
 	}
 	
@@ -39,7 +39,7 @@ public class JewelTest {
 	 */
 	@Test
 	public void isSameColourFalse() {
-		Jewel compared = new Jewel(Colour.Blue);
+		Jewel compared = new NormalJewel(Colour.Blue);
 		assertEquals(false, jewel.isSameColour(compared));
 	}
 }

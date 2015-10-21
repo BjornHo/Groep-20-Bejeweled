@@ -8,13 +8,15 @@ import org.junit.Test;
 public class MatchTest {
 	
 	private Match match;
-
+	private Board board;
+	
 	/**
 	 * Initializing a match for every test
 	 */
 	@Before
 	public void before() {
-		match = new Match();
+		board = new Board();
+		match = new Match(board);
 	}
 	
 	/**
@@ -91,7 +93,7 @@ public class MatchTest {
 	
 	@Test
 	public void getLMatch() {
-		Match innerMatch = new Match();
+		Match innerMatch = new Match(board);
 		innerMatch.add(new Coordinate(0,0));
 		innerMatch.add(new Coordinate(0,1));
 		innerMatch.add(new Coordinate(0,2));
@@ -124,7 +126,7 @@ public class MatchTest {
 	@Test
 	public void equalsDifferentSize() {
 		match.add(new Coordinate(0,0));
-		assertEquals(false, match.equals(new Match()));
+		assertEquals(false, match.equals(new Match(board)));
 	}
 	
 	/**
@@ -134,7 +136,7 @@ public class MatchTest {
 	@Test
 	public void equalsDifferentElements() {
 		match.add(new Coordinate(0,0));
-		Match other = new Match();
+		Match other = new Match(board);
 		other.add(new Coordinate(1,1));
 		assertEquals(false, match.equals(other));
 	}
@@ -145,7 +147,7 @@ public class MatchTest {
 	 */
 	@Test
 	public void equalsDifferentOrder() {
-		Match other = new Match();
+		Match other = new Match(board);
 		Coordinate c1 = new Coordinate(0,0);
 		Coordinate c2 = new Coordinate(1,1);
 		

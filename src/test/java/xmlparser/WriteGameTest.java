@@ -7,6 +7,7 @@ import board.Coordinate;
 import game.Game;
 import jewel.Colour;
 import jewel.Jewel;
+import jewel.NormalJewel;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -35,12 +36,12 @@ public class WriteGameTest {
 		board = game.getBoard();
 		
 		Jewel[][] grid = { 
-				{ new Jewel(Colour.Red), new Jewel(Colour.White),
-					new Jewel(Colour.Blue) },
-				{ new Jewel(Colour.Orange), new Jewel(Colour.Yellow),
-					new Jewel(Colour.Green) },
-				{ new Jewel(Colour.Red), new Jewel(Colour.Orange),
-					new Jewel(Colour.Purple) }
+				{ new NormalJewel(Colour.Red), new NormalJewel(Colour.White),
+					new NormalJewel(Colour.Blue) },
+				{ new NormalJewel(Colour.Orange), new NormalJewel(Colour.Yellow),
+					new NormalJewel(Colour.Green) },
+				{ new NormalJewel(Colour.Red), new NormalJewel(Colour.Orange),
+					new NormalJewel(Colour.Purple) }
 		};
 		board.setGrid(grid);
 		
