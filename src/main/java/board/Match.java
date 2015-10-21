@@ -1,6 +1,7 @@
 package board;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import jewel.Jewel;
@@ -29,14 +30,27 @@ public class Match extends MatchComponent {
 	 *     matchComponent to be added.
 	 */
 	
-	public void add(Match matchComponent) {
+	public void add(MatchComponent matchComponent) {
 		matchComponents.removeAll(matchComponent.getMatchComponents());
 		matchComponents.add(matchComponent);
 	}
 	
 	public void add(Coordinate matchComponent) {
 		Jewel jewel = board.getJewel(matchComponent);
-		matchComponents.addAll(jewel.getMatchCoordinates(board, matchComponent));
+		List<Coordinate> toAdd = jewel.getMatchCoordinates(board, matchComponent);
+		if (toAdd.size() > 1) {
+			Match match = new Match(board);
+			match.addAll(toAdd);
+			this.add(match);
+			System.out.println("Super Gem");
+		} else {
+			this.addAll(toAdd);
+		}
+		
+	}
+	
+	private void addAll(Collection<Coordinate> coordinates) {
+		matchComponents.addAll(coordinates);
 	}
 	
 	public void remove(MatchComponent matchComponent) {

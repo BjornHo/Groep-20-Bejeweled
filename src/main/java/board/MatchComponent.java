@@ -16,6 +16,10 @@ public abstract class MatchComponent {
 		throw new UnsupportedOperationException();
 	}
 	
+	public List<MatchComponent> getMatchComponents() {
+		throw new UnsupportedOperationException();
+	}
+	
 	public int getPoints() {
 		throw new UnsupportedOperationException();
 	}
