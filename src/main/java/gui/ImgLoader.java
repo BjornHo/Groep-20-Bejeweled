@@ -27,7 +27,7 @@ public class ImgLoader {
 	 *     If the input/output is incorrect.
 	 */
 	public ImgLoader() throws IOException {
-		imagemap = new HashMap<Colour, ImageIcon>(8);
+		imagemap = new HashMap<Colour, ImageIcon>(64);
 		
 		String directory = (System.getProperty("user.dir") + File.separator + "src"
 				+ File.separator + "main" + File.separator
@@ -41,6 +41,8 @@ public class ImgLoader {
 			imagemap.put(Colour.valueOf(file.getName().substring(0, underScorePos)),
 					icon);
 		}
+		
+		System.out.println(imagemap.values());
 	}
 	
 	/**

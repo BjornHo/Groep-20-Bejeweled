@@ -16,6 +16,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -195,6 +196,14 @@ public class Gui extends JFrame implements ActionListener, BoardObserver {
 		allButtons[coord.getY()][coord.getX()].setIcon(icon);
 	}
 	
+	public void highLightJewel(Coordinate coord) {
+		Colour colour = game.getBoard().getJewel(coord).colour;
+		String highLight = colour + "HL";
+		Colour hl = Colour.valueOf(highLight);
+		ImageIcon icon = imgloader.getImage(hl);
+		allButtons[coord.getY()][coord.getX()].setIcon(icon);
+	}
+	
 	public void clearJewelImage(Coordinate coord) {
 		ImageIcon icon = imgloader.getImage(Colour.Empty);
 		allButtons[coord.getY()][coord.getX()].setIcon(icon);
@@ -214,7 +223,7 @@ public class Gui extends JFrame implements ActionListener, BoardObserver {
 	}
 
 	public void jewelSelected(Coordinate coord, Coordinate old) {
-		
+		highLightJewel(coord);
 		if (old != null) {
 			setJewelImage(old);
 		}
