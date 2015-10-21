@@ -1,17 +1,17 @@
 package jewel;
 
-import javax.xml.bind.annotation.XmlRootElement;
+import java.util.List;
 
-@XmlRootElement(name = "jewel")
-public class Jewel {
+import javax.xml.bind.annotation.XmlSeeAlso;
+import javax.xml.bind.annotation.XmlTransient;
+
+import board.Board;
+import board.Coordinate;
+
+@XmlTransient
+@XmlSeeAlso({NormalJewel.class, HorizontalSuperJewel.class, VerticalSuperJewel.class})
+public abstract class Jewel {
 	public Colour colour;
-	
-	public Jewel(Colour colour) {
-		this.colour = colour;
-	}
-	
-	public Jewel() {
-	}
 	
 	/**
 	 * Method to check whether or not 2 jewels are of the same Colour.
@@ -32,5 +32,7 @@ public class Jewel {
 	public Colour getColour() {
 		return this.colour;
 	}
+	
+	public abstract List<Coordinate> getMatchCoordinates(Board board, Coordinate coord);
 	
 }

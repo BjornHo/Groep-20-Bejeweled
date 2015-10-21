@@ -3,6 +3,8 @@ package board;
 import java.util.ArrayList;
 import java.util.List;
 
+import jewel.Jewel;
+
 public class Match extends MatchComponent {
 	/**
 	 * List of a Match Object containing the Coordinate Objects of matching jewels.
@@ -13,7 +15,10 @@ public class Match extends MatchComponent {
 	 * -1 to show there is no max y-value yet.
 	 */
 	
-	public Match() {
+	private Board board;
+	
+	public Match(Board board) {
+		this.board = board;
 		matchComponents = new ArrayList<MatchComponent>();
 	}
 	
@@ -24,8 +29,14 @@ public class Match extends MatchComponent {
 	 *     matchComponent to be added.
 	 */
 	
-	public void add(MatchComponent matchComponent) {
+	public void add(Match matchComponent) {
+		matchComponents.removeAll(matchComponent.getMatchComponents());
 		matchComponents.add(matchComponent);
+	}
+	
+	public void add(Coordinate matchComponent) {
+		Jewel jewel = board.getJewel(matchComponent);
+		matchComponents.addAll(jewel.getMatchCoordinates(board, matchComponent));
 	}
 	
 	public void remove(MatchComponent matchComponent) {
@@ -36,9 +47,9 @@ public class Match extends MatchComponent {
 		return matchComponents.get(location);
 	}
 	
-	public void set(MatchComponent comp, int location) {
-		matchComponents.set(location, comp);
-	}
+//	public void set(MatchComponent comp, int location) {
+//		matchComponents.set(location, comp);
+//	}
 	
 	public List<MatchComponent> getMatchComponents() {
 		return matchComponents;
