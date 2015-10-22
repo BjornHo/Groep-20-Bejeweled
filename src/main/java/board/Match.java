@@ -39,13 +39,9 @@ public class Match extends MatchComponent {
 		Jewel jewel = board.getJewel(matchComponent);
 		List<Coordinate> toAdd = jewel.getMatchCoordinates(board, matchComponent);
 		if (toAdd.size() > 1) {
-			System.out.println("Super gem match:");
-			System.out.println(toAdd);
 			Match match = new Match(board);
 			match.addAll(toAdd);
 			this.add(match);
-			System.out.println("Complete match (size " + this.size() + "):");
-			System.out.println(this.matchComponents);
 		} else {
 			this.addAll(toAdd);
 		}
