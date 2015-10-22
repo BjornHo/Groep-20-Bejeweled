@@ -101,6 +101,7 @@ public class Gui extends JFrame implements ActionListener, BoardObserver {
 		this.game.getBoard().addBoardObserver(this);
 		this.game.addStatsObserver(sc);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
 	}
 	
 	/**
@@ -192,12 +193,12 @@ public class Gui extends JFrame implements ActionListener, BoardObserver {
 	 *     The y-coordinate of the jewel on the board.
 	 */
 	public void setJewelImage(Coordinate coord) {
-		ImageIcon icon = imgloader.getImage(game.getBoard().getJewel(coord).colour);
+		ImageIcon icon = imgloader.getImage(game.getBoard().getJewel(coord).getImageColour());
 		allButtons[coord.getY()][coord.getX()].setIcon(icon);
 	}
 	
 	public void highLightJewel(Coordinate coord) {
-		Colour colour = game.getBoard().getJewel(coord).colour;
+		Colour colour = game.getBoard().getJewel(coord).getImageColour();
 		String highLight = colour + "HL";
 		Colour hl = Colour.valueOf(highLight);
 		ImageIcon icon = imgloader.getImage(hl);

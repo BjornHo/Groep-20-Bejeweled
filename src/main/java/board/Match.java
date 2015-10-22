@@ -31,7 +31,7 @@ public class Match extends MatchComponent {
 	 */
 	
 	public void add(MatchComponent matchComponent) {
-		matchComponents.removeAll(matchComponent.getMatchComponents());
+		//matchComponents.removeAll(matchComponent.getMatchComponents());
 		matchComponents.add(matchComponent);
 	}
 	

@@ -37,4 +37,9 @@ public enum Colour {
 		return COLOURS.get(RANDOM.nextInt(SIZE));
 	}
 	
+	public boolean isJewelColour() {
+		List<Colour> valid = COLOURS.subList(0, 7);
+		return valid.contains(this);
+	}
+	
 }

@@ -10,12 +10,13 @@ import board.Coordinate;
 
 @XmlRootElement(name = "verticalPowerJewel")
 public class VerticalPowerJewel extends Jewel {
-	public VerticalPowerJewel() {
 	
+	public VerticalPowerJewel() {
+		super();
 	}
 	
 	public VerticalPowerJewel(Colour colour) {
-		this.colour = colour;
+		super(colour);
 	}
 
 	@Override
@@ -23,5 +24,10 @@ public class VerticalPowerJewel extends Jewel {
 		List<Coordinate> res = new ArrayList<>();
 		res.addAll(board.getColumn(coord));
 		return res;
+	}
+
+	@Override
+	public Colour getImageColour() {
+		return Colour.valueOf(this.colour + "VPower");
 	}
 }

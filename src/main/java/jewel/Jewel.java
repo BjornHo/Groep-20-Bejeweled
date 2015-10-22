@@ -13,6 +13,19 @@ import board.Coordinate;
 public abstract class Jewel {
 	public Colour colour;
 	
+	public Jewel() {
+		
+	}
+	
+	public Jewel(Colour colour) {
+		if (colour.isJewelColour()) {
+			this.colour = colour;
+		} else {
+			throw new IllegalArgumentException("Invalid colour specified: "
+					+ colour + ". Only basic Colours can be used.");
+		}
+	}
+	
 	/**
 	 * Method to check whether or not 2 jewels are of the same Colour.
 	 * 
@@ -22,11 +35,7 @@ public abstract class Jewel {
 	 *     True if colour is the same, false if not.
 	 */
 	public boolean isSameColour(Jewel that) {
-		if (this.colour == that.colour) {
-			return true;
-		} else {
-			return false;
-		}
+		return this.colour == that.colour;
 	}
 	
 	public Colour getColour() {
@@ -34,5 +43,7 @@ public abstract class Jewel {
 	}
 	
 	public abstract List<Coordinate> getMatchCoordinates(Board board, Coordinate coord);
+	
+	public abstract Colour getImageColour();
 	
 }

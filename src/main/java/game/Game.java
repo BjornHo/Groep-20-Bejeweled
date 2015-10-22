@@ -132,7 +132,7 @@ public class Game implements ActionListener, StatsObservable {
 		notifyTimeLeft();
 		goalScore = goalScore();
 		notifyGoalScoreChanged();
-		//timer.start();
+		timer.start();
 	}
 	
 	@Override
@@ -223,7 +223,7 @@ public class Game implements ActionListener, StatsObservable {
 			System.out.println("Game over!");
 			restartGame();
 		} else {
-			count--;
+			//count--;
 		}
 	}
 }

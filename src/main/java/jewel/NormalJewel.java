@@ -24,4 +24,9 @@ public class NormalJewel extends Jewel {
 		res.add(coord);
 		return res;
 	}
+	
+	@Override
+	public Colour getImageColour() {
+		return this.colour;
+	}
 }

@@ -11,12 +11,12 @@ import board.Coordinate;
 @XmlRootElement(name = "horizontalPowerJewel")
 public class HorizontalPowerJewel extends Jewel {
 	
-	public HorizontalPowerJewel() {
-		
+	public HorizontalPowerJewel(Colour colour) {
+		super(colour);
 	}
 	
-	public HorizontalPowerJewel(Colour colour) {
-		this.colour = colour;
+	public HorizontalPowerJewel() {
+		super();
 	}
 
 	@Override
@@ -24,5 +24,10 @@ public class HorizontalPowerJewel extends Jewel {
 		List<Coordinate> res = new ArrayList<>();
 		res.addAll(board.getRow(coord));
 		return res;
+	}
+	
+	@Override
+	public Colour getImageColour() {
+		return Colour.valueOf(this.colour + "HPower");
 	}
 }
