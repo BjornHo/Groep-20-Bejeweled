@@ -3,6 +3,7 @@ package board;
 import jewel.Colour;
 import jewel.Jewel;
 import jewel.NormalJewel;
+import jewel.VerticalPowerJewel;
 import logger.Logger;
 import logger.Priority;
 import observers.BoardObservable;
@@ -170,8 +171,8 @@ public class Board implements BoardObservable{
 				{ new NormalJewel(Colour.Orange), new NormalJewel(Colour.Yellow),
 					new NormalJewel(Colour.Blue), new NormalJewel(Colour.Purple),
 					new NormalJewel(Colour.Red), new NormalJewel(Colour.Red),
-					new NormalJewel(Colour.Green), new NormalJewel(Colour.Yellow) },
-				{ new NormalJewel(Colour.White), new NormalJewel(Colour.Purple),
+					new NormalJewel(Colour.Green), new NormalJewel(Colour.Red) },
+				{ new VerticalPowerJewel(Colour.WhiteVPower), new NormalJewel(Colour.Purple),
 					new NormalJewel(Colour.Green), new NormalJewel(Colour.Blue),
 					new NormalJewel(Colour.Yellow), new NormalJewel(Colour.Orange),
 					new NormalJewel(Colour.Red), new NormalJewel(Colour.Green) }

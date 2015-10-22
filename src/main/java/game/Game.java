@@ -132,7 +132,7 @@ public class Game implements ActionListener, StatsObservable {
 		notifyTimeLeft();
 		goalScore = goalScore();
 		notifyGoalScoreChanged();
-		timer.start();
+		//timer.start();
 	}
 	
 	@Override
