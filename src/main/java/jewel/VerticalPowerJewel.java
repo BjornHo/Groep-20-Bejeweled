@@ -8,21 +8,20 @@ import javax.xml.bind.annotation.XmlRootElement;
 import board.Board;
 import board.Coordinate;
 
-@XmlRootElement(name = "horizontalSuperJewel")
-public class HorizontalSuperJewel extends Jewel {
+@XmlRootElement(name = "verticalPowerJewel")
+public class VerticalPowerJewel extends Jewel {
+	public VerticalPowerJewel() {
 	
-	public HorizontalSuperJewel() {
-		
 	}
 	
-	public HorizontalSuperJewel(Colour colour) {
+	public VerticalPowerJewel(Colour colour) {
 		this.colour = colour;
 	}
 
 	@Override
 	public List<Coordinate> getMatchCoordinates(Board board, Coordinate coord) {
 		List<Coordinate> res = new ArrayList<>();
-		res.addAll(board.getRow(coord));
+		res.addAll(board.getColumn(coord));
 		return res;
 	}
 }

@@ -9,7 +9,7 @@ import board.Board;
 import board.Coordinate;
 
 @XmlTransient
-@XmlSeeAlso({NormalJewel.class, HorizontalSuperJewel.class, VerticalSuperJewel.class})
+@XmlSeeAlso({NormalJewel.class, HorizontalPowerJewel.class, VerticalPowerJewel.class})
 public abstract class Jewel {
 	public Colour colour;
 	
