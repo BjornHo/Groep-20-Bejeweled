@@ -1,6 +1,6 @@
 package game;
 
-
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
@@ -92,16 +92,21 @@ public class GameTest {
 	 */
 	@Test
 	public void processMatchesVertical() {
+		Jewel[][] grid = { { new NormalJewel(Colour.Green) },
+				{ new NormalJewel(Colour.Red) },
+				{ new NormalJewel(Colour.Red) },
+				{ new NormalJewel(Colour.Red) } };
+		game.getBoard().setGrid(grid);
 		Match match = new Match(game.getBoard());
-		match.add(new Coordinate(0,5));
-		match.add(new Coordinate(0,6));
-		match.add(new Coordinate(0,7));
+		match.add(new Coordinate(0,1));
+		match.add(new Coordinate(0,2));
+		match.add(new Coordinate(0,3));
 		List<Match> list = new ArrayList<>();
 		list.add(match);
 		Board board = game.getBoard();
-		Jewel expected = board.getJewel(new Coordinate(0,4));
+		Jewel expected = board.getJewel(new Coordinate(0,0));
 		game.processMatches(list);
-		assertEquals(expected, board.getJewel(new Coordinate(0,7)));
+		assertEquals(expected, board.getJewel(new Coordinate(0,3)));
 	}
 	
 	/**
@@ -109,16 +114,25 @@ public class GameTest {
 	 */
 	@Test
 	public void processMatchHorizontal() {
+		Jewel[][] grid = {
+				{ new NormalJewel(Colour.Green), new NormalJewel(Colour.Red),
+						new NormalJewel(Colour.Yellow) },
+				{ new NormalJewel(Colour.Red), new NormalJewel(Colour.Red),
+						new NormalJewel(Colour.Red) } };
+		game.getBoard().setGrid(grid);
 		Match match = new Match(game.getBoard());
-		match.add(new Coordinate(0,7));
-		match.add(new Coordinate(1,7));
-		match.add(new Coordinate(2,7));
+		match.add(new Coordinate(0,1));
+		match.add(new Coordinate(1,1));
+		match.add(new Coordinate(2,1));
 		List<Match> list = new ArrayList<>();
 		list.add(match);
 		Board board = game.getBoard();
-		Jewel expected = board.getJewel(new Coordinate(0,6));
+		
+		Jewel[] expected = new Jewel[3];
+		System.arraycopy(board.getGrid()[0], 0, expected, 0, 3);
 		game.processMatches(list);
-		assertEquals(expected, board.getJewel(new Coordinate(0,7)));
+		Jewel[] actual = board.getGrid()[1];
+		assertArrayEquals(expected, actual);
 	}
 	
 	@Test

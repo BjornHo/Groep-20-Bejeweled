@@ -34,12 +34,12 @@ public class Board implements BoardObservable{
 	 */
 	@XmlElement(name = "row")
 	@XmlElementWrapper(name = "grid")
-    private Jewel[][] jewelGrid = createGrid();
+    private Jewel[][] jewelGrid;
 	
-	private int width = 8;
-	private int height = 8;
+	private int width = -1;
+	private int height = -1;
 	
-	private int[][] matchLocations = new int[width][height];
+	private int[][] matchLocations;
 	/**
 	 * Coordinate object used to define the currently selected Coordinate.
 	 */
@@ -54,6 +54,9 @@ public class Board implements BoardObservable{
 	
 	public Board() {
 		this.boardObservers = new ArrayList<BoardObserver>();
+		Jewel[][] grid = createGrid();
+		setGrid(grid);
+		matchLocations =  new int[width][height];
 	}
 	
 	@Override
@@ -73,6 +76,8 @@ public class Board implements BoardObservable{
 	 */
 	public void setGrid(Jewel[][] grid) {
 		this.jewelGrid = grid;
+		this.height = grid.length;
+		this.width = grid[0].length;
 		Logger.log(Priority.INFO, "Grid set.");
 	}
 	
