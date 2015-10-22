@@ -72,6 +72,14 @@ public class Match extends MatchComponent {
 		return matchComponents.size();
 	}
 	
+	public int getTrueSize() {
+		int size = 0;
+		for (MatchComponent component : matchComponents) {
+			size += component.getTrueSize();
+		}
+		return size;
+	}
+	
 	/**
 	 * Method for returning amount of points certain matches will earn.
 	 * 

@@ -217,4 +217,9 @@ public class Coordinate extends MatchComponent{
 	public void getCoordinates(List<Coordinate> coordinates) {
 		coordinates.add(this);
 	}
+
+	@Override
+	public int getTrueSize() {
+		return 1;
+	}
 }

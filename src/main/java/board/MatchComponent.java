@@ -37,4 +37,6 @@ public abstract class MatchComponent {
 	}
 	
 	public abstract void getCoordinates(List<Coordinate> coordinates);
+	
+	public abstract int getTrueSize();
 }
