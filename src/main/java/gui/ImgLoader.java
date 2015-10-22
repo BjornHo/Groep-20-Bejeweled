@@ -2,12 +2,10 @@ package gui;
 
 import jewel.Colour;
 
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 //
 /**
@@ -42,7 +40,6 @@ public class ImgLoader {
 					icon);
 		}
 		
-		System.out.println(imagemap.values());
 	}
 	
 	/**
