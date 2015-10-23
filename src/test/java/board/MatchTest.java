@@ -324,6 +324,7 @@ public class MatchTest {
 		Match matchVertical = new Match(board);
 		matchVertical.add(new Coordinate(2,0));
 		matchVertical.add(new Coordinate(2,1));
+		matchVertical.add(new Coordinate(2,2));
 		matchVertical.add(matchHorizontal);
 		assertEquals(600, matchVertical.getPoints());	
 	}
@@ -338,6 +339,7 @@ public class MatchTest {
 		Match matchVertical = new Match(board);
 		matchVertical.add(new Coordinate(4,0));
 		matchVertical.add(new Coordinate(4,1));
+		matchVertical.add(new Coordinate(4,2));
 		matchVertical.add(matchHorizontal);
 		assertEquals(600, matchVertical.getPoints());
 	}
