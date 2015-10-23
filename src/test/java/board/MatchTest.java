@@ -293,4 +293,52 @@ public class MatchTest {
 	public void testNumberOfJewelsVerticalLMatch() {
 		assertEquals(5, vertical5lMatch.numberOfJewels());
 	}
+	
+	@Test
+	public void testVerticalPowerJewelVerticalMatch() {
+		board.setGrid(powerJewelGrid);
+		Match match = new Match(board);
+		match.add(new Coordinate(4,1));
+		match.add(new Coordinate(4,2));
+		match.add(new Coordinate(4,3));
+		assertEquals(550, match.getPoints());
+	}
+	
+	@Test
+	public void testVerticalPowerJewelHorizontalMatch() {
+		board.setGrid(powerJewelGrid);
+		Match match = new Match(board);
+		match.add(new Coordinate(2,2));
+		match.add(new Coordinate(3,2));
+		match.add(new Coordinate(4,2));
+		assertEquals(550, match.getPoints());
+	}
+	
+	@Test
+	public void testVerticalPowerJewelLMatchNotOverlapped() {
+		board.setGrid(powerJewelGrid);
+		Match matchHorizontal = new Match(board);
+		matchHorizontal.add(new Coordinate(2,2));
+		matchHorizontal.add(new Coordinate(3,2));
+		matchHorizontal.add(new Coordinate(4,2));
+		Match matchVertical = new Match(board);
+		matchVertical.add(new Coordinate(2,0));
+		matchVertical.add(new Coordinate(2,1));
+		matchVertical.add(matchHorizontal);
+		assertEquals(600, matchVertical.getPoints());	
+	}
+	
+	@Test
+	public void testVerticalPowerJewelLMatchOverlapped() {
+		board.setGrid(powerJewelGrid);
+		Match matchHorizontal = new Match(board);
+		matchHorizontal.add(new Coordinate(2,2));
+		matchHorizontal.add(new Coordinate(3,2));
+		matchHorizontal.add(new Coordinate(4,2));
+		Match matchVertical = new Match(board);
+		matchVertical.add(new Coordinate(4,0));
+		matchVertical.add(new Coordinate(4,1));
+		matchVertical.add(matchHorizontal);
+		assertEquals(600, matchVertical.getPoints());
+	}
 }
