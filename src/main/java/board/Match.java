@@ -72,10 +72,10 @@ public class Match extends MatchComponent {
 		return matchComponents.size();
 	}
 	
-	public int getTrueSize() {
+	public int numberOfJewels() {
 		int size = 0;
 		for (MatchComponent component : matchComponents) {
-			size += component.getTrueSize();
+			size += component.numberOfJewels();
 		}
 		return size;
 	}
@@ -86,36 +86,17 @@ public class Match extends MatchComponent {
 	 * @return int
 	 *     Amount of points.
 	 */
-	public int getPoints() {
-		int score = baseScore();
-		if (score < 0) {
-			return score;
-		}
-		for (MatchComponent component : matchComponents) {
-			score += component.getPoints();
-		}
-		return score;
-	}
-	
-	/**
-	 * Gets the score linked to the size of the match.
-	 * 
-	 * @return
-	 */
-	
-	public int baseScore() {
-		int size = size();
-		switch (size) {
-		case 3:
-			return 200;
-		case 4:
-			return 300;
-		case 5:
-			return 750;
-		default:
-			return -1;
-		}
-	}
+//	public int getPoints() {
+//		int score = 50;
+////		int score = baseScore();
+////		if (score < 0) {
+////			return score;
+////		}
+//		for (MatchComponent component : matchComponents) {
+//			score += component.getPoints();
+//		}
+//		return score;
+//	}
 	
 	/**
 	 * Clears the current Match from a Board.
@@ -140,7 +121,6 @@ public class Match extends MatchComponent {
 		return matchComponents.get(0).getMatchValue(board);
 	}
 	
-	
 	@Override
 	public boolean equals(Object other) {
 		if (other instanceof Match) {
@@ -164,10 +144,33 @@ public class Match extends MatchComponent {
 	}
 
 	@Override
-	public void getCoordinates(List<Coordinate> coordinates) {
+	protected void addCoordinates(List<Coordinate> coordinates) {
 		for (MatchComponent comp : matchComponents) {
-			comp.getCoordinates(coordinates);
+			comp.addCoordinates(coordinates);
 		}
+	}
+
+	@Override
+	protected boolean isLeaf() {
+		return false;
+	}
+
+	@Override
+	public int baseScore() {
+		int size = baseSize();
+		if (size < 3) {
+			return 0;
+		}
+		if (size == 3) {
+			return 50;
+		}
+		if (size == 4) {
+			return 100;
+		}
+		if (size == 5) {
+			return 500;
+		}
+		return 500 + (size - 5) * 50;
 	}
 
 }

@@ -2,25 +2,20 @@ package board;
 
 import static org.junit.Assert.assertEquals;
 
-import org.junit.Before;
 import org.junit.Test;
 
 
 
 public class CoordinateTest {
-	private Coordinate coord1;
-
-	@Before
-	public void before() {
-		coord1 = new Coordinate(2,3);
-	}
 	
+	private Coordinate coord = new Coordinate(2,3);
+
 	/**
 	 * Testing the getX() method.
 	 */
 	@Test
 	public void getX() {
-		assertEquals(2, coord1.getX());
+		assertEquals(2, coord.getX());
 	}
 	
 	/**
@@ -28,7 +23,7 @@ public class CoordinateTest {
 	 */
 	@Test
 	public void getY() {
-		assertEquals(3, coord1.getY());
+		assertEquals(3, coord.getY());
 	}
 	
 	/**
@@ -36,8 +31,8 @@ public class CoordinateTest {
 	 */
 	@Test
 	public void setX() {
-		coord1.setX(5);
-		assertEquals(5, coord1.getX());
+		coord.setX(5);
+		assertEquals(5, coord.getX());
 	}
 	
 	/**
@@ -45,8 +40,8 @@ public class CoordinateTest {
 	 */
 	@Test
 	public void setY() {
-		coord1.setY(5);
-		assertEquals(5, coord1.getY());
+		coord.setY(5);
+		assertEquals(5, coord.getY());
 	}
 	
 	/**
@@ -55,7 +50,7 @@ public class CoordinateTest {
 	@Test
 	public void areAdjacentHorizontal() {
 		Coordinate coord2 = new Coordinate(3,3);
-		assertEquals(true, Coordinate.areAdjacent(coord1, coord2));
+		assertEquals(true, Coordinate.areAdjacent(coord, coord2));
 	}
 	
 	/**
@@ -64,7 +59,7 @@ public class CoordinateTest {
 	@Test
 	public void areAdjacentVertical() {
 		Coordinate coord2 = new Coordinate(2,2);
-		assertEquals(true, Coordinate.areAdjacent(coord1, coord2));
+		assertEquals(true, Coordinate.areAdjacent(coord, coord2));
 	}
 	
 	/**
@@ -73,7 +68,7 @@ public class CoordinateTest {
 	@Test
 	public void areAdjacentFalse() {
 		Coordinate coord2 = new Coordinate(1,2);
-		assertEquals(false, Coordinate.areAdjacent(coord1, coord2));
+		assertEquals(false, Coordinate.areAdjacent(coord, coord2));
 	}
 	
 	/**
@@ -81,115 +76,7 @@ public class CoordinateTest {
 	 */
 	@Test
 	public void areAdjacentSameCoordinate() {
-		assertEquals(false, Coordinate.areAdjacent(coord1, coord1));
-	}
-	
-	/**
-	 * Testing the getNorth() method.
-	 */
-	@Test
-	public void getNorth() {
-		Coordinate expected = new Coordinate(2,2);
-		assertEquals(expected, coord1.getNorth());
-	}
-	
-	/**
-	 * Testing the getNorth() method.
-	 */
-	@Test
-	public void getEast() {
-		Coordinate expected = new Coordinate(3,3);
-		assertEquals(expected, coord1.getEast());
-	}
-	
-	/**
-	 * Testing the getNorth() method.
-	 */
-	@Test
-	public void getSouth() {
-		Coordinate expected = new Coordinate(2,4);
-		assertEquals(expected, coord1.getSouth());
-	}
-	
-	/**
-	 * Testing the getNorth() method.
-	 */
-	@Test
-	public void getWest() {
-		Coordinate expected = new Coordinate(1,3);
-		assertEquals(expected, coord1.getWest());
-	}
-	
-	/**
-	 * Testing the hasNorth() method in case it should be false.
-	 */
-	@Test
-	public void hasNorthFalse() {
-		coord1 = new Coordinate(7,0);
-		assertEquals(false, coord1.hasNorth());
-	}
-	
-	/**
-	 * Testing the hasEast() method in case it should be false.
-	 */
-	@Test
-	public void hasEastFalse() {
-		coord1 = new Coordinate(7,0);
-		assertEquals(false, coord1.hasEast());
-	}
-	
-	/**
-	 * Testing the hasSouth() method in case it should be false.
-	 */
-	@Test
-	public void hasSouthFalse() {
-		coord1 = new Coordinate(0,7);
-		assertEquals(false, coord1.hasSouth());
-	}
-	
-	/**
-	 * Testing the hasWest() method in case it should be false.
-	 */
-	@Test
-	public void hasWestFalse() {
-		coord1 = new Coordinate(0,7);
-		assertEquals(false, coord1.hasWest());
-	}
-	
-	/**
-	 * Testing the hasNorth() method in case it should be true.
-	 */
-	@Test
-	public void hasNorthTrue() {
-		coord1 = new Coordinate(0,7);
-		assertEquals(true, coord1.hasNorth());
-	}
-	
-	/**
-	 * Testing the hasEast() method in case it should be true.
-	 */
-	@Test
-	public void hasEastTrue() {
-		coord1 = new Coordinate(0,7);
-		assertEquals(true, coord1.hasEast());
-	}
-	
-	/**
-	 * Testing the hasSouth() method in case it should be true.
-	 */
-	@Test
-	public void hasSouthTrue() {
-		coord1 = new Coordinate(7,0);
-		assertEquals(true, coord1.hasSouth());
-	}
-	
-	/**
-	 * Testing the hasWest() method in case it should be true.
-	 */
-	@Test
-	public void hasWestTrue() {
-		coord1 = new Coordinate(7,0);
-		assertEquals(true, coord1.hasWest());
+		assertEquals(false, Coordinate.areAdjacent(coord, coord));
 	}
 	
 	/**
@@ -198,7 +85,7 @@ public class CoordinateTest {
 	@Test
 	public void toStringTest() {
 		String expected = "Coordinate(2,3)";
-		assertEquals(expected, coord1.toString());
+		assertEquals(expected, coord.toString());
 	}
 	
 	/**
@@ -206,7 +93,7 @@ public class CoordinateTest {
 	 */
 	@Test
 	public void equalsNoCoordinate() {
-		assertEquals(false, coord1.equals(2));
+		assertEquals(false, coord.equals(2));
 	}
 	
 	/**
@@ -214,7 +101,8 @@ public class CoordinateTest {
 	 */
 	@Test
 	public void equalsDifferentXCoordinate() {
-		assertEquals(false, coord1.equals(new Coordinate(3,3)));
+		System.out.println("Coord: " + coord);
+		assertEquals(false, coord.equals(new Coordinate(3,3)));
 	}
 	
 	/**
@@ -222,7 +110,7 @@ public class CoordinateTest {
 	 */
 	@Test
 	public void equalsDifferentYCoordinate() {
-		assertEquals(false, coord1.equals(new Coordinate(2,2)));
+		assertEquals(false, coord.equals(new Coordinate(2,2)));
 	}
 	
 	/**
@@ -230,7 +118,7 @@ public class CoordinateTest {
 	 */
 	@Test
 	public void equalsDifferentCoordinates() {
-		assertEquals(false, coord1.equals(new Coordinate(6,6)));
+		assertEquals(false, coord.equals(new Coordinate(6,6)));
 	}
 	
 	/**
@@ -238,7 +126,7 @@ public class CoordinateTest {
 	 */
 	@Test
 	public void equalsSameCoordinates() {
-		assertEquals(true, coord1.equals(new Coordinate(2,3)));
+		assertEquals(true, coord.equals(new Coordinate(2,3)));
 	}
 	
 }

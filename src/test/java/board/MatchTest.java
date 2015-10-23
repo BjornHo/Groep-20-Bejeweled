@@ -2,22 +2,12 @@ package board;
 
 import static org.junit.Assert.assertEquals;
 
-import org.junit.Before;
 import org.junit.Test;
 
 public class MatchTest {
 	
-	private Match match;
-	private Board board;
-	
-	/**
-	 * Initializing a match for every test
-	 */
-	@Before
-	public void before() {
-		board = new Board();
-		match = new Match(board);
-	}
+	private Board board = new Board();
+	private Match match = new Match(board);
 	
 	/**
 	 * Testing the getCoordinates method with an empty list.
@@ -98,18 +88,10 @@ public class MatchTest {
 		innerMatch.add(new Coordinate(0,1));
 		innerMatch.add(new Coordinate(0,2));
 		match.add(innerMatch);
+		match.add(new Coordinate(0,0));
 		match.add(new Coordinate(1,0));
 		match.add(new Coordinate(2,0));
 		assertEquals(150, match.getPoints());
-	}
-	
-	/**
-	 * Testing the getPoints() method with an invalid (no 3-, 4- or 5-) match.
-	 */
-	@Test
-	public void getPointsInvalidMatch() {
-		match.add(new Coordinate(0,0));
-		assertEquals(-1, match.getPoints());
 	}
 	
 	/**

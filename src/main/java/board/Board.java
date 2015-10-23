@@ -11,7 +11,6 @@ import observers.BoardObservable;
 import observers.BoardObserver;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -213,7 +212,7 @@ public class Board implements BoardObservable{
 		int totalPoints = 0;
 		for (Match match : matches) {
 			clearMatch(match);
-			match.getCoordinates(coordinates);
+			coordinates.addAll(match.getCoordinates());
 			totalPoints += match.getPoints();
 		}
 		notifyClear(coordinates);
