@@ -1,13 +1,93 @@
 package board;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
+import jewel.Colour;
+import jewel.Jewel;
+import jewel.NormalJewel;
+
+import org.junit.Before;
 import org.junit.Test;
 
 public class MatchTest {
 	
-	private Board board = new Board();
-	private Match match = new Match(board);
+	private Board board;
+	private Match match;
+	private Match vertical3Match;
+	private Match horizontal3Match;
+	private Match horizontal5lMatch;
+	private Match vertical5lMatch;
+	
+	private Coordinate x0y0 = new Coordinate(0,0);
+	private Coordinate x0y1 = new Coordinate(0,1);
+	private Coordinate x0y2 = new Coordinate(0,2);
+	private Coordinate x1y0 = new Coordinate(1,0);
+	private Coordinate x2y0 = new Coordinate(2,0);
+	
+	public Jewel[][] getBasicGrid() {
+		Jewel[][] grid = {
+				{ new NormalJewel(Colour.White), new NormalJewel(Colour.White),
+						new NormalJewel(Colour.White),
+						new NormalJewel(Colour.White),
+						new NormalJewel(Colour.White) },
+				{ new NormalJewel(Colour.White), new NormalJewel(Colour.White),
+						new NormalJewel(Colour.White),
+						new NormalJewel(Colour.White),
+						new NormalJewel(Colour.White) },
+				{ new NormalJewel(Colour.White), new NormalJewel(Colour.White),
+						new NormalJewel(Colour.White),
+						new NormalJewel(Colour.White),
+						new NormalJewel(Colour.White) },
+				{ new NormalJewel(Colour.White), new NormalJewel(Colour.White),
+						new NormalJewel(Colour.White),
+						new NormalJewel(Colour.White),
+						new NormalJewel(Colour.White) },
+				{ new NormalJewel(Colour.White), new NormalJewel(Colour.White),
+						new NormalJewel(Colour.White),
+						new NormalJewel(Colour.White),
+						new NormalJewel(Colour.White) } };
+		return grid;
+	}
+	
+	@Before
+	public void before() {
+		board = new Board();
+		match = new Match(board);
+		vertical3Match = new Match(board);
+		horizontal3Match = new Match(board);
+		horizontal5lMatch = new Match(board);
+		vertical5lMatch = new Match(board);
+		
+		vertical3Match.add(x0y0);
+		vertical3Match.add(x0y1);
+		vertical3Match.add(x0y2);
+		
+		horizontal3Match.add(x0y0);
+		horizontal3Match.add(x1y0);
+		horizontal3Match.add(x2y0);
+		
+		Match innerMatch = new Match(board);
+		innerMatch.add(x0y0);
+		innerMatch.add(x0y1);
+		innerMatch.add(x0y2);
+		horizontal5lMatch.add(innerMatch);
+		horizontal5lMatch.add(x0y0);
+		horizontal5lMatch.add(x1y0);
+		horizontal5lMatch.add(x2y0);
+		
+		Match outerMatch = new Match(board);
+		outerMatch.add(x0y0);
+		outerMatch.add(x1y0);
+		outerMatch.add(x2y0);
+		
+		vertical5lMatch.add(x0y0);
+		vertical5lMatch.add(x0y1);
+		vertical5lMatch.add(x0y2);
+		vertical5lMatch.add(outerMatch);
+		
+	}
 	
 	/**
 	 * Testing the getCoordinates method with an empty list.
@@ -82,16 +162,8 @@ public class MatchTest {
 	}
 	
 	@Test
-	public void getLMatch() {
-		Match innerMatch = new Match(board);
-		innerMatch.add(new Coordinate(0,0));
-		innerMatch.add(new Coordinate(0,1));
-		innerMatch.add(new Coordinate(0,2));
-		match.add(innerMatch);
-		match.add(new Coordinate(0,0));
-		match.add(new Coordinate(1,0));
-		match.add(new Coordinate(2,0));
-		assertEquals(150, match.getPoints());
+	public void getPointsLMatch() {
+		assertEquals(150, horizontal5lMatch.getPoints());
 	}
 	
 	/**
@@ -139,5 +211,65 @@ public class MatchTest {
 		other.add(c1);
 		
 		assertEquals(true, match.equals(other));
+	}
+	
+	@Test
+	public void testOuterVerticalTrue() {
+		assertTrue(vertical3Match.outerVertical());
+	}
+	
+	@Test
+	public void testOuterVerticalFalse() {
+		assertFalse(horizontal3Match.outerVertical());
+	}
+	
+	@Test
+	public void testOuterHorizontalTrue() {
+		assertTrue(horizontal3Match.outerHorizontal());
+	}
+	
+	@Test
+	public void testOuterHorizontalFalse() {
+		assertFalse(vertical3Match.outerHorizontal());
+	}
+	
+	@Test
+	public void testOuterHorizontalLMatchFalse() {
+		assertFalse(vertical5lMatch.outerHorizontal());
+	}	
+	
+	@Test
+	public void testOuterHorizontalLMatchTrue() {
+		assertTrue(horizontal5lMatch.outerHorizontal());
+	}
+	
+	@Test
+	public void testOuterVerticalLMatchFalse() {
+		assertFalse(horizontal5lMatch.outerVertical());
+	}
+	
+	@Test
+	public void testOuterVerticalLMatchTrue() {
+		assertTrue(vertical5lMatch.outerVertical());
+	}
+	
+	@Test
+	public void testNumberOfJewelsHorizontal() {
+		assertEquals(3, horizontal3Match.numberOfJewels());
+	}
+	
+	@Test
+	public void testNumberOfJewelsVertical() {
+		assertEquals(3, vertical3Match.numberOfJewels());
+	}
+	
+	@Test
+	public void testNumberOfJewelsHorizontalLMatch() {
+		assertEquals(5, horizontal5lMatch.numberOfJewels());
+	}
+	
+	@Test
+	public void testNumberOfJewelsVerticalLMatch() {
+		assertEquals(5, vertical5lMatch.numberOfJewels());
 	}
 }

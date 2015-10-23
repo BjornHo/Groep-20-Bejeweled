@@ -108,11 +108,7 @@ public class Match extends MatchComponent {
 	}
 	
 	public int numberOfJewels() {
-		int size = 0;
-		for (MatchComponent component : matchComponents) {
-			size += component.numberOfJewels();
-		}
-		return size;
+		return getCoordinates().size();
 	}
 	
 	/**
@@ -163,7 +159,9 @@ public class Match extends MatchComponent {
 	@Override
 	protected void addCoordinates(List<Coordinate> coordinates) {
 		for (MatchComponent comp : matchComponents) {
-			comp.addCoordinates(coordinates);
+			if (!coordinates.contains(comp)) {
+				comp.addCoordinates(coordinates);
+			}
 		}
 	}
 

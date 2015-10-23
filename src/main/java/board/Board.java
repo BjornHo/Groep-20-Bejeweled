@@ -208,7 +208,7 @@ public class Board implements BoardObservable{
 			comp.clear(this);
 		}
 		
-		if (match.numberOfJewels() == 4) {
+		if (match.size() == 4) {
 			if (match.outerHorizontal()) {
 				this.setJewel(new HorizontalPowerJewel(jewel.colour), first);
 			} else if (match.outerVertical()) {

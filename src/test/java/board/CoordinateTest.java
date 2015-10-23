@@ -101,7 +101,6 @@ public class CoordinateTest {
 	 */
 	@Test
 	public void equalsDifferentXCoordinate() {
-		System.out.println("Coord: " + coord);
 		assertEquals(false, coord.equals(new Coordinate(3,3)));
 	}
 	
