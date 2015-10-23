@@ -53,12 +53,6 @@ public interface BoardObserver {
 	public void coordinateFilled(Coordinate coordinate);
 	
 	/**
-	 * A jewel is refreshed.
-	 * @param coordinate
-	 */
-	public void refreshCoordinate(Coordinate coordinate);
-	
-	/**
 	 * The grid of the board is replaced by a new one.
 	 */
 	public void boardChanged();

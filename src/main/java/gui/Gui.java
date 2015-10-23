@@ -3,6 +3,7 @@ package gui;
 import board.Coordinate;
 import game.Game;
 import jewel.Colour;
+import jewel.Jewel;
 import observers.BoardObserver;
 import xmlparser.XmlParser;
 
@@ -16,7 +17,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
-
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -193,7 +193,13 @@ public class Gui extends JFrame implements ActionListener, BoardObserver {
 	 *     The y-coordinate of the jewel on the board.
 	 */
 	public void setJewelImage(Coordinate coord) {
-		ImageIcon icon = imgloader.getImage(game.getBoard().getJewel(coord).getImageColour());
+		Jewel jewel = game.getBoard().getJewel(coord);
+		ImageIcon icon = null;
+		if (jewel == null) {
+			icon = imgloader.getImage(Colour.Empty);
+		} else {
+			icon = imgloader.getImage(jewel.getImageColour());
+		}
 		allButtons[coord.getY()][coord.getX()].setIcon(icon);
 	}
 	
@@ -276,10 +282,5 @@ public class Gui extends JFrame implements ActionListener, BoardObserver {
 	public void coordinateFilled(Coordinate coordinate) {
 		FillJewelAction fillAction = new FillJewelAction(this, coordinate);
 		executor.submit(fillAction);	
-	}
-
-	@Override
-	public void refreshCoordinate(Coordinate coordinate) {
-		setJewelImage(coordinate);
 	}
 }

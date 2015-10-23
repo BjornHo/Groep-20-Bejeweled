@@ -214,7 +214,6 @@ public class Board implements BoardObservable{
 			} else if (match.outerVertical()) {
 				this.setJewel(new VerticalPowerJewel(jewel.colour), first);
 			}
-			notifyCoordinateRefreshed(first);
 		}
 		
 	}
@@ -475,13 +474,6 @@ public class Board implements BoardObservable{
 	public void notifyBoardChanged() {
 		for (BoardObserver l : boardObservers) {
 			l.boardChanged();
-		}
-	}
-
-	@Override
-	public void notifyCoordinateRefreshed(Coordinate coordinate) {
-		for (BoardObserver l : boardObservers) {
-			l.refreshCoordinate(coordinate);
 		}
 	}
 }
