@@ -1,7 +1,11 @@
 package board;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+
+import jewel.Jewel;
 
 public class Match extends MatchComponent {
 	/**
@@ -13,7 +17,10 @@ public class Match extends MatchComponent {
 	 * -1 to show there is no max y-value yet.
 	 */
 	
-	public Match() {
+	private Board board;
+	
+	public Match(Board board) {
+		this.board = board;
 		matchComponents = new ArrayList<MatchComponent>();
 	}
 	
@@ -25,7 +32,31 @@ public class Match extends MatchComponent {
 	 */
 	
 	public void add(MatchComponent matchComponent) {
+		//matchComponents.removeAll(matchComponent.getMatchComponents());
 		matchComponents.add(matchComponent);
+	}
+
+	public void add(Coordinate matchComponent) {
+		Jewel jewel = board.getJewel(matchComponent);
+		List<Coordinate> toAdd = jewel.getMatchCoordinates(board, matchComponent);
+		if (toAdd.size() > 1) {
+			Match match = new Match(board);
+			//seperate the matchComponent itself to avoid infinite recursion...
+			toAdd.remove(matchComponent);
+			match.addAll(toAdd);
+			//...and then add it directly
+			match.matchComponents.add(matchComponent);
+			this.add(match);
+		} else {
+			matchComponents.addAll(toAdd);
+		}
+		
+	}
+	
+	private void addAll(Collection<Coordinate> coordinates) {
+		for (Coordinate coord : coordinates) {
+			this.add(coord);
+		}
 	}
 	
 	public void remove(MatchComponent matchComponent) {
@@ -36,10 +67,6 @@ public class Match extends MatchComponent {
 		return matchComponents.get(location);
 	}
 	
-	public void set(MatchComponent comp, int location) {
-		matchComponents.set(location, comp);
-	}
-	
 	public List<MatchComponent> getMatchComponents() {
 		return matchComponents;
 	}
@@ -48,41 +75,40 @@ public class Match extends MatchComponent {
 		return matchComponents.size();
 	}
 	
-	/**
-	 * Method for returning amount of points certain matches will earn.
-	 * 
-	 * @return int
-	 *     Amount of points.
-	 */
-	public int getPoints() {
-		int score = baseScore();
-		if (score < 0) {
-			return score;
+	public boolean outerVertical() {
+		Iterator<MatchComponent> iter = getExternal().iterator();
+		if (!iter.hasNext()) {
+			return false;
 		}
-		for (MatchComponent component : matchComponents) {
-			score += component.getPoints();
+		MatchComponent prev = iter.next();
+		while (iter.hasNext()) {
+			MatchComponent current = iter.next();
+			if (!current.inSameColumn(prev)) {
+				return false;
+			}
+			prev = current;
 		}
-		return score;
+		return true;
 	}
 	
-	/**
-	 * Gets the score linked to the size of the match.
-	 * 
-	 * @return
-	 */
-	
-	public int baseScore() {
-		int size = size();
-		switch (size) {
-		case 3:
-			return 200;
-		case 4:
-			return 300;
-		case 5:
-			return 750;
-		default:
-			return -1;
+	public boolean outerHorizontal() {
+		Iterator<MatchComponent> iter = getExternal().iterator();
+		if (!iter.hasNext()) {
+			return false;
 		}
+		MatchComponent prev = iter.next();
+		while (iter.hasNext()) {
+			MatchComponent current = iter.next();
+			if (!current.inSameRow(prev)) {
+				return false;
+			}
+			prev = current;
+		}
+		return true;
+	}
+	
+	public int numberOfJewels() {
+		return getCoordinates().size();
 	}
 	
 	/**
@@ -108,7 +134,6 @@ public class Match extends MatchComponent {
 		return matchComponents.get(0).getMatchValue(board);
 	}
 	
-	
 	@Override
 	public boolean equals(Object other) {
 		if (other instanceof Match) {
@@ -132,10 +157,35 @@ public class Match extends MatchComponent {
 	}
 
 	@Override
-	public void getCoordinates(List<Coordinate> coordinates) {
+	protected void addCoordinates(List<Coordinate> coordinates) {
 		for (MatchComponent comp : matchComponents) {
-			comp.getCoordinates(coordinates);
+			if (!coordinates.contains(comp)) {
+				comp.addCoordinates(coordinates);
+			}
 		}
+	}
+
+	@Override
+	protected boolean isLeaf() {
+		return false;
+	}
+
+	@Override
+	public int baseScore() {
+		int size = baseSize();
+		if (size < 3) {
+			return 0;
+		}
+		if (size == 3) {
+			return 50;
+		}
+		if (size == 4) {
+			return 100;
+		}
+		if (size == 5) {
+			return 500;
+		}
+		return 500 + (size - 5) * 50;
 	}
 
 }

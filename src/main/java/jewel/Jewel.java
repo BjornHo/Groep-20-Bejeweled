@@ -1,16 +1,29 @@
 package jewel;
 
-import javax.xml.bind.annotation.XmlRootElement;
+import java.util.List;
 
-@XmlRootElement(name = "jewel")
-public class Jewel {
+import javax.xml.bind.annotation.XmlSeeAlso;
+import javax.xml.bind.annotation.XmlTransient;
+
+import board.Board;
+import board.Coordinate;
+
+@XmlTransient
+@XmlSeeAlso({NormalJewel.class, HorizontalPowerJewel.class, VerticalPowerJewel.class})
+public abstract class Jewel {
 	public Colour colour;
 	
-	public Jewel(Colour colour) {
-		this.colour = colour;
+	public Jewel() {
+		
 	}
 	
-	public Jewel() {
+	public Jewel(Colour colour) {
+		if (colour.isJewelColour()) {
+			this.colour = colour;
+		} else {
+			throw new IllegalArgumentException("Invalid colour specified: "
+					+ colour + ". Only basic Colours can be used.");
+		}
 	}
 	
 	/**
@@ -22,15 +35,15 @@ public class Jewel {
 	 *     True if colour is the same, false if not.
 	 */
 	public boolean isSameColour(Jewel that) {
-		if (this.colour == that.colour) {
-			return true;
-		} else {
-			return false;
-		}
+		return this.colour == that.colour;
 	}
 	
 	public Colour getColour() {
 		return this.colour;
 	}
+	
+	public abstract List<Coordinate> getMatchCoordinates(Board board, Coordinate coord);
+	
+	public abstract Colour getImageColour();
 	
 }

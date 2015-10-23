@@ -1,7 +1,10 @@
 package board;
 
 import jewel.Colour;
+import jewel.HorizontalPowerJewel;
 import jewel.Jewel;
+import jewel.NormalJewel;
+import jewel.VerticalPowerJewel;
 import logger.Logger;
 import logger.Priority;
 import observers.BoardObservable;
@@ -30,12 +33,12 @@ public class Board implements BoardObservable{
 	 */
 	@XmlElement(name = "row")
 	@XmlElementWrapper(name = "grid")
-    private Jewel[][] jewelGrid = createGrid();
+    private Jewel[][] jewelGrid;
 	
-	private int width = 8;
-	private int height = 8;
+	private int width = -1;
+	private int height = -1;
 	
-	private int[][] matchLocations = new int[width][height];
+	private int[][] matchLocations;
 	/**
 	 * Coordinate object used to define the currently selected Coordinate.
 	 */
@@ -50,6 +53,9 @@ public class Board implements BoardObservable{
 	
 	public Board() {
 		this.boardObservers = new ArrayList<BoardObserver>();
+		Jewel[][] grid = createGrid();
+		setGrid(grid);
+		matchLocations =  new int[width][height];
 	}
 	
 	@Override
@@ -69,6 +75,8 @@ public class Board implements BoardObservable{
 	 */
 	public void setGrid(Jewel[][] grid) {
 		this.jewelGrid = grid;
+		this.height = grid.length;
+		this.width = grid[0].length;
 		Logger.log(Priority.INFO, "Grid set.");
 	}
 	
@@ -90,6 +98,24 @@ public class Board implements BoardObservable{
 	
 	public void setSelectedPos(Coordinate coord) {
 		selectedPos = coord;
+	}
+	
+	public List<Coordinate> getRow(Coordinate coord) {
+		int ycoord = coord.getY();
+		List<Coordinate> res = new ArrayList<>();
+		for (int xcoord = 0; xcoord < width; xcoord++) {
+			res.add(new Coordinate(xcoord,ycoord));
+		}
+		return res;
+	}
+	
+	public List<Coordinate> getColumn(Coordinate coord) {
+		int xcoord = coord.getX();
+		List<Coordinate> res = new ArrayList<>();
+		for (int ycoord = 0; ycoord < height; ycoord++) {
+			res.add(new Coordinate(xcoord,ycoord));
+		}
+		return res;
 	}
 	
 	public void reset() {
@@ -123,38 +149,38 @@ public class Board implements BoardObservable{
 	 */
 	private Jewel[][] createGrid() {
 		Jewel[][] grid = { 
-				{ new Jewel(Colour.Red), new Jewel(Colour.Red),
-					new Jewel(Colour.Blue), new Jewel(Colour.Yellow),
-					new Jewel(Colour.Blue), new Jewel(Colour.Green),
-					new Jewel(Colour.Green), new Jewel(Colour.Red) },
-				{ new Jewel(Colour.Orange), new Jewel(Colour.Yellow),
-					new Jewel(Colour.Green), new Jewel(Colour.Yellow),
-					new Jewel(Colour.Blue), new Jewel(Colour.Red),
-					new Jewel(Colour.Purple), new Jewel(Colour.Red) },
-				{ new Jewel(Colour.Red), new Jewel(Colour.Orange),
-					new Jewel(Colour.Blue), new Jewel(Colour.White),
-					new Jewel(Colour.Orange), new Jewel(Colour.Purple),
-					new Jewel(Colour.Red), new Jewel(Colour.Orange) },
-				{ new Jewel(Colour.Yellow), new Jewel(Colour.Red),
-					new Jewel(Colour.Purple), new Jewel(Colour.Red),
-					new Jewel(Colour.White), new Jewel(Colour.Blue),
-					new Jewel(Colour.Purple), new Jewel(Colour.Purple) },
-				{ new Jewel(Colour.White), new Jewel(Colour.Orange),
-					new Jewel(Colour.Red), new Jewel(Colour.White),
-					new Jewel(Colour.Orange), new Jewel(Colour.Orange),
-					new Jewel(Colour.Yellow), new Jewel(Colour.White) },
-				{ new Jewel(Colour.White), new Jewel(Colour.Red),
-					new Jewel(Colour.Blue), new Jewel(Colour.Yellow),
-					new Jewel(Colour.Yellow), new Jewel(Colour.Green),
-					new Jewel(Colour.Red), new Jewel(Colour.Yellow) },
-				{ new Jewel(Colour.Orange), new Jewel(Colour.Yellow),
-					new Jewel(Colour.Blue), new Jewel(Colour.Purple),
-					new Jewel(Colour.Red), new Jewel(Colour.Red),
-					new Jewel(Colour.Green), new Jewel(Colour.Yellow) },
-				{ new Jewel(Colour.White), new Jewel(Colour.Purple),
-					new Jewel(Colour.Green), new Jewel(Colour.Blue),
-					new Jewel(Colour.Yellow), new Jewel(Colour.Orange),
-					new Jewel(Colour.Red), new Jewel(Colour.Green) }
+				{ new NormalJewel(Colour.Red), new NormalJewel(Colour.Red),
+					new NormalJewel(Colour.Blue), new NormalJewel(Colour.Yellow),
+					new NormalJewel(Colour.Blue), new NormalJewel(Colour.Green),
+					new NormalJewel(Colour.Green), new NormalJewel(Colour.Red) },
+				{ new NormalJewel(Colour.Orange), new NormalJewel(Colour.Yellow),
+					new NormalJewel(Colour.Green), new NormalJewel(Colour.Yellow),
+					new NormalJewel(Colour.Blue), new NormalJewel(Colour.Red),
+					new NormalJewel(Colour.Purple), new NormalJewel(Colour.Red) },
+				{ new NormalJewel(Colour.Red), new NormalJewel(Colour.Orange),
+					new NormalJewel(Colour.Blue), new NormalJewel(Colour.White),
+					new NormalJewel(Colour.Orange), new HorizontalPowerJewel(Colour.Purple),
+					new NormalJewel(Colour.Red), new NormalJewel(Colour.Orange) },
+				{ new NormalJewel(Colour.Yellow), new NormalJewel(Colour.Red),
+					new NormalJewel(Colour.Purple), new NormalJewel(Colour.Red),
+					new NormalJewel(Colour.White), new NormalJewel(Colour.Blue),
+					new NormalJewel(Colour.Purple), new NormalJewel(Colour.Purple) },
+				{ new NormalJewel(Colour.White), new NormalJewel(Colour.Orange),
+					new NormalJewel(Colour.Red), new NormalJewel(Colour.White),
+					new NormalJewel(Colour.Orange), new NormalJewel(Colour.Orange),
+					new NormalJewel(Colour.Yellow), new NormalJewel(Colour.White) },
+				{ new NormalJewel(Colour.White), new NormalJewel(Colour.Red),
+					new NormalJewel(Colour.Blue), new NormalJewel(Colour.Yellow),
+					new NormalJewel(Colour.Yellow), new NormalJewel(Colour.Green),
+					new NormalJewel(Colour.Red), new NormalJewel(Colour.Yellow) },
+				{ new NormalJewel(Colour.Orange), new NormalJewel(Colour.Yellow),
+					new NormalJewel(Colour.Blue), new NormalJewel(Colour.Purple),
+					new NormalJewel(Colour.Red), new NormalJewel(Colour.Red),
+					new NormalJewel(Colour.Green), new NormalJewel(Colour.Red) },
+				{ new VerticalPowerJewel(Colour.White), new NormalJewel(Colour.Purple),
+					new NormalJewel(Colour.Green), new NormalJewel(Colour.Blue),
+					new NormalJewel(Colour.Yellow), new NormalJewel(Colour.Orange),
+					new NormalJewel(Colour.Red), new NormalJewel(Colour.Green) }
 		};
 		return grid;
 	}
@@ -176,9 +202,20 @@ public class Board implements BoardObservable{
 	 * @param match The match to remove from the board.
 	 */
 	private void clearMatch(Match match) {
+		Coordinate first = match.getCoordinates().get(0);
+		Jewel jewel = getJewel(first);
 		for (MatchComponent comp : match.getMatchComponents()) {
 			comp.clear(this);
 		}
+		
+		if (match.size() == 4) {
+			if (match.outerHorizontal()) {
+				this.setJewel(new HorizontalPowerJewel(jewel.colour), first);
+			} else if (match.outerVertical()) {
+				this.setJewel(new VerticalPowerJewel(jewel.colour), first);
+			}
+		}
+		
 	}
 	
 	public int clearMatches(List<Match> matches) {
@@ -186,7 +223,7 @@ public class Board implements BoardObservable{
 		int totalPoints = 0;
 		for (Match match : matches) {
 			clearMatch(match);
-			match.getCoordinates(coordinates);
+			coordinates.addAll(match.getCoordinates());
 			totalPoints += match.getPoints();
 		}
 		notifyClear(coordinates);
@@ -277,17 +314,21 @@ public class Board implements BoardObservable{
 	}
 	
 	/**
-	 * Places new jewels in the empty spaces in the top rows.
+	 * Places new Jewels in the empty spaces in the top rows.
 	 */
 	public void refillGrid() {
 		int row = 0;
 		List<Coordinate> holes = getHolesInRow(row);
 		while (!holes.isEmpty()) {
 			for (Coordinate coord : holes) {
-				setJewel(new Jewel(Colour.randomColour()), coord);
+				setJewel(new NormalJewel(Colour.randomColour()), coord);
 				notifyFill(coord);
 			}
-			holes = getHolesInRow(++row);
+			row++;
+			if (row >= height) {
+				break;
+			}
+			holes = getHolesInRow(row);
 		}
 	}
 	
@@ -303,7 +344,7 @@ public class Board implements BoardObservable{
 		for (int x = 0; x < 8; x++) {
 			for (int y = 0; y < 8; y++) {
 				Colour initialc = jewelGrid[y][x].colour;
-				Match match = new Match();
+				Match match = new Match(this);
 				match.add(new Coordinate(x,y));
 				//This loop checks east of the initial jewel, one at a time.
 				for (matchcoord = (y + 1); matchcoord < 8; matchcoord++) {
@@ -340,7 +381,7 @@ public class Board implements BoardObservable{
 		for (int y = 0; y < 8; y++) {						
 			for (int x = 0; x < 8; x++) {						
 				Colour initialc = jewelGrid[y][x].colour;
-				Match match = new Match();
+				Match match = new Match(this);
 				match.add(new Coordinate(x,y));
 				//This loop checks east of the initial jewel, one at a time.
 				for (matchcoord = (x + 1); matchcoord < 8; matchcoord++) {
@@ -358,7 +399,7 @@ public class Board implements BoardObservable{
 						MatchComponent comp = match.getMatchComponents().get(i);
 						int matchValue = comp.getMatchValue(this);
 						if (matchValue > 0) {
-							match.set(matched.get(matchValue - 1), i);
+							match.add(matched.get(matchValue - 1));
 							matched.set(matchValue - 1, match);
 							match.setMatchValue(this, matchValue);
 							partOfAnotherMatch = true;

@@ -1,6 +1,6 @@
 package game;
 
-
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
@@ -9,9 +9,9 @@ import java.util.List;
 import board.Board;
 import board.Coordinate;
 import board.Match;
-
 import jewel.Colour;
 import jewel.Jewel;
+import jewel.NormalJewel;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -66,7 +66,7 @@ public class GameTest {
 	 */
 	@Test
 	public void processJewelSelectedAdjacentNoMatch() {
-		Jewel expected = new Jewel(Colour.Orange);
+		Jewel expected = new NormalJewel(Colour.Orange);
 		Board board = game.getBoard();
 		board.setJewel(expected, new Coordinate(0,0));
 		board.setSelectedPos(new Coordinate(0,0));
@@ -92,16 +92,21 @@ public class GameTest {
 	 */
 	@Test
 	public void processMatchesVertical() {
-		Match match = new Match();
-		match.add(new Coordinate(0,5));
-		match.add(new Coordinate(0,6));
-		match.add(new Coordinate(0,7));
+		Jewel[][] grid = { { new NormalJewel(Colour.Green) },
+				{ new NormalJewel(Colour.Red) },
+				{ new NormalJewel(Colour.Red) },
+				{ new NormalJewel(Colour.Red) } };
+		game.getBoard().setGrid(grid);
+		Match match = new Match(game.getBoard());
+		match.add(new Coordinate(0,1));
+		match.add(new Coordinate(0,2));
+		match.add(new Coordinate(0,3));
 		List<Match> list = new ArrayList<>();
 		list.add(match);
 		Board board = game.getBoard();
-		Jewel expected = board.getJewel(new Coordinate(0,4));
+		Jewel expected = board.getJewel(new Coordinate(0,0));
 		game.processMatches(list);
-		assertEquals(expected, board.getJewel(new Coordinate(0,7)));
+		assertEquals(expected, board.getJewel(new Coordinate(0,3)));
 	}
 	
 	/**
@@ -109,16 +114,25 @@ public class GameTest {
 	 */
 	@Test
 	public void processMatchHorizontal() {
-		Match match = new Match();
-		match.add(new Coordinate(0,7));
-		match.add(new Coordinate(1,7));
-		match.add(new Coordinate(2,7));
+		Jewel[][] grid = {
+				{ new NormalJewel(Colour.Green), new NormalJewel(Colour.Red),
+						new NormalJewel(Colour.Yellow) },
+				{ new NormalJewel(Colour.Red), new NormalJewel(Colour.Red),
+						new NormalJewel(Colour.Red) } };
+		game.getBoard().setGrid(grid);
+		Match match = new Match(game.getBoard());
+		match.add(new Coordinate(0,1));
+		match.add(new Coordinate(1,1));
+		match.add(new Coordinate(2,1));
 		List<Match> list = new ArrayList<>();
 		list.add(match);
 		Board board = game.getBoard();
-		Jewel expected = board.getJewel(new Coordinate(0,6));
+		
+		Jewel[] expected = new Jewel[3];
+		System.arraycopy(board.getGrid()[0], 0, expected, 0, 3);
 		game.processMatches(list);
-		assertEquals(expected, board.getJewel(new Coordinate(0,7)));
+		Jewel[] actual = board.getGrid()[1];
+		assertArrayEquals(expected, actual);
 	}
 	
 	@Test

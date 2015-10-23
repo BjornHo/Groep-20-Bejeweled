@@ -3,41 +3,41 @@
     <board>
         <grid>
             <row>
-                <item>
+                <item xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="normalJewel">
                     <colour>Red</colour>
                 </item>
-                <item>
+                <item xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="normalJewel">
                     <colour>White</colour>
                 </item>
-                <item>
+                <item xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="normalJewel">
                     <colour>Blue</colour>
                 </item>
             </row>
             <row>
-                <item>
+                <item xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="normalJewel">
                     <colour>Orange</colour>
                 </item>
-                <item>
+                <item xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="normalJewel">
                     <colour>Yellow</colour>
                 </item>
-                <item>
+                <item xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="normalJewel">
                     <colour>Green</colour>
                 </item>
             </row>
             <row>
-                <item>
+                <item xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="normalJewel">
                     <colour>Red</colour>
                 </item>
-                <item>
+                <item xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="normalJewel">
                     <colour>Orange</colour>
                 </item>
-                <item>
+                <item xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="normalJewel">
                     <colour>Purple</colour>
                 </item>
             </row>
         </grid>
-        <width>8</width>
-        <height>8</height>
+        <width>3</width>
+        <height>3</height>
         <matchLocations>
             <item>0</item>
             <item>0</item>

@@ -2,12 +2,11 @@ package gui;
 
 import jewel.Colour;
 
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 
-import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 //
 /**
  * Class that loads Image files to use them as Jewel images.
@@ -16,7 +15,7 @@ import javax.imageio.ImageIO;
  */
 public class ImgLoader {
 	
-	private HashMap<Colour, BufferedImage> imagemap;
+	private HashMap<Colour, ImageIcon> imagemap;
 	
 	/**
 	 * This ImgLoader is to load every jewel image at once into a hash map.
@@ -26,8 +25,7 @@ public class ImgLoader {
 	 *     If the input/output is incorrect.
 	 */
 	public ImgLoader() throws IOException {
-		BufferedImage gemImage;
-		imagemap = new HashMap<Colour, BufferedImage>(8);
+		imagemap = new HashMap<Colour, ImageIcon>(64);
 		
 		String directory = (System.getProperty("user.dir") + File.separator + "src"
 				+ File.separator + "main" + File.separator
@@ -37,10 +35,11 @@ public class ImgLoader {
 		File[] allFiles = folder.listFiles();
 		for (File file : allFiles) {
 			int underScorePos = file.getName().indexOf("_");
-			gemImage = ImageIO.read(file);
+			ImageIcon icon = new ImageIcon(file.getPath());
 			imagemap.put(Colour.valueOf(file.getName().substring(0, underScorePos)),
-					gemImage);
+					icon);
 		}
+		
 	}
 	
 	/**
@@ -51,7 +50,7 @@ public class ImgLoader {
 	 * @return BufferedImage
 	 *     The image of the jewel.
 	 */
-	public BufferedImage getImage(Colour colour) {
+	public ImageIcon getImage(Colour colour) {
 		return imagemap.get(colour);
 	}
 }
