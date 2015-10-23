@@ -35,22 +35,28 @@ public class Match extends MatchComponent {
 		//matchComponents.removeAll(matchComponent.getMatchComponents());
 		matchComponents.add(matchComponent);
 	}
-	
+
 	public void add(Coordinate matchComponent) {
 		Jewel jewel = board.getJewel(matchComponent);
 		List<Coordinate> toAdd = jewel.getMatchCoordinates(board, matchComponent);
 		if (toAdd.size() > 1) {
 			Match match = new Match(board);
+			//seperate the matchComponent itself to avoid infinite recursion...
+			toAdd.remove(matchComponent);
 			match.addAll(toAdd);
+			//...and then add it directly
+			match.matchComponents.add(matchComponent);
 			this.add(match);
 		} else {
-			this.addAll(toAdd);
+			matchComponents.addAll(toAdd);
 		}
 		
 	}
 	
 	private void addAll(Collection<Coordinate> coordinates) {
-		matchComponents.addAll(coordinates);
+		for (Coordinate coord : coordinates) {
+			this.add(coord);
+		}
 	}
 	
 	public void remove(MatchComponent matchComponent) {
