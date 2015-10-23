@@ -3,10 +3,11 @@ package board;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-
 import jewel.Colour;
+import jewel.HorizontalPowerJewel;
 import jewel.Jewel;
 import jewel.NormalJewel;
+import jewel.VerticalPowerJewel;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -26,34 +27,54 @@ public class MatchTest {
 	private Coordinate x1y0 = new Coordinate(1,0);
 	private Coordinate x2y0 = new Coordinate(2,0);
 	
-	public Jewel[][] getBasicGrid() {
-		Jewel[][] grid = {
-				{ new NormalJewel(Colour.White), new NormalJewel(Colour.White),
-						new NormalJewel(Colour.White),
-						new NormalJewel(Colour.White),
-						new NormalJewel(Colour.White) },
-				{ new NormalJewel(Colour.White), new NormalJewel(Colour.White),
-						new NormalJewel(Colour.White),
-						new NormalJewel(Colour.White),
-						new NormalJewel(Colour.White) },
-				{ new NormalJewel(Colour.White), new NormalJewel(Colour.White),
-						new NormalJewel(Colour.White),
-						new NormalJewel(Colour.White),
-						new NormalJewel(Colour.White) },
-				{ new NormalJewel(Colour.White), new NormalJewel(Colour.White),
-						new NormalJewel(Colour.White),
-						new NormalJewel(Colour.White),
-						new NormalJewel(Colour.White) },
-				{ new NormalJewel(Colour.White), new NormalJewel(Colour.White),
-						new NormalJewel(Colour.White),
-						new NormalJewel(Colour.White),
-						new NormalJewel(Colour.White) } };
-		return grid;
-	}
+	private Jewel[][] basicGrid = {
+			{ new NormalJewel(Colour.White), new NormalJewel(Colour.White),
+					new NormalJewel(Colour.White),
+					new NormalJewel(Colour.White),
+					new NormalJewel(Colour.White) },
+			{ new NormalJewel(Colour.White), new NormalJewel(Colour.White),
+					new NormalJewel(Colour.White),
+					new NormalJewel(Colour.White),
+					new NormalJewel(Colour.White) },
+			{ new NormalJewel(Colour.White), new NormalJewel(Colour.White),
+					new NormalJewel(Colour.White),
+					new NormalJewel(Colour.White),
+					new NormalJewel(Colour.White) },
+			{ new NormalJewel(Colour.White), new NormalJewel(Colour.White),
+					new NormalJewel(Colour.White),
+					new NormalJewel(Colour.White),
+					new NormalJewel(Colour.White) },
+			{ new NormalJewel(Colour.White), new NormalJewel(Colour.White),
+					new NormalJewel(Colour.White),
+					new NormalJewel(Colour.White),
+					new NormalJewel(Colour.White) } };
+	
+	private Jewel[][] powerJewelGrid = {
+			{ new NormalJewel(Colour.White), new NormalJewel(Colour.White),
+				new HorizontalPowerJewel(Colour.White),
+				new NormalJewel(Colour.White),
+				new NormalJewel(Colour.White) },
+		{ new NormalJewel(Colour.White), new NormalJewel(Colour.White),
+				new NormalJewel(Colour.White),
+				new NormalJewel(Colour.White),
+				new NormalJewel(Colour.White) },
+		{ new NormalJewel(Colour.White), new NormalJewel(Colour.White),
+				new NormalJewel(Colour.White),
+				new NormalJewel(Colour.White),
+				new VerticalPowerJewel(Colour.White) },
+		{ new NormalJewel(Colour.White), new NormalJewel(Colour.White),
+				new NormalJewel(Colour.White),
+				new NormalJewel(Colour.White),
+				new NormalJewel(Colour.White) },
+		{ new HorizontalPowerJewel(Colour.White), new NormalJewel(Colour.White),
+				new NormalJewel(Colour.White),
+				new NormalJewel(Colour.White),
+				new NormalJewel(Colour.White) } };
 	
 	@Before
 	public void before() {
 		board = new Board();
+		board.setGrid(basicGrid);
 		match = new Match(board);
 		vertical3Match = new Match(board);
 		horizontal3Match = new Match(board);
