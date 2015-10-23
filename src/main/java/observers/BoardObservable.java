@@ -52,6 +52,12 @@ public interface BoardObservable {
 	public void notifyBoardChanged();
 	
 	/**
+	 * Notifies all boardObservers of a jewel that needs to be refreshed (eg, changed
+	 * to a supergem)
+	 */
+	public void notifyCoordinateRefreshed(Coordinate coordinate);
+	
+	/**
 	 * Adds a BoardObserver to the Board.
 	 * 
 	 * @param listener

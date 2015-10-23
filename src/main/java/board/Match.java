@@ -2,6 +2,7 @@ package board;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 import jewel.Jewel;
@@ -60,16 +61,44 @@ public class Match extends MatchComponent {
 		return matchComponents.get(location);
 	}
 	
-//	public void set(MatchComponent comp, int location) {
-//		matchComponents.set(location, comp);
-//	}
-	
 	public List<MatchComponent> getMatchComponents() {
 		return matchComponents;
 	}
 	
 	public int size() {
 		return matchComponents.size();
+	}
+	
+	public boolean outerVertical() {
+		Iterator<MatchComponent> iter = getExternal().iterator();
+		if (!iter.hasNext()) {
+			return false;
+		}
+		MatchComponent prev = iter.next();
+		while (iter.hasNext()) {
+			MatchComponent current = iter.next();
+			if (!current.inSameColumn(prev)) {
+				return false;
+			}
+			prev = current;
+		}
+		return true;
+	}
+	
+	public boolean outerHorizontal() {
+		Iterator<MatchComponent> iter = getExternal().iterator();
+		if (!iter.hasNext()) {
+			return false;
+		}
+		MatchComponent prev = iter.next();
+		while (iter.hasNext()) {
+			MatchComponent current = iter.next();
+			if (!current.inSameRow(prev)) {
+				return false;
+			}
+			prev = current;
+		}
+		return true;
 	}
 	
 	public int numberOfJewels() {
@@ -79,24 +108,6 @@ public class Match extends MatchComponent {
 		}
 		return size;
 	}
-	
-	/**
-	 * Method for returning amount of points certain matches will earn.
-	 * 
-	 * @return int
-	 *     Amount of points.
-	 */
-//	public int getPoints() {
-//		int score = 50;
-////		int score = baseScore();
-////		if (score < 0) {
-////			return score;
-////		}
-//		for (MatchComponent component : matchComponents) {
-//			score += component.getPoints();
-//		}
-//		return score;
-//	}
 	
 	/**
 	 * Clears the current Match from a Board.

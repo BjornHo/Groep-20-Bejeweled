@@ -277,4 +277,9 @@ public class Gui extends JFrame implements ActionListener, BoardObserver {
 		FillJewelAction fillAction = new FillJewelAction(this, coordinate);
 		executor.submit(fillAction);	
 	}
+
+	@Override
+	public void refreshCoordinate(Coordinate coordinate) {
+		setJewelImage(coordinate);
+	}
 }

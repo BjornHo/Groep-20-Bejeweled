@@ -144,5 +144,21 @@ public class Coordinate extends MatchComponent{
 	public int baseScore() {
 		return 50;
 	}
+	
+	@Override
+	public boolean inSameRow(MatchComponent that) {
+		if (that instanceof Coordinate ) {
+			return ((Coordinate) that).getY() == this.getY();
+		}
+		return false;
+	}
+	
+	@Override
+	public boolean inSameColumn(MatchComponent that) {
+		if (that instanceof Coordinate ) {
+			return ((Coordinate) that).getX() == this.getX();
+		}
+		return false;
+	}
 
 }

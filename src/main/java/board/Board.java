@@ -202,9 +202,21 @@ public class Board implements BoardObservable{
 	 * @param match The match to remove from the board.
 	 */
 	private void clearMatch(Match match) {
+		Coordinate first = match.getCoordinates().get(0);
+		Jewel jewel = getJewel(first);
 		for (MatchComponent comp : match.getMatchComponents()) {
 			comp.clear(this);
 		}
+		
+		if (match.numberOfJewels() == 4) {
+			if (match.outerHorizontal()) {
+				this.setJewel(new HorizontalPowerJewel(jewel.colour), first);
+			} else if (match.outerVertical()) {
+				this.setJewel(new VerticalPowerJewel(jewel.colour), first);
+			}
+			notifyCoordinateRefreshed(first);
+		}
+		
 	}
 	
 	public int clearMatches(List<Match> matches) {
@@ -463,6 +475,13 @@ public class Board implements BoardObservable{
 	public void notifyBoardChanged() {
 		for (BoardObserver l : boardObservers) {
 			l.boardChanged();
+		}
+	}
+
+	@Override
+	public void notifyCoordinateRefreshed(Coordinate coordinate) {
+		for (BoardObserver l : boardObservers) {
+			l.refreshCoordinate(coordinate);
 		}
 	}
 }

@@ -73,4 +73,13 @@ public abstract class MatchComponent {
 		}
 		return res;
 	}
+	
+	public boolean inSameRow(MatchComponent that) {
+		return false;
+	}
+	
+	public boolean inSameColumn(MatchComponent that) {
+		return false;
+	}
+	
 }
